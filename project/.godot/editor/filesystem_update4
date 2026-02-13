@@ -1,1 +1,5 @@
 res://scenes/main.tscn
+res://translations/translations.csv
+res://translations/translations.en.translation
+res://translations/translations.pir.translation
+res://scripts/language_selection.gd

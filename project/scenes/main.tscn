@@ -1,3 +1,66 @@
 [gd_scene format=3 uid="uid://cwjgb3g4j2qtc"]
 
+[ext_resource type="Script" uid="uid://bi1g2jnpls052" path="res://scripts/language_selection.gd" id="1_o5qli"]
+
 [node name="Main" type="Node2D" unique_id=1618479902]
+
+[node name="AlwaysPresentStuff" type="Control" parent="." unique_id=1346812700]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LanguageSelection" type="OptionButton" parent="AlwaysPresentStuff" unique_id=52940782]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 312.0
+offset_right = 497.0
+offset_bottom = 343.0
+selected = 0
+item_count = 2
+popup/item_0/text = "English (en)"
+popup/item_0/id = 0
+popup/item_1/text = "Pirate (pir)"
+popup/item_1/id = 1
+script = ExtResource("1_o5qli")
+
+[node name="WelcomePage" type="Control" parent="." unique_id=1817952265]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Popup" type="Control" parent="WelcomePage" unique_id=1821584734]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GrimoirePage" type="Control" parent="." unique_id=1544606700]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Page3" type="Control" parent="." unique_id=1262177065]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TestUI" type="Control" parent="." unique_id=2018311470]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Button" type="Button" parent="TestUI" unique_id=927905661]
+layout_mode = 0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+text = "&new_grim"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=914406973]
+
+[connection signal="item_selected" from="AlwaysPresentStuff/LanguageSelection" to="AlwaysPresentStuff/LanguageSelection" method="_on_item_selected"]
