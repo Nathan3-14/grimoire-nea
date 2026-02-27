@@ -19,7 +19,7 @@ func _ready() -> void:
 
 func _http_request_completed(result, response_code, headers, body) -> void:
 	if result != HTTPRequest.RESULT_SUCCESS:
-		push_error("HTTP Request did not return 200 " + result)
+		push_error("HTTP Request did not return 200 " + str(result))
 	
 	var image = Image.new()
 	var error = image.load_png_from_buffer(body)
