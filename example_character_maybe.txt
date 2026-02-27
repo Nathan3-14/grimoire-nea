@@ -1,0 +1,8 @@
+character_name:
+	image_url: url
+	type: type
+	reminders: ["fake_demon", "safe"]
+	ability_text: text
+	ability: pick(2) == (demon or &fake_demon)
+	ability: pick(2) == wake
+	ability: pick(1) add &safe
