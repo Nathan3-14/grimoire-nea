@@ -1,9 +1,10 @@
-Label
+Control
+TextureButton
 TextureRect
+Label
 HTTPRequest
 OptionButton
 Container
 Popup
-Control
 Button
 Camera2D
