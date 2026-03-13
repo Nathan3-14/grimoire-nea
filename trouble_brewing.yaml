@@ -1,0 +1,137 @@
+# Reminders:
+#   &name = reminder with this name from self
+#   *name = any reminder with this name
+#   %name = is a global (always available) reminder
+
+# Global Variables:
+#   players = all players in the game
+
+# Non-Waking Abilities:
+#   registers alignment, type = character can register as these, ie spy regestering as good
+#   setup = affects setup
+
+# Waking Abilities:
+#   pick(n) = choose n players
+#   object -> Feature = return that feature from the object
+#   object add (&*%)name = adds a reminder
+
+# Features:
+#   Wake = is this player alive and do they wake tonight
+#   Name = the player's name
+#   Character = the player's character
+
+washerwoman:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_washerwoman.png"
+  type: "townsfolk"
+  reminders:
+    - "townsfolk"
+    - "wrong"
+  ability_text: "You start knowing that 1 of 2 players is a particular Townsfolk."
+  ability:
+    - (players == &townsfolk) -> Name
+    - (players == &wrong) -> Name
+    - (players == &townsfolk) -> Character
+
+librarian:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_librarian.png"
+  type: "townsfolk"
+  reminders:
+    - "outsider"
+    - "wrong"
+  ability_text: "You start knowing that 1 of 2 players is a particular Librarian."
+  ability:
+    - (players == &outsider) -> Name
+    - (players == &wrong) -> Name
+    - (players == &townsfolk) -> Character
+
+investigator:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_investigator.png"
+  type: "townsfolk"
+  reminders:
+    - "minion"
+    - "wrong"
+  ability_text: "You start knowing that 1 of 2 players is a particular Minion."
+  ability:
+    - (players == &outsider) -> Name
+    - (players == &wrong) -> Name
+    - (players == &townsfolk) -> Character
+
+# ... #
+
+drunk:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_drunk.png"
+  type: "outsider"
+  reminders:
+    - "%is the drunk" # % means global
+  ability_text: "You do not know you are the Drunk. You think you are a Townsfolk character, but you are not."
+  ability: []
+
+saint:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_saint.png"
+  type: "outsider"
+  reminders: []
+  ability_text: "If you die by execution, your team loses."
+  ability: []
+
+butler:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_butler.png"
+  type: "outsider"
+  reminders:
+    - "master"
+  ability_text: "Each night, choose a player (not yourself): tomorrow, you may only vote if they are voting too."
+  ability:
+    - pick(1) add &master
+
+recluse:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_recluse.png"
+  type: "outsider"
+  reminders: []
+  ability_text: You might register as evil & as a Minion or Demon, even if dead.
+  ability:
+    - register evil, minion, demon
+
+
+
+poisoner:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_poisoner.png"
+  type: "minion"
+  reminders:
+    - "poisoned"
+  ability_text: "Each night, choose a player: they are poisoned tonight and tomorrow day."
+  ability:
+    - pick(1) add $poisoned
+
+spy:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_spy.png"
+  type: "minion"
+  reminders: []
+  ability_text: "Each night, you see the Grimoire. You might register as good & as a Townsfolk or Outsider, even if dead."
+  ability:
+    - registers good, townsfolk, outsider
+
+baron:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_baron.png"
+  type: "minion"
+  reminders: []
+  ability_text: "There are extra Outsiders in play. [+2 Outsiders]"
+  ability:
+    - setup
+
+scarlet_woman:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_scarletwoman.png"
+  type: "minion"
+  reminders: 
+    - "%is the demon"
+  ability_text: "If there are 5 or more players alive & the Demon dies, you become the Demon. (Travellers don't count.)"
+  ability: []
+
+
+
+imp:
+  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_imp.png"
+  type: "demon"
+  reminders:
+    - "dead"
+  ability_text: "Each night*, choose a player: they die. If you kill yourself this way, a Minion becomes the Imp."
+  ability:
+    - pick(1) add &dead
