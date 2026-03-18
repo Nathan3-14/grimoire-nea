@@ -10,7 +10,7 @@ func _ready() -> void:
 	add_child(http_request)
 	http_request.timeout = timeout
 	http_request.request_completed.connect(self._http_request_completed)
-	get_node("../AlwaysPresentStuff/Label").text = "Haa"
+	get_node("../Overlay/Label").text = "Haa"
 	
 	var error = http_request.request(url)
 	if error != OK:
@@ -27,4 +27,4 @@ func _http_request_completed(result, response_code, headers, body) -> void:
 		push_error("Error occurred while loading image")
 	var texture = ImageTexture.create_from_image(image)
 	self.texture = texture
-	get_node("../AlwaysPresentStuff/Label").text = "AAAH"
+	get_node("../Overlay/Label").text = "AAAH"
