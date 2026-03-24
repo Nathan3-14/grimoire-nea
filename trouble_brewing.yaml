@@ -1,30 +1,29 @@
-# Reminders:
-#   &name = reminder with this name from self
-#   *name = any reminder with this name
-#   %name = is a global (always available) reminder
+#? Reminders:
+#*   &name = reminder with this name from self
+#*   *name = any reminder with this name
+#*   %name = is a global (always available) reminder
 
-# Global Variables:
-#   players = all players in the game
+#? Global Variables:
+#*   players = all players in the game
 
-# Non-Waking Abilities:
-#   registers alignment, type = character can register as these, ie spy regestering as good
-#   setup = affects setup
+#? Non-Waking Abilities:
+#*   registers alignment, type = character can register as these, ie spy regestering as good
+#*   setup = affects setup
 
-# Waking Abilities:
-#   pick(n) = choose n players
-#   object -> Feature = return that feature from the object
-#   object add (&*%)name = adds a reminder
+#? Waking Abilities:
+#*   pick(n) = choose n players
+#*   object -> Feature = return that feature from the object
+#*   object add (&*%)name = adds a reminder
 
-# Features:
-#   Wake = is this player alive and do they wake tonight
-#   Name = the player's name
-#   Character = the player's character
-#   Neighbours = the player's two neighbours (players immediately adjacent)
-#   (of a list) Count = length of that list
+#? Features:
+#*   Wake = is this player alive and do they wake tonight
+#*   Name = the player's name
+#*   Character = the player's character
+#*   (of a list) Count = length of that list
 
-# Misc:
-#   [statement] = create a list of this
-#   (statement) = select the first of this (should only have 1 item anyway)
+#? Misc:
+#*   [statement] = create a list of this
+#*   (statement) = select the first of this (should only have 1 item anyway)
 
 washerwoman:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_washerwoman.png"
@@ -34,9 +33,9 @@ washerwoman:
     - "wrong"
   ability_text: "You start knowing that 1 of 2 players is a particular Townsfolk."
   ability:
-    - (players == &townsfolk) -> Name
-    - (players == &wrong) -> Name
-    - (players == &townsfolk) -> Character
+    - players == &townsfolk () -> Name
+    - players == &wrong () -> Name
+    - players == &townsfolk () -> Character
 
 librarian:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_librarian.png"
@@ -46,9 +45,9 @@ librarian:
     - "wrong"
   ability_text: "You start knowing that 1 of 2 players is a particular Librarian."
   ability:
-    - (players == &outsider) -> Name
-    - (players == &wrong) -> Name
-    - (players == &townsfolk) -> Character
+    - players == &outsider () -> Name
+    - players == &wrong () -> Name
+    - players == &townsfolk () -> Character
 
 investigator:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_investigator.png"
@@ -58,9 +57,9 @@ investigator:
     - "wrong"
   ability_text: "You start knowing that 1 of 2 players is a particular Minion."
   ability:
-    - (players == &outsider) -> Name
-    - (players == &wrong) -> Name
-    - (players == &townsfolk) -> Character
+    - players == &outsider () -> Name
+    - players == &wrong () -> Name
+    - players == &townsfolk () -> Character
 
 chef:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_chef.png"
@@ -74,8 +73,7 @@ empath:
   type: "townsfolk"
   reminders: []
   ability_text: "Each night, you learn how many of your 2 alive neighbors are evil."
-  ability:
-    - "[[self -> Neighbours] == evil] -> Count"
+  ability: []
 
 fortune_teller:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_fortuneteller.png"
@@ -84,7 +82,7 @@ fortune_teller:
     - "red_herring"
   ability_text: "Each night, choose 2 players: you learn if either is a Demon. There is a good player that registers as a Demon to you."
   ability:
-    - "([pick(2) == (demon or &red_herring)] -> Count) >= 1"
+    - "pick(2) == demon or &red_herring [] -> Count >= 1"
 
 undertaker:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_undertaker.png"
@@ -93,7 +91,7 @@ undertaker:
     - "executed"
   ability_text: "Each night*, you learn which character died by execution today."
   ability:
-    - (players == &executed) -> Character
+    - players == &executed -> Character
 
 monk:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_monk.png"
@@ -185,7 +183,7 @@ poisoner:
     - "poisoned"
   ability_text: "Each night, choose a player: they are poisoned tonight and tomorrow day."
   ability:
-    - pick(1) add $poisoned
+    - pick(1) add &poisoned
 
 spy:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_spy.png"
