@@ -100,7 +100,7 @@ monk:
     - "safe"
   ability_text: "Each night*, choose a player (not yourself): they are safe from the Demon tonight."
   ability:
-    - pick(1) add &safe
+    - pick(1) () add &safe
 
 ravenkeeper:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_ravenkeeper.png"
@@ -108,7 +108,7 @@ ravenkeeper:
   reminders: []
   ability_text: "If you die at night, you are woken to choose a player: you learn their character."
   ability:
-    - pick(1) -> Character
+    - pick(1) () -> Character
 
 virgin:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_virgin.png"
@@ -164,7 +164,7 @@ butler:
     - "master"
   ability_text: "Each night, choose a player (not yourself): tomorrow, you may only vote if they are voting too."
   ability:
-    - pick(1) add &master
+    - pick(1) () add &master
 
 recluse:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_recluse.png"
@@ -183,7 +183,7 @@ poisoner:
     - "poisoned"
   ability_text: "Each night, choose a player: they are poisoned tonight and tomorrow day."
   ability:
-    - pick(1) add &poisoned
+    - pick(1) () add &poisoned
 
 spy:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_spy.png"
@@ -218,4 +218,4 @@ imp:
     - "dead"
   ability_text: "Each night*, choose a player: they die. If you kill yourself this way, a Minion becomes the Imp."
   ability:
-    - pick(1) add &dead
+    - pick(1) () add &dead

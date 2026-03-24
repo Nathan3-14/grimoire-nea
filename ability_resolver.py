@@ -27,26 +27,29 @@ def error(message: str="") -> None:
     quit()
 
 def pick(number: int) -> List[Player]:
+    selected_players: List[Player] = []
     for count in range(number):
         display = [f"{index}: {player.name}" for index, player in enumerate(players)]
         user_input = input(f"Pick player {count+1}/{number}:\n{"\n".join(display)}\n>> ")
+        selected_players.append(players[int(user_input)])
     
-    return []
+    return selected_players
         
 
 def resolve_ability(ability: List[str]) -> Any:
     for action in ability:
-        resolve_action(action)
+        print(resolve_action(action))
 
 def resolve_action(action: str) -> Any:
     current_object: Tuple[Any, str] = (None, "None")
     is_getting_item = False
     for token in action.split(" "):
-        print(f"Resolving '{token}'")
+        print(f"Resolving '{token}', current_object: {current_object}")
 
         match token:
             case _ if (match := re.search(r"(?<=pick\()\d+(?=\))", token)) != None:
-                current_object = (pick(int(match.group())), "None")
+                pick_count = int(match.group())
+                current_object = (pick(pick_count), "list")
             case _ if token in ["[]", "()"]:
                 if token == "[]":
                     current_object = (current_object[0], "list")
@@ -78,7 +81,7 @@ def resolve_action(action: str) -> Any:
             case _:
                 ...
     
-    return ""
+    return current_object[0]
 
             
 
