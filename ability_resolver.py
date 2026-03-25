@@ -1,7 +1,6 @@
-from types import NoneType
 from rich import print as rprint
 import yaml
-from typing import Any, List, Literal, Tuple
+from typing import Any, Dict, List, Literal, Tuple
 import re
 
 class Player:
@@ -13,6 +12,9 @@ class Player:
         self.waking = waking
         self.did_wake = False
 
+    def has_reminder(self, reminder_regex: str) -> bool:
+        ...
+
 players = [
     Player("A", "fortune_teller", ["washerwoman.townsfolk"], "good", "all"),
     Player("B", "imp", [], "evil", "other"),
@@ -20,7 +22,6 @@ players = [
     Player("D", "spy", ["washerwoman.wrong"], "evil", "all"),
     Player("E", "washerwoman", [], "good", "first")
 ]
-night = 1
 
 def error(message: str="") -> None:
     print(f"An error occured{f": {message}" if message != "" else ""}")
@@ -36,61 +37,128 @@ def pick(number: int) -> List[Player]:
     return selected_players
         
 
-def resolve_ability(ability: List[str]) -> Any:
+def resolve_ability(parent_character: str, ability: List[str]) -> Any:
     for action in ability:
-        print(resolve_action(action))
+        print(resolve_action(parent_character, action))
 
-def resolve_action(action: str) -> Any:
-    current_object: Tuple[Any, str] = (None, "None")
+def reminder_to_regex(parent_character: str, reminder_text: str) -> str:
+    match reminder_text[0]:
+        case "&"|"%": return f"{parent_character}\\.{reminder_text[1:]}"
+        case "*" : return f"[a-zA-Z_]+\\.{reminder_text[1:]}"
+        case _: error(f"Invalid reminder prefix '{reminder_text[0]}'")
+
+def resolve_action(parent_character: str, action: str) -> Any:
+    current_object: Any = None
     is_getting_item = False
+    comparing: Tuple[bool, str] = (False, "") #? whether a comparison is occuring and what its operator is
     for token in action.split(" "):
         print(f"Resolving '{token}', current_object: {current_object}")
 
+        if comparing[0]:
+            result = False
+            match comparing[1]:
+                case "==":
+                    result = str(current_object[0]) == str(token)
+                case "!=":
+
+                    result = str(current_object[0]) != str(token)
+                case "<=":
+                    result = int(current_object[0]) <= int(token)
+                case ">=":
+                    result = int(current_object[0]) >= int(token)
+                case "<":
+                    result = int(current_object[0]) < int(token)
+                case ">":
+                    result = int(current_object[0]) > int(token)
+
+                case "is":
+                    mode: Literal["&", "|"] = "&"
+                    for compare_part in re.split(r"(?<=[\|&])|(?=[\|&])", token):
+                        #? Ran if it is a reminder denoted as (@*%)name
+                        if match := re.match(r"^[\@\*\%][a-zA-Z_]+", compare_part):
+                            match mode:
+                                case "&":
+                                    result = result and current_object.has_reminder(reminder_to_regex(match))
+                                case "|":
+                                    result = result or current_object.has_reminder(reminder_to_regex(match))
+
+                        elif compare_part in ["townsfolk", "outsider", "minion", "demon"]:
+                            match mode:
+                                #TODO check char type is townsfolk or outsider etc
+                                #TODO check alignment is good or evil in next one
+                                case "&":
+                                    result = result and current_object.type(reminder_to_regex(match))
+                                case "|":
+                                    result = result or current_object.type(reminder_to_regex(match))
+                        
+                        elif compare_part in ["|", "&"]:
+                            mode = compare_part
+                
+                case _:
+                    error(f"Unrecognised comparator '{comparing[1]}'")
+                                
+
+            current_object = result
+            comparing = (False, "")
+        else:
+            continue
+
         match token:
+            #? If there is a "pick" command, e.g. "pick(2)" for selecting 2 players
             case _ if (match := re.search(r"(?<=pick\()\d+(?=\))", token)) != None:
-                pick_count = int(match.group())
-                current_object = (pick(pick_count), "list")
+                current_object = pick(int(match.group()))
+            
+            #? Used to reduce down a list if not stated
             case _ if token in ["[]", "()"]:
                 if token == "[]":
-                    current_object = (current_object[0], "list")
+                    current_object = current_object
                 else:
-                    current_object = (current_object[0][0], "item")
+                    current_object = current_object[0]
+            
             case _ if token == "->":
                 is_getting_item = True
+            
+            case _ if token in ["==", ">=", "<=", ">", "<", "!=", "is"]:
+                comparing = (True, token)
+            
             case _ if token in ["Wake", "Name", "Character", "Count"] and is_getting_item:
                 match token:
                     case "Wake":
-                        if current_object[1] != "item" or type(current_object[0]) != Player:
-                            error("Can't get Wake of object")
-                        current_object = (current_object[0].did_wake, "item")
+                        if type(current_object) != Player:
+                            error("Can't get Wake of non-player")
+                        current_object = current_object.did_wake
                     case "Name":
-                        if current_object[1] != "item" or type(current_object[0]) != Player:
-                            error("Can't get Name of object")
-                        current_object = (current_object[0].name, "item")
+                        if type(current_object) != Player:
+                            error("Can't get Name of non-player")
+                        current_object = current_object.name
                     case "Character":
-                        if current_object[1] != "item" or type(current_object[0]) != Player:
-                            error("Can't get Character of object")
-                        current_object = (current_object[0].character, "item")
+                        if type(current_object) != Player:
+                            error("Can't get Character of non-player")
+                        current_object = current_object.character
                     case "Count":
-                        if current_object[1] != "list":
-                            error("Can't get Count of object")
-                        current_object = (len(current_object[0]), "item")
-
+                        if type(current_object) != list:
+                            error("Can't get Count of non-list")
+                        current_object = len(current_object) #type:ignore
                     case _:
-                        ...
+                        error(f"Unrecognised feature '{token}'")
+            
+            case "players":
+                current_object = players
+            
             case _:
-                ...
+                error(f"Unrecognised token '{token}'")
     
     return current_object[0]
 
             
 
 if __name__ == "__main__":
-    characters = yaml.safe_load(open("trouble_brewing.yaml", "r"))
+    characters: Dict[str, Dict[str, Any]] = yaml.safe_load(open("trouble_brewing.yaml", "r")) #type:ignore
     # rprint(abilities)
     # rprint(abilities["ravenkeeper"])
     # rprint(abilities["washerwoman"])
     # rprint(abilities["fortune_teller"])
     # rprint(abilities["empath"])
 
-    resolve_ability(characters["ravenkeeper"]["ability"])
+    # resolve_ability(characters["ravenkeeper"]["ability"])
+    resolve_ability("washerwoman", characters["washerwoman"]["ability"])
