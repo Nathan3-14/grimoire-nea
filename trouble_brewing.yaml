@@ -24,6 +24,7 @@
 #? Comparisons:
 #*   object (==)/(>=)/(<=)/(>)/(<)/(!=) object = is object (equal) / (greater than or equal to) / (less than or equal to) / (greater than) / (less than) / (not equal) to object
 #*   player is ((@*%)name)/(townsfolk/outsider/minion/demon/dead/alive) = does the player have (@*%)name reminder / is the player (townsfolk/outsider/minion/demon/dead/alive)
+#*   list get (comparator) object = returns a list of any items that fit requirements
 
 #? Misc:
 #*   statement [] = create a list of this
@@ -37,9 +38,9 @@ washerwoman:
     - "wrong"
   ability_text: "You start knowing that 1 of 2 players is a particular Townsfolk."
   ability:
-    - players == @townsfolk () -> Name
-    - players == @wrong () -> Name
-    - players == @townsfolk () -> Character
+    - players is @townsfolk () -> Name
+    - players is @wrong () -> Name
+    - players is @townsfolk () -> Character
 
 librarian:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_librarian.png"
@@ -49,9 +50,9 @@ librarian:
     - "wrong"
   ability_text: "You start knowing that 1 of 2 players is a particular Librarian."
   ability:
-    - players == @outsider () -> Name
-    - players == @wrong () -> Name
-    - players == @townsfolk () -> Character
+    - players is @outsider () -> Name
+    - players is @wrong () -> Name
+    - players is @townsfolk () -> Character
 
 investigator:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_investigator.png"
@@ -61,9 +62,9 @@ investigator:
     - "wrong"
   ability_text: "You start knowing that 1 of 2 players is a particular Minion."
   ability:
-    - players == @outsider () -> Name
-    - players == @wrong () -> Name
-    - players == @townsfolk () -> Character
+    - players is @outsider () -> Name
+    - players is @wrong () -> Name
+    - players is @townsfolk () -> Character
 
 chef:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_chef.png"

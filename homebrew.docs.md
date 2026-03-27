@@ -1,4 +1,20 @@
 # Homebrew Docs
+## Layout
+```yaml
+character_name:
+    image_url: "https://placehold.co/256.png"
+    type: "townsfolk/outsider/minion/demon"
+    reminders:
+        - "reminder1"
+        - "%reminder2"
+    ability_text: "You start knowing..."
+    ability:
+        - pick(1) add @reminder1
+```
+
+## Resolving
+Abilities are resolved left to right, brackets do nothing
+
 ## Reminders
 - @name = reminder with this name from self
 - *name = any reminder with this name

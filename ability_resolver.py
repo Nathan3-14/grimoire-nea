@@ -3,22 +3,29 @@ import yaml
 from typing import Any, Dict, List, Literal, Tuple
 import re
 
+characters: Dict[str, Dict[str, Any]] = yaml.safe_load(open("trouble_brewing.yaml", "r")) #type:ignore
+
 class Player:
     def __init__(self, name: str, character: str, reminders: List[str], alignment: Literal["good", "evil"], waking: str) -> None:
         self.name = name
         self.character = character
+        self.type = characters[character]["type"]
         self.reminders = reminders
         self.alignment = alignment
         self.waking = waking
         self.did_wake = False
 
     def has_reminder(self, reminder_regex: str) -> bool:
-        ...
+        for reminder in self.reminders:
+            print(f"Checking if reminder '{reminder}' matches regex '{reminder_regex}'")
+            if re.match(reminder_regex, reminder):
+                return True
+        return False
 
 players = [
     Player("A", "fortune_teller", ["washerwoman.townsfolk"], "good", "all"),
     Player("B", "imp", [], "evil", "other"),
-    Player("C", "empath", ["fortune_teller.redherring"], "good", "all"),
+    Player("C", "empath", ["fortune_teller.red_herring"], "good", "all"),
     Player("D", "spy", ["washerwoman.wrong"], "evil", "all"),
     Player("E", "washerwoman", [], "good", "first")
 ]
@@ -43,64 +50,74 @@ def resolve_ability(parent_character: str, ability: List[str]) -> Any:
 
 def reminder_to_regex(parent_character: str, reminder_text: str) -> str:
     match reminder_text[0]:
-        case "&"|"%": return f"{parent_character}\\.{reminder_text[1:]}"
-        case "*" : return f"[a-zA-Z_]+\\.{reminder_text[1:]}"
+        case "@"|"%": return parent_character + r"\." + reminder_text[1:]
+        case "*" : return r"[a-zA-Z_]+\." + reminder_text[1:]
         case _: error(f"Invalid reminder prefix '{reminder_text[0]}'")
+    return "something horrendous has happened"
+
+def compare(parent_character: str, object: Any, comparator: str, value: Any) -> bool:
+    result = False
+    match comparator:
+        case "==":
+            result = str(object) == str(value)
+        case "!=":
+            result = str(object) != str(value)
+        case "<=":
+            result = int(object) <= int(value)
+        case ">=":
+            result = int(object) >= int(value)
+        case "<":
+            result = int(object) < int(value)
+        case ">":
+            result = int(object) > int(value)
+
+        case "is":
+            mode: Literal["&", "|"] = "|"
+            for compare_part in re.split(r"(?<=[\|&])|(?=[\|&])", value):
+                #? Ran if it is a reminder, denoted by (@*%)name
+                if match := re.match(r"^[\@\*\%][a-zA-Z_]+", compare_part):
+                    match mode:
+                        case "&":
+                            result = result and object.has_reminder(reminder_to_regex(parent_character, match.group()))
+                        case "|":
+                            result = result or object.has_reminder(reminder_to_regex(parent_character, match.group()))
+
+                #? Ran if if it an alignment
+                elif compare_part in ["good", "evil"]:
+                    match mode:
+                        case "&":
+                            result = result and object.alignment == compare_part
+                        case "|":
+                            result = result or object.alignment == compare_part
+                
+                #? Ran if it is a type of character
+                elif compare_part in ["townsfolk", "outsider", "minion", "demon"]:
+                    match mode:
+                        case "&":
+                            result = result and object.type == compare_part
+                        case "|":
+                            result = result or object.type == compare_part
+                
+                elif compare_part in ["|", "&"]:
+                    mode = compare_part #type:ignore
+        
+        case _:
+            error(f"Unrecognised comparator '{comparator}'")
+    return result
 
 def resolve_action(parent_character: str, action: str) -> Any:
     current_object: Any = None
-    is_getting_item = False
+    is_getting_feature = False
     comparing: Tuple[bool, str] = (False, "") #? whether a comparison is occuring and what its operator is
     for token in action.split(" "):
         print(f"Resolving '{token}', current_object: {current_object}")
 
         if comparing[0]:
-            result = False
-            match comparing[1]:
-                case "==":
-                    result = str(current_object[0]) == str(token)
-                case "!=":
-
-                    result = str(current_object[0]) != str(token)
-                case "<=":
-                    result = int(current_object[0]) <= int(token)
-                case ">=":
-                    result = int(current_object[0]) >= int(token)
-                case "<":
-                    result = int(current_object[0]) < int(token)
-                case ">":
-                    result = int(current_object[0]) > int(token)
-
-                case "is":
-                    mode: Literal["&", "|"] = "&"
-                    for compare_part in re.split(r"(?<=[\|&])|(?=[\|&])", token):
-                        #? Ran if it is a reminder denoted as (@*%)name
-                        if match := re.match(r"^[\@\*\%][a-zA-Z_]+", compare_part):
-                            match mode:
-                                case "&":
-                                    result = result and current_object.has_reminder(reminder_to_regex(match))
-                                case "|":
-                                    result = result or current_object.has_reminder(reminder_to_regex(match))
-
-                        elif compare_part in ["townsfolk", "outsider", "minion", "demon"]:
-                            match mode:
-                                #TODO check char type is townsfolk or outsider etc
-                                #TODO check alignment is good or evil in next one
-                                case "&":
-                                    result = result and current_object.type(reminder_to_regex(match))
-                                case "|":
-                                    result = result or current_object.type(reminder_to_regex(match))
-                        
-                        elif compare_part in ["|", "&"]:
-                            mode = compare_part
-                
-                case _:
-                    error(f"Unrecognised comparator '{comparing[1]}'")
-                                
-
-            current_object = result
+            if type(current_object) == list:
+                current_object = [item for item in current_object if compare(parent_character, item, comparing[1], token) ]
+            else:
+                current_object = compare(parent_character, current_object, comparing[1], token)
             comparing = (False, "")
-        else:
             continue
 
         match token:
@@ -116,12 +133,12 @@ def resolve_action(parent_character: str, action: str) -> Any:
                     current_object = current_object[0]
             
             case _ if token == "->":
-                is_getting_item = True
+                is_getting_feature = True
             
             case _ if token in ["==", ">=", "<=", ">", "<", "!=", "is"]:
                 comparing = (True, token)
             
-            case _ if token in ["Wake", "Name", "Character", "Count"] and is_getting_item:
+            case _ if token in ["Wake", "Name", "Character", "Count"] and is_getting_feature:
                 match token:
                     case "Wake":
                         if type(current_object) != Player:
@@ -148,17 +165,17 @@ def resolve_action(parent_character: str, action: str) -> Any:
             case _:
                 error(f"Unrecognised token '{token}'")
     
-    return current_object[0]
+    return current_object
 
             
 
 if __name__ == "__main__":
-    characters: Dict[str, Dict[str, Any]] = yaml.safe_load(open("trouble_brewing.yaml", "r")) #type:ignore
     # rprint(abilities)
     # rprint(abilities["ravenkeeper"])
     # rprint(abilities["washerwoman"])
     # rprint(abilities["fortune_teller"])
     # rprint(abilities["empath"])
 
-    # resolve_ability(characters["ravenkeeper"]["ability"])
+    # resolve_ability("ravenkeeper", characters["ravenkeeper"]["ability"])
+    # resolve_ability("fortune_teller", characters["fortune_teller"]["ability"])
     resolve_ability("washerwoman", characters["washerwoman"]["ability"])
