@@ -1,4 +1,3 @@
-from rich import print as rprint
 import yaml
 from typing import Any, Dict, List, Literal, Tuple
 import re
@@ -15,12 +14,24 @@ class Player:
         self.waking = waking
         self.did_wake = False
 
-    def has_reminder(self, reminder_regex: str) -> bool:
+    def reminder_to_regex(self, parent_character: str, reminder_text: str) -> str:
+        match reminder_text[0]:
+            case "@"|"%": return parent_character + r"\." + reminder_text[1:]
+            case "*" : return r"[a-zA-Z_]+\." + reminder_text[1:]
+            case _: error(f"Invalid reminder prefix '{reminder_text[0]}'")
+        return "something horrendous has happened"
+
+    def has_reminder(self, parent_character: str, reminder_text: str) -> bool:
         for reminder in self.reminders:
-            print(f"Checking if reminder '{reminder}' matches regex '{reminder_regex}'")
-            if re.match(reminder_regex, reminder):
+            print(f"Checking if reminder '{reminder}' matches regex '{self.reminder_to_regex(parent_character, reminder_text)}'")
+            if re.match(self.reminder_to_regex(parent_character, reminder_text), reminder):
                 return True
         return False
+
+    def add_reminder(self, parent_character: str, reminder_text: str) -> None:
+        match reminder_text[0]:
+            case "@"|"%": self.reminders.append(f"{parent_character}.{reminder_text[1:]}")
+            case _: error(f"Invalid reminder prefix for adding '{reminder_text[0]}'")
 
 players = [
     Player("A", "fortune_teller", ["washerwoman.townsfolk"], "good", "all"),
@@ -30,6 +41,7 @@ players = [
     Player("E", "washerwoman", [], "good", "first")
 ]
 
+#* Non-necessary functions *#
 def error(message: str="") -> None:
     print(f"An error occured{f": {message}" if message != "" else ""}")
     quit()
@@ -44,17 +56,7 @@ def pick(number: int) -> List[Player]:
     return selected_players
         
 
-def resolve_ability(parent_character: str, ability: List[str]) -> Any:
-    for action in ability:
-        print(resolve_action(parent_character, action))
-
-def reminder_to_regex(parent_character: str, reminder_text: str) -> str:
-    match reminder_text[0]:
-        case "@"|"%": return parent_character + r"\." + reminder_text[1:]
-        case "*" : return r"[a-zA-Z_]+\." + reminder_text[1:]
-        case _: error(f"Invalid reminder prefix '{reminder_text[0]}'")
-    return "something horrendous has happened"
-
+#* Comparison *#
 def compare(parent_character: str, object: Any, comparator: str, value: Any) -> bool:
     result = False
     match comparator:
@@ -78,9 +80,9 @@ def compare(parent_character: str, object: Any, comparator: str, value: Any) -> 
                 if match := re.match(r"^[\@\*\%][a-zA-Z_]+", compare_part):
                     match mode:
                         case "&":
-                            result = result and object.has_reminder(reminder_to_regex(parent_character, match.group()))
+                            result = result and object.has_reminder(parent_character, match.group())
                         case "|":
-                            result = result or object.has_reminder(reminder_to_regex(parent_character, match.group()))
+                            result = result or object.has_reminder(parent_character, match.group())
 
                 #? Ran if if it an alignment
                 elif compare_part in ["good", "evil"]:
@@ -105,19 +107,29 @@ def compare(parent_character: str, object: Any, comparator: str, value: Any) -> 
             error(f"Unrecognised comparator '{comparator}'")
     return result
 
+
+#* Main Resolving Function *#
 def resolve_action(parent_character: str, action: str) -> Any:
     current_object: Any = None
-    is_getting_feature = False
-    comparing: Tuple[bool, str] = (False, "") #? whether a comparison is occuring and what its operator is
+    doing_thing: Tuple[str, str] = ("", "")    
     for token in action.split(" "):
-        print(f"Resolving '{token}', current_object: {current_object}")
+        print(f"Resolving '{token}', current_object: {current_object}") #! DEBUG
 
-        if comparing[0]:
+        if doing_thing[0] == "comparing":
             if type(current_object) == list:
-                current_object = [item for item in current_object if compare(parent_character, item, comparing[1], token) ]
+                current_object = [item for item in current_object if compare(parent_character, item, doing_thing[1], token) ]
             else:
-                current_object = compare(parent_character, current_object, comparing[1], token)
-            comparing = (False, "")
+                current_object = compare(parent_character, current_object, doing_thing[1], token)
+            doing_thing = ("", "")
+            continue
+        
+        if doing_thing[0] == "adding_reminder":
+            if type(current_object) != Player:
+                error("Can only add reminders to players")
+            
+            current_object.reminders.append(token)
+
+            doing_thing = ("", "")
             continue
 
         match token:
@@ -132,13 +144,17 @@ def resolve_action(parent_character: str, action: str) -> Any:
                 else:
                     current_object = current_object[0]
             
+            #? All modifiers that use the next token
             case _ if token == "->":
-                is_getting_feature = True
-            
+                doing_thing = ("getting_feature", "")
             case _ if token in ["==", ">=", "<=", ">", "<", "!=", "is"]:
-                comparing = (True, token)
+                doing_thing = ("comparing", token)
+            case "add":
+                doing_thing = ("adding_reminder", token)
+                
             
-            case _ if token in ["Wake", "Name", "Character", "Count"] and is_getting_feature:
+            #? Features
+            case _ if token in ["Wake", "Name", "Character", "Count"] and doing_thing[0] == "getting_feature":
                 match token:
                     case "Wake":
                         if type(current_object) != Player:
@@ -159,6 +175,7 @@ def resolve_action(parent_character: str, action: str) -> Any:
                     case _:
                         error(f"Unrecognised feature '{token}'")
             
+            #? Global Variables
             case "players":
                 current_object = players
             
@@ -167,15 +184,13 @@ def resolve_action(parent_character: str, action: str) -> Any:
     
     return current_object
 
-            
+
+#* Resolve per ability in character *#
+def resolve_ability(parent_character: str, ability: List[str]) -> Any:
+    for action in ability:
+        print(resolve_action(parent_character, action))            
 
 if __name__ == "__main__":
-    # rprint(abilities)
-    # rprint(abilities["ravenkeeper"])
-    # rprint(abilities["washerwoman"])
-    # rprint(abilities["fortune_teller"])
-    # rprint(abilities["empath"])
-
     # resolve_ability("ravenkeeper", characters["ravenkeeper"]["ability"])
     # resolve_ability("fortune_teller", characters["fortune_teller"]["ability"])
     resolve_ability("washerwoman", characters["washerwoman"]["ability"])
