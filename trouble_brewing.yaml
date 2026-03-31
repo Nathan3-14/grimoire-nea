@@ -31,7 +31,7 @@
 #*   statement () = select the first of this (should only have 1 item anyway)
 
 washerwoman:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_washerwoman.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/washerwoman.png"
   type: "townsfolk"
   reminders:
     - "townsfolk"
@@ -43,7 +43,7 @@ washerwoman:
     - players is @townsfolk () -> Character
 
 librarian:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_librarian.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/librarian.png"
   type: "townsfolk"
   reminders:
     - "outsider"
@@ -55,7 +55,7 @@ librarian:
     - players is @townsfolk () -> Character
 
 investigator:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_investigator.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/investigator.png"
   type: "townsfolk"
   reminders:
     - "minion"
@@ -67,21 +67,21 @@ investigator:
     - players is @townsfolk () -> Character
 
 chef:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_chef.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/chef.png"
   type: "townsfolk"
   reminders: []
   ability_text: "You start knowing how many pairs of evil players there are."
   ability: []
 
 empath:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_empath.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/empath.png"
   type: "townsfolk"
   reminders: []
   ability_text: "Each night, you learn how many of your 2 alive neighbors are evil."
   ability: []
 
 fortune_teller:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_fortuneteller.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/fortuneteller.png"
   type: "townsfolk"
   reminders:
     - "red_herring"
@@ -90,7 +90,7 @@ fortune_teller:
     - "pick(2) is demon|@red_herring [] -> Count >= 1"
 
 undertaker:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_undertaker.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/undertaker.png"
   type: "townsfolk"
   reminders:
     - "executed"
@@ -99,7 +99,7 @@ undertaker:
     - players is @executed () -> Character
 
 monk:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_monk.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/monk.png"
   type: "townsfolk"
   reminders:
     - "safe"
@@ -108,7 +108,7 @@ monk:
     - pick(1) () add @safe
 
 ravenkeeper:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_ravenkeeper.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/ravenkeeper.png"
   type: "townsfolk"
   reminders: []
   ability_text: "If you die at night, you are woken to choose a player: you learn their character."
@@ -116,7 +116,7 @@ ravenkeeper:
     - pick(1) () -> Character
 
 virgin:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_virgin.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/virgin.png"
   type: "townsfolk"
   reminders:
     - "used"
@@ -124,7 +124,7 @@ virgin:
   ability: []
 
 slayer:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_slayer.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/slayer.png"
   type: "townsfolk"
   reminders:
     - "used"
@@ -132,14 +132,14 @@ slayer:
   ability: []
 
 soldier:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_soldier.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/soldier.png"
   type: "townsfolk"
   reminders: []
   ability_text: "You are safe from the Demon."
   ability: []
 
 mayor:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_mayor.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/mayor.png"
   type: "townsfolk"
   reminders: []
   ability_text: "If only 3 players live @ no execution occurs, your team wins. If you die at night, another player might die instead."
@@ -148,7 +148,7 @@ mayor:
 
 
 drunk:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_drunk.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/drunk.png"
   type: "outsider"
   reminders:
     - "%is_the_drunk"
@@ -156,14 +156,14 @@ drunk:
   ability: []
 
 saint:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_saint.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/saint.png"
   type: "outsider"
   reminders: []
   ability_text: "If you die by execution, your team loses."
   ability: []
 
 butler:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_butler.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/butler.png"
   type: "outsider"
   reminders:
     - "master"
@@ -172,7 +172,7 @@ butler:
     - pick(1) () add @master
 
 recluse:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_recluse.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/recluse.png"
   type: "outsider"
   reminders: []
   ability_text: You might register as evil @ as a Minion or Demon, even if dead.
@@ -182,7 +182,7 @@ recluse:
 
 
 poisoner:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_poisoner.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/poisoner.png"
   type: "minion"
   reminders:
     - "poisoned"
@@ -191,7 +191,7 @@ poisoner:
     - pick(1) () add @poisoned
 
 spy:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_spy.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/spy.png"
   type: "minion"
   reminders: []
   ability_text: "Each night, you see the Grimoire. You might register as good @ as a Townsfolk or Outsider, even if dead."
@@ -199,7 +199,7 @@ spy:
     - registers good, townsfolk, outsider
 
 baron:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_baron.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/baron.png"
   type: "minion"
   reminders: []
   ability_text: "There are extra Outsiders in play. [+2 Outsiders]"
@@ -207,7 +207,7 @@ baron:
     - setup
 
 scarlet_woman:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_scarletwoman.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/scarletwoman.png"
   type: "minion"
   reminders: 
     - "is the demon"
@@ -217,7 +217,7 @@ scarlet_woman:
 
 
 imp:
-  image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_imp.png"
+  image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/imp.png"
   type: "demon"
   reminders:
     - "dead"
