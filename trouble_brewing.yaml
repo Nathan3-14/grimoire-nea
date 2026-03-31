@@ -96,7 +96,7 @@ undertaker:
     - "executed"
   ability_text: "Each night*, you learn which character died by execution today."
   ability:
-    - players is @executed -> Character
+    - players is @executed () -> Character
 
 monk:
   image_url: "https://raw.githubusercontent.com/Nathan3-14/botc/refs/heads/main/icons/trouble_brewing/Icon_monk.png"
@@ -177,7 +177,7 @@ recluse:
   reminders: []
   ability_text: You might register as evil @ as a Minion or Demon, even if dead.
   ability:
-    - register evil, minion, demon
+    - registers evil, minion, demon
 
 
 

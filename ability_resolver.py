@@ -1,6 +1,7 @@
 import yaml
 from typing import Any, Dict, List, Literal, Tuple
 import re
+from rich import print as rprint
 
 characters: Dict[str, Dict[str, Any]] = yaml.safe_load(open("trouble_brewing.yaml", "r")) #type:ignore
 
@@ -23,7 +24,7 @@ class Player:
 
     def has_reminder(self, parent_character: str, reminder_text: str) -> bool:
         for reminder in self.reminders:
-            print(f"Checking if reminder '{reminder}' matches regex '{self.reminder_to_regex(parent_character, reminder_text)}'")
+            # print(f"Checking if reminder '{reminder}' matches regex '{self.reminder_to_regex(parent_character, reminder_text)}'") #! DEBUG
             if re.match(self.reminder_to_regex(parent_character, reminder_text), reminder):
                 return True
         return False
@@ -38,10 +39,12 @@ players = [
     Player("B", "imp", [], "evil", "other"),
     Player("C", "empath", ["fortune_teller.red_herring"], "good", "all"),
     Player("D", "spy", ["washerwoman.wrong"], "evil", "all"),
-    Player("E", "washerwoman", [], "good", "first")
+    Player("E", "washerwoman", [], "good", "first"),
+    Player("F", "ravenkeeper", ["undertaker.executed"], "good", "other"),
 ]
 
 #* Non-necessary functions *#
+#? Just used for debugging / testing
 def error(message: str="") -> None:
     print(f"An error occured{f": {message}" if message != "" else ""}")
     quit()
@@ -55,6 +58,10 @@ def pick(number: int) -> List[Player]:
     
     return selected_players
         
+def display_grim() -> None:
+    for player in players:
+        print(f"{player.name} ({player.character}): {', '.join(player.reminders)}")
+
 
 #* Comparison *#
 def compare(parent_character: str, object: Any, comparator: str, value: Any) -> bool:
@@ -113,7 +120,8 @@ def resolve_action(parent_character: str, action: str) -> Any:
     current_object: Any = None
     doing_thing: Tuple[str, str] = ("", "")    
     for token in action.split(" "):
-        print(f"Resolving '{token}', current_object: {current_object}") #! DEBUG
+        current_object_type = type(current_object)
+        # print(f"Resolving '{token}', current_object: {current_object}") #! DEBUG
 
         if doing_thing[0] == "comparing":
             if type(current_object) == list:
@@ -124,10 +132,10 @@ def resolve_action(parent_character: str, action: str) -> Any:
             continue
         
         if doing_thing[0] == "adding_reminder":
-            if type(current_object) != Player:
+            if current_object_type != Player:
                 error("Can only add reminders to players")
             
-            current_object.reminders.append(token)
+            current_object.add_reminder(parent_character, token)
 
             doing_thing = ("", "")
             continue
@@ -142,7 +150,7 @@ def resolve_action(parent_character: str, action: str) -> Any:
                 if token == "[]":
                     current_object = current_object
                 else:
-                    current_object = current_object[0]
+                    current_object = current_object[0] #type:ignore
             
             #? All modifiers that use the next token
             case _ if token == "->":
@@ -157,27 +165,31 @@ def resolve_action(parent_character: str, action: str) -> Any:
             case _ if token in ["Wake", "Name", "Character", "Count"] and doing_thing[0] == "getting_feature":
                 match token:
                     case "Wake":
-                        if type(current_object) != Player:
-                            error("Can't get Wake of non-player")
+                        if current_object_type != Player:
+                            error(f"Can't get Wake of non-player ({current_object_type})")
                         current_object = current_object.did_wake
                     case "Name":
-                        if type(current_object) != Player:
-                            error("Can't get Name of non-player")
+                        if current_object_type != Player:
+                            error(f"Can't get Name of non-player ({current_object_type})")
                         current_object = current_object.name
                     case "Character":
-                        if type(current_object) != Player:
-                            error("Can't get Character of non-player")
+                        if current_object_type != Player:
+                            error(f"Can't get Character of non-player ({current_object_type})")
                         current_object = current_object.character
                     case "Count":
-                        if type(current_object) != list:
-                            error("Can't get Count of non-list")
+                        if current_object_type != list:
+                            error(f"Can't get Count of non-list ({current_object_type})")
                         current_object = len(current_object) #type:ignore
                     case _:
                         error(f"Unrecognised feature '{token}'")
             
             #? Global Variables
-            case "players":
+            case _ if token == "players":
                 current_object = players
+            
+            #? Abilties that have no effect here
+            case _ if token in ["registers", "setup"]:
+                return
             
             case _:
                 error(f"Unrecognised token '{token}'")
@@ -191,6 +203,13 @@ def resolve_ability(parent_character: str, ability: List[str]) -> Any:
         print(resolve_action(parent_character, action))            
 
 if __name__ == "__main__":
-    # resolve_ability("ravenkeeper", characters["ravenkeeper"]["ability"])
-    # resolve_ability("fortune_teller", characters["fortune_teller"]["ability"])
-    resolve_ability("washerwoman", characters["washerwoman"]["ability"])
+    rprint(characters)
+    for character_name, character_data in characters.items():
+        print(f"{character_name.upper()}")
+        display_grim()
+        try:
+            resolve_ability(character_name, character_data["ability"])
+        except Exception as e:
+            print(f"Error: {e}")
+        print("\n\n\n")
+    display_grim()
