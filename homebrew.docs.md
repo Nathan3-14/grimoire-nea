@@ -43,5 +43,5 @@ Abilities are resolved left to right, brackets do nothing
 - player is ((@\*%)name)/(townsfolk/outsider/minion/demon/dead/alive) = does the player have (@*%)name reminder / is the player (townsfolk/outsider/minion/demon/dead/alive)
 
 ## Misc:
-- statement [] = create a list of this
-- statement () = select the first of this (should only have 1 item anyway)
+- statement [] = create a list of this (not needed)
+- statement () = select the first item of this list
