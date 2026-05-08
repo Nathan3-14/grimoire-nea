@@ -13,7 +13,7 @@ character_name:
 ```
 
 ## Resolving
-Abilities are resolved left to right, brackets do nothing
+Abilities are resolved left to right, brackets do nothing to affect this order
 
 ## Reminders
 - @name = reminder with this name from self
