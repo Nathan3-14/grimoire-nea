@@ -9,7 +9,7 @@ character_name:
         - "%reminder2"
     ability_text: "You start knowing..."
     ability:
-        - pick(1) add @reminder1
+        - pick(1) () add @reminder1
 ```
 
 ## Resolving
