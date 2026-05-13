@@ -1,8 +1,2 @@
-res://translations/translations.en.translation
-res://translations/translations.pir.translation
-res://scenes/ability_testing.tscn
-res://scripts/ability_testing.gd
 res://scenes/main.tscn
-res://scripts/main.gd
-res://scenes/custom_nodes/player.tscn
-res://scripts/custom_nodes/player.gd
+res://resources/base_theme.tres
