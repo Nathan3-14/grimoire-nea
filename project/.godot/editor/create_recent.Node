@@ -1,8 +1,10 @@
+VBoxContainer
+Label
+Node2D
 MultiplayerSynchronizer
 Control
 TextureButton
 TextureRect
-Label
 HTTPRequest
 OptionButton
 Container

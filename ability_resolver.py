@@ -123,6 +123,7 @@ def resolve_action(parent_character: str, action: str) -> Any:
         current_object_type = type(current_object)
         # print(f"Resolving '{token}', current_object: {current_object}") #! DEBUG
 
+        #? Comparing
         if doing_thing[0] == "comparing":
             if type(current_object) == list:
                 current_object = [item for item in current_object if compare(parent_character, item, doing_thing[1], token) ]
@@ -131,6 +132,7 @@ def resolve_action(parent_character: str, action: str) -> Any:
             doing_thing = ("", "")
             continue
         
+        #? Adding remiders
         if doing_thing[0] == "adding_reminder":
             if current_object_type != Player:
                 error("Can only add reminders to players")

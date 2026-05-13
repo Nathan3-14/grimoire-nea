@@ -142,7 +142,7 @@ mayor:
   image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/mayor.png"
   type: "townsfolk"
   reminders: []
-  ability_text: "If only 3 players live @ no execution occurs, your team wins. If you die at night, another player might die instead."
+  ability_text: "If only 3 players live and no execution occurs, your team wins. If you die at night, another player might die instead."
   ability: []
 
 
@@ -175,7 +175,7 @@ recluse:
   image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/recluse.png"
   type: "outsider"
   reminders: []
-  ability_text: You might register as evil @ as a Minion or Demon, even if dead.
+  ability_text: You might register as evil and as a Minion or Demon, even if dead.
   ability:
     - registers evil, minion, demon
 
@@ -194,7 +194,7 @@ spy:
   image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/spy.png"
   type: "minion"
   reminders: []
-  ability_text: "Each night, you see the Grimoire. You might register as good @ as a Townsfolk or Outsider, even if dead."
+  ability_text: "Each night, you see the Grimoire. You might register as good and as a Townsfolk or Outsider, even if dead."
   ability:
     - registers good, townsfolk, outsider
 
@@ -211,7 +211,7 @@ scarlet_woman:
   type: "minion"
   reminders: 
     - "is the demon"
-  ability_text: "If there are 5 or more players alive @ the Demon dies, you become the Demon. (Travellers don't count.)"
+  ability_text: "If there are 5 or more players alive and the Demon dies, you become the Demon. (Travellers don't count.)"
   ability: []
 
 
