@@ -8,17 +8,18 @@ var compare_split_regex_2 = RegEx.create_from_string(r"([\|&])|(([a-zA-Z0-9@]+)(
 var pick_regex = RegEx.create_from_string(r"(?<=pick\()\d+(?=\))")
 var players: Array[Player]
 
-func new_player(name: String, character: String, type: String, alignment: String, reminders: Array[String]=[]) -> Player:
-	var new_player = Player.new()
-	new_player.player_name = name
-	new_player.character = character
-	new_player.type = type
-	new_player.alignment = alignment
-	return new_player
+func new_player(player_name: String, character: String, type: String, alignment: String, reminders: Array[String]=[]) -> Player:
+	var new_player_object = Player.new()
+	new_player_object.player_name = player_name
+	new_player_object.character = character
+	new_player_object.type = type
+	new_player_object.alignment = alignment
+	new_player_object.reminders = reminders
+	return new_player_object
 
 func error(message: String):
 	print("An error occurred: " + message)
-	get_tree().quit()
+	queue_free()
 
 #used from https://docs.godotengine.org/en/stable/classes/class_regex.html
 func re_split(pattern: RegEx, input: String):
@@ -28,12 +29,9 @@ func re_split(pattern: RegEx, input: String):
 	if results == []: return [input]
 	else: return results
 
-func pick(count: int=1) -> Player:
+func pick(count: int=1) -> Array[Player]:
 	#TODO Implement actually picking players
-	var test_player = Player.new()
-	test_player.alignment = "good"
-	test_player.type = "outsider"
-	return test_player
+	return [players[-2]]
 
 #TODO DOCUMENT FULLY
 func compare(parent_character: String, object, comparator: String, value) -> bool:
@@ -82,6 +80,23 @@ func compare(parent_character: String, object, comparator: String, value) -> boo
 			error("Unrecognised comparator " + comparator)
 	return result
 
+func get_feature(object: Variant, object_type: Variant, feature: String) -> Variant:
+	match feature:
+		"Wake":
+			if object_type != TYPE_PLAYER: error("Can't get Wake of non-player (" + str(object_type) + ")")
+			else: object = object.did_wake
+		"Name":
+			if object_type != TYPE_PLAYER: error("Can't get Name of non-player (" + str(object_type) + ")")
+			else: object = object.player_name
+		"Character":
+			if object_type != TYPE_PLAYER: error("Can't get Character of non-player (" + str(object_type) + ")")
+			else: object = object.character
+		"Count":
+			if object_type != TYPE_ARRAY: error("Can't get Count of non-array (" + str(object_type) + ")")
+			else: object = len(object)
+		_:
+			error("Unrecognised feature '" + feature + "'")
+	return object
 
 func resolve_action(parent_character: String, action: String):
 	var current_object = null
@@ -120,21 +135,19 @@ func resolve_action(parent_character: String, action: String):
 		
 		#? getting feature / attribute of current_object
 		if current_action[0] == "getting_feature":
-			match token:
-				"Wake":
-					if current_object_type != TYPE_PLAYER: error("Can't get Wake of non-player (" + str(current_object_type) + ")")
-					current_object = current_object.did_wake
-				"Name":
-					if current_object_type != TYPE_PLAYER: error("Can't get Name of non-player (" + str(current_object_type) + ")")
-					current_object = current_object.name
-				"Character":
-					if current_object_type != TYPE_PLAYER: error("Can't get Character of non-player (" + str(current_object_type) + ")")
-					current_object = current_object.character
-				"Count":
-					if current_object_type != TYPE_ARRAY: error("Can't get Count of non-array (" + str(current_object_type) + ")")
-					current_object = len(current_object)
-				_:
-					error("Unrecognised feature '" + token + "'")
+			if current_object_type == TYPE_ARRAY:
+				if token == "Count": return len(current_object)
+				else:
+					var new_object = []
+					for item in current_object:
+						new_object.append(get_feature(
+							item,
+							typeof(item),
+							token
+						))
+			else:
+				current_object = get_feature(current_object, current_object_type, token)
+			current_action = ["", ""]
 			continue
 		
 		#* check for other possible actions
@@ -186,7 +199,8 @@ func _ready():
 		new_player("E", "saint", "outsider", "good")
 	]
 	
+	resolve_action("undertaker", "pick(1) () add @executed")
 	print(resolve_action(
-		"silly_guy",
-		"players is evil () -> Character"
+		"undertaker",
+		"players is @executed () -> Character"
 	))
