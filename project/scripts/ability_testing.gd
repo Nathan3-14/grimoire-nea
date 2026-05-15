@@ -145,6 +145,7 @@ func resolve_action(parent_character: String, action: String):
 							typeof(item),
 							token
 						))
+					current_object = new_object
 			else:
 				current_object = get_feature(current_object, current_object_type, token)
 			current_action = ["", ""]
@@ -190,6 +191,10 @@ func resolve_action(parent_character: String, action: String):
 	
 	return current_object
 
+func resolve_ability(parent_character: String, ability: Array[String]) -> void:
+	for action in ability:
+		print(resolve_action(parent_character, action))  
+
 func _ready():
 	players = [
 		new_player("A", "imp", "demon", "evil"),
@@ -199,8 +204,5 @@ func _ready():
 		new_player("E", "saint", "outsider", "good")
 	]
 	
-	resolve_action("undertaker", "pick(1) () add @executed")
-	print(resolve_action(
-		"undertaker",
-		"players is @executed () -> Character"
-	))
+	resolve_ability("undertaker", ["pick(1) () add @executed", "players is @executed () -> Character"])
+	

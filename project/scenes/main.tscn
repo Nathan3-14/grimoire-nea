@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cu836b21omeet" path="res://resources/base_theme.tres" id="1_jyhfs"]
 [ext_resource type="FontFile" uid="uid://bt4qvlr5gj2e" path="res://assets/fonts/oldenglishtextmt.ttf" id="2_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://d3vscupwwnho4" path="res://scenes/ability_testing.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://d3vscupwwnho4" path="res://scenes/ability_controller.tscn" id="4_jyhfs"]
 
 [sub_resource type="Gradient" id="Gradient_tbgi4"]
 offsets = PackedFloat32Array(0.46875, 1)

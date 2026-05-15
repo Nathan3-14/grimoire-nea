@@ -25,7 +25,6 @@ func has_reminder(parent_character: String, reminder_text: String) -> bool:
 	return false
 
 func add_reminder(parent_character: String, reminder_text: String) -> void:
-	print("adding reminder")
 	match reminder_text[0]:
 		"@", "%": reminders.append(parent_character + "." + reminder_text.erase(0))
 		_: error("Invalid reminder prefix for adding '" + reminder_text[0] + "'")

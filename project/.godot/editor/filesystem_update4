@@ -1,4 +1,5 @@
 res://scenes/main.tscn
 res://resources/base_theme.tres
-res://scripts/custom_nodes/player.gd
 res://scripts/ability_testing.gd
+res://scenes/ability_testing.tscn
+res://scripts/custom_nodes/player.gd
