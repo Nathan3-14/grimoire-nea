@@ -33,7 +33,6 @@ func pick(count: int=1) -> Array[Player]:
 	#TODO Implement actually picking players
 	return [players[-2]]
 
-#TODO DOCUMENT FULLY
 func compare(parent_character: String, object, comparator: String, value) -> bool:
 	var result = false
 	match comparator:

@@ -1,9 +1,10 @@
+TextureRect
 Button
+Label
+RichTextLabel
+Control
 HBoxContainer
 VBoxContainer
-Label
-Control
-TextureRect
 Node2D
 MultiplayerSynchronizer
 TextureButton
@@ -11,4 +12,3 @@ HTTPRequest
 OptionButton
 Container
 Popup
-Camera2D

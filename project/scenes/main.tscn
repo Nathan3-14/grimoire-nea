@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cwjgb3g4j2qtc"]
 
 [ext_resource type="Theme" uid="uid://cu836b21omeet" path="res://resources/base_theme.tres" id="1_jyhfs"]
+[ext_resource type="Script" uid="uid://bcebh3ksu3e6s" path="res://scripts/pages.gd" id="2_jyhfs"]
 [ext_resource type="FontFile" uid="uid://bt4qvlr5gj2e" path="res://assets/fonts/oldenglishtextmt.ttf" id="2_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://d3vscupwwnho4" path="res://scenes/ability_controller.tscn" id="4_jyhfs"]
 
@@ -15,18 +16,18 @@ fill_to = Vector2(0.73828125, 0.875)
 
 [node name="Main" type="Node2D" unique_id=1618479902]
 
-[node name="Backgrounds" type="Control" parent="." unique_id=1600527757]
+[node name="Background" type="Control" parent="." unique_id=1600527757]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Menu" type="TextureRect" parent="Backgrounds" unique_id=2139959305]
+[node name="Menu" type="TextureRect" parent="Background" unique_id=2139959305]
 layout_mode = 0
 offset_left = -512.0
-offset_top = -360.0
+offset_top = -384.0
 offset_right = 512.0
-offset_bottom = 360.0
+offset_bottom = 384.0
 texture = SubResource("GradientTexture2D_tefeu")
 
 [node name="Pages" type="Control" parent="." unique_id=872402811]
@@ -35,18 +36,21 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 theme = ExtResource("1_jyhfs")
+script = ExtResource("2_jyhfs")
 
 [node name="Home" type="Control" parent="Pages" unique_id=1817952265]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -512.0
+offset_top = -384.0
+offset_right = 512.0
+offset_bottom = 384.0
 
 [node name="Title" type="Label" parent="Pages/Home" unique_id=2124143162]
 layout_mode = 0
-offset_left = -248.0
-offset_top = -248.0
-offset_right = 250.0
-offset_bottom = -192.0
+offset_left = 264.0
+offset_top = 112.0
+offset_right = 762.0
+offset_bottom = 168.0
 theme_override_fonts/font = ExtResource("2_tbgi4")
 theme_override_font_sizes/font_size = 50
 text = "Blood on the Clocktower"
@@ -55,10 +59,10 @@ vertical_alignment = 1
 
 [node name="SubTitle" type="Label" parent="Pages/Home" unique_id=179388298]
 layout_mode = 0
-offset_left = -192.0
-offset_top = -192.0
-offset_right = 192.0
-offset_bottom = -128.0
+offset_left = 320.0
+offset_top = 168.0
+offset_right = 704.0
+offset_bottom = 232.0
 theme_override_fonts/font = ExtResource("2_tbgi4")
 theme_override_font_sizes/font_size = 40
 text = "Virtual Grimoire"
@@ -67,10 +71,10 @@ vertical_alignment = 1
 
 [node name="Buttons" type="VBoxContainer" parent="Pages/Home" unique_id=1648627374]
 layout_mode = 0
-offset_left = -192.0
-offset_top = -64.0
-offset_right = 192.0
-offset_bottom = 128.0
+offset_left = 320.0
+offset_top = 296.0
+offset_right = 704.0
+offset_bottom = 488.0
 alignment = 1
 
 [node name="GrimoireButton" type="HBoxContainer" parent="Pages/Home/Buttons" unique_id=393364386]
@@ -94,43 +98,95 @@ text = "Settings"
 layout_mode = 2
 text = "Credits"
 
+[node name="GrimoireSetup" type="Control" parent="Pages" unique_id=1630772441]
+visible = false
+anchors_preset = 0
+offset_left = -512.0
+offset_top = -384.0
+offset_right = 512.0
+offset_bottom = 384.0
+
+[node name="CharacterSelection" type="Control" parent="Pages" unique_id=1481496205]
+visible = false
+anchors_preset = 0
+offset_left = -512.0
+offset_top = -384.0
+offset_right = 512.0
+offset_bottom = 384.0
+
 [node name="Grimoire" type="Control" parent="Pages" unique_id=1544606700]
 visible = false
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -512.0
+offset_top = -384.0
+offset_right = 512.0
+offset_bottom = 384.0
 
-[node name="Test" type="Control" parent="Pages" unique_id=2018311470]
+[node name="Settings" type="Control" parent="Pages" unique_id=411631957]
 visible = false
-layout_mode = 1
 anchors_preset = 0
-theme = ExtResource("1_jyhfs")
+offset_left = -512.0
+offset_top = -384.0
+offset_right = 512.0
+offset_bottom = 384.0
 
-[node name="Title" type="Label" parent="Pages/Test" unique_id=1752725431]
+[node name="Home" type="Button" parent="Pages/Settings" unique_id=1214312281]
 layout_mode = 0
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = -192.0
+offset_left = 880.0
+offset_top = 16.0
+offset_right = 1008.0
+offset_bottom = 80.0
+text = "Home"
+
+[node name="Credits" type="Control" parent="Pages" unique_id=1209202559]
+visible = false
+anchors_preset = 0
+offset_left = -512.0
+offset_top = -384.0
+offset_right = 512.0
+offset_bottom = 384.0
+
+[node name="Title" type="Label" parent="Pages/Credits" unique_id=1095988289]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 112.0
+offset_right = 762.0
+offset_bottom = 168.0
 theme_override_fonts/font = ExtResource("2_tbgi4")
 theme_override_font_sizes/font_size = 50
-text = "Blood on the Clocktower"
+text = "Credits"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionButtons" type="VBoxContainer" parent="Pages/Test" unique_id=1051368436]
+[node name="Notices" type="Label" parent="Pages/Credits" unique_id=16716326]
 layout_mode = 0
-offset_left = -192.0
-offset_top = -64.0
-offset_right = 192.0
-offset_bottom = 128.0
-alignment = 1
+offset_left = 120.0
+offset_top = 232.0
+offset_right = 904.0
+offset_bottom = 552.0
+text = "This application is not affiliated with The Pandemonium Institute.
+All roles and characters are the property of Steven Medway and The Pandemonium Institute.
+Blood on the Clocktower is a trademark of Steven Medway and The Pandemonium Institute.
 
-[node name="NewGrim" type="Button" parent="Pages/Test/OptionButtons" unique_id=927905661]
-layout_mode = 2
-text = "New Grim"
+Character Icons are from Tomozbot's botc-icons on GitHub.
+
+Papyrus and Old English Text MT fonts as provided by online-fonts.com.
+"
+
+[node name="Home" type="Button" parent="Pages/Credits" unique_id=165651680]
+layout_mode = 0
+offset_left = 880.0
+offset_top = 16.0
+offset_right = 1008.0
+offset_bottom = 80.0
+text = "Home"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=914406973]
 
 [node name="AbilityController" parent="." unique_id=568237001 instance=ExtResource("4_jyhfs")]
 visible = false
+
+[connection signal="pressed" from="Pages/Home/Buttons/Settings" to="Pages" method="go_to" binds= [NodePath("Settings")]]
+[connection signal="pressed" from="Pages/Home/Buttons/Credits" to="Pages" method="go_to" binds= [NodePath("Credits")]]
+[connection signal="pressed" from="Pages/Settings/Home" to="Pages" method="go_to" binds= [NodePath("Home")]]
+[connection signal="pressed" from="Pages/Credits/Home" to="Pages" method="go_to" binds= [NodePath("Home")]]
