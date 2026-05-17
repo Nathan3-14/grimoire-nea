@@ -1,6 +1,4 @@
-res://scenes/ability_controller.tscn
-res://resources/base_theme.tres
-res://scenes/main.tscn
-res://scripts/ability_controller.gd
-res://scripts/home/button_controller.gd
 res://scripts/pages.gd
+res://scenes/main.tscn
+res://resources/base_theme.tres
+res://scripts/ability_controller.gd

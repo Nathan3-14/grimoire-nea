@@ -39,6 +39,7 @@ theme = ExtResource("1_jyhfs")
 script = ExtResource("2_jyhfs")
 
 [node name="Home" type="Control" parent="Pages" unique_id=1817952265]
+visible = false
 anchors_preset = 0
 offset_left = -512.0
 offset_top = -384.0
@@ -47,10 +48,10 @@ offset_bottom = 384.0
 
 [node name="Title" type="Label" parent="Pages/Home" unique_id=2124143162]
 layout_mode = 0
-offset_left = 264.0
-offset_top = 112.0
-offset_right = 762.0
-offset_bottom = 168.0
+offset_left = 256.0
+offset_top = 64.0
+offset_right = 768.0
+offset_bottom = 128.0
 theme_override_fonts/font = ExtResource("2_tbgi4")
 theme_override_font_sizes/font_size = 50
 text = "Blood on the Clocktower"
@@ -60,9 +61,9 @@ vertical_alignment = 1
 [node name="SubTitle" type="Label" parent="Pages/Home" unique_id=179388298]
 layout_mode = 0
 offset_left = 320.0
-offset_top = 168.0
+offset_top = 128.0
 offset_right = 704.0
-offset_bottom = 232.0
+offset_bottom = 192.0
 theme_override_fonts/font = ExtResource("2_tbgi4")
 theme_override_font_sizes/font_size = 40
 text = "Virtual Grimoire"
@@ -106,13 +107,182 @@ offset_top = -384.0
 offset_right = 512.0
 offset_bottom = 384.0
 
+[node name="Title" type="Label" parent="Pages/GrimoireSetup" unique_id=437053318]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 64.0
+offset_right = 704.0
+offset_bottom = 131.0
+theme_override_font_sizes/font_size = 50
+text = "Setup Grimoire"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Script" type="Control" parent="Pages/GrimoireSetup" unique_id=1272893331]
+anchors_preset = 0
+offset_left = 192.0
+offset_top = 192.0
+offset_right = 232.0
+offset_bottom = 232.0
+
+[node name="Label" type="Label" parent="Pages/GrimoireSetup/Script" unique_id=1801405690]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+text = "Script:"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Pages/GrimoireSetup/Script" unique_id=683721092]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 280.0
+offset_bottom = 64.0
+selected = 0
+item_count = 3
+popup/item_0/text = "Trouble Brewing"
+popup/item_0/id = 0
+popup/item_1/text = "Bad Moon Rising"
+popup/item_1/id = 1
+popup/item_2/text = "Sects and Violets"
+popup/item_2/id = 2
+
+[node name="PlayerCount" type="Control" parent="Pages/GrimoireSetup" unique_id=1603066587]
+anchors_preset = 0
+offset_left = 512.0
+offset_top = 192.0
+offset_right = 552.0
+offset_bottom = 232.0
+
+[node name="Label" type="Label" parent="Pages/GrimoireSetup/PlayerCount" unique_id=672415385]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 64.0
+text = "Player Count:"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Pages/GrimoireSetup/PlayerCount" unique_id=823674717]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 192.0
+offset_bottom = 64.0
+selected = 3
+item_count = 11
+popup/item_0/text = "5"
+popup/item_0/id = 0
+popup/item_1/text = "6"
+popup/item_1/id = 1
+popup/item_2/text = "7"
+popup/item_2/id = 2
+popup/item_3/text = "8"
+popup/item_3/id = 3
+popup/item_4/text = "9"
+popup/item_4/id = 4
+popup/item_5/text = "10"
+popup/item_5/id = 5
+popup/item_6/text = "11"
+popup/item_6/id = 6
+popup/item_7/text = "12"
+popup/item_7/id = 7
+popup/item_8/text = "13"
+popup/item_8/id = 8
+popup/item_9/text = "14"
+popup/item_9/id = 9
+popup/item_10/text = "15"
+popup/item_10/id = 10
+
+[node name="Mode" type="Control" parent="Pages/GrimoireSetup" unique_id=1370333838]
+anchors_preset = 0
+offset_left = 192.0
+offset_top = 320.0
+offset_right = 232.0
+offset_bottom = 360.0
+
+[node name="Label" type="Label" parent="Pages/GrimoireSetup/Mode" unique_id=1957629948]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+text = "Mode:"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Pages/GrimoireSetup/Mode" unique_id=154390794]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 192.0
+offset_bottom = 64.0
+selected = 0
+item_count = 2
+popup/item_0/text = "Flexible"
+popup/item_0/id = 0
+popup/item_1/text = "Strict"
+popup/item_1/id = 1
+
+[node name="GrimoireLayout" type="Control" parent="Pages/GrimoireSetup" unique_id=1408227864]
+anchors_preset = 0
+offset_left = 448.0
+offset_top = 320.0
+offset_right = 488.0
+offset_bottom = 360.0
+
+[node name="Label" type="Label" parent="Pages/GrimoireSetup/GrimoireLayout" unique_id=1649972439]
+layout_mode = 0
+offset_right = 144.0
+offset_bottom = 64.0
+text = "Grimoire Layout:"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Pages/GrimoireSetup/GrimoireLayout" unique_id=1617647320]
+layout_mode = 0
+offset_left = 144.0
+offset_right = 256.0
+offset_bottom = 64.0
+selected = 0
+item_count = 2
+popup/item_0/text = "Circle"
+popup/item_0/id = 0
+popup/item_1/text = "Ellipse"
+popup/item_1/id = 1
+
+[node name="SelectCharacters" type="Button" parent="Pages/GrimoireSetup" unique_id=610563316]
+layout_mode = 0
+offset_left = 384.0
+offset_top = 512.0
+offset_right = 640.0
+offset_bottom = 576.0
+text = "Select Characters"
+
 [node name="CharacterSelection" type="Control" parent="Pages" unique_id=1481496205]
-visible = false
 anchors_preset = 0
 offset_left = -512.0
 offset_top = -384.0
 offset_right = 512.0
 offset_bottom = 384.0
+
+[node name="Title" type="Label" parent="Pages/CharacterSelection" unique_id=642972061]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 64.0
+offset_right = 768.0
+offset_bottom = 131.0
+theme_override_font_sizes/font_size = 50
+text = "Select Characters"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Back" type="Button" parent="Pages/CharacterSelection" unique_id=1411966767]
+layout_mode = 0
+offset_left = 832.0
+offset_top = 64.0
+offset_right = 960.0
+offset_bottom = 128.0
+text = "Back"
+
+[node name="CreateGrimoire" type="Button" parent="Pages/CharacterSelection" unique_id=520024638]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 640.0
+offset_right = 704.0
+offset_bottom = 704.0
+text = "Create Grimoire"
 
 [node name="Grimoire" type="Control" parent="Pages" unique_id=1544606700]
 visible = false
@@ -186,7 +356,12 @@ text = "Home"
 [node name="AbilityController" parent="." unique_id=568237001 instance=ExtResource("4_jyhfs")]
 visible = false
 
+[connection signal="pressed" from="Pages/Home/Buttons/GrimoireButton/New" to="Pages" method="go_to" binds= [NodePath("GrimoireSetup")]]
+[connection signal="pressed" from="Pages/Home/Buttons/GrimoireButton/Continue" to="Pages" method="go_to" binds= [NodePath("Grimoire")]]
 [connection signal="pressed" from="Pages/Home/Buttons/Settings" to="Pages" method="go_to" binds= [NodePath("Settings")]]
 [connection signal="pressed" from="Pages/Home/Buttons/Credits" to="Pages" method="go_to" binds= [NodePath("Credits")]]
+[connection signal="pressed" from="Pages/GrimoireSetup/SelectCharacters" to="Pages" method="go_to" binds= [NodePath("CharacterSelection")]]
+[connection signal="pressed" from="Pages/CharacterSelection/Back" to="Pages" method="go_to" binds= [NodePath("GrimoireSetup")]]
+[connection signal="pressed" from="Pages/CharacterSelection/CreateGrimoire" to="Pages" method="go_to" binds= [NodePath("Grimoire")]]
 [connection signal="pressed" from="Pages/Settings/Home" to="Pages" method="go_to" binds= [NodePath("Home")]]
 [connection signal="pressed" from="Pages/Credits/Home" to="Pages" method="go_to" binds= [NodePath("Home")]]

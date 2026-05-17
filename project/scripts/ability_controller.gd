@@ -203,5 +203,4 @@ func _ready():
 		new_player("E", "saint", "outsider", "good")
 	]
 	
-	resolve_ability("undertaker", ["pick(1) () add @executed", "players is @executed () -> Character"])
-	
+	pass
