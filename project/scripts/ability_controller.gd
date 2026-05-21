@@ -18,8 +18,7 @@ func new_player(player_name: String, character: String, type: String, alignment:
 	return new_player_object
 
 func error(message: String):
-	print("An error occurred: " + message)
-	queue_free()
+	push_error(message)
 
 #used from https://docs.godotengine.org/en/stable/classes/class_regex.html
 func re_split(pattern: RegEx, input: String):
@@ -202,5 +201,3 @@ func _ready():
 		new_player("D", "poisoner", "minion", "evil"),
 		new_player("E", "saint", "outsider", "good")
 	]
-	
-	pass

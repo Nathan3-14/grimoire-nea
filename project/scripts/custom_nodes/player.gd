@@ -8,8 +8,7 @@ class_name Player
 @export var reminders: Array[String] #? array of reminder strings formatted as <character_name>.<reminder_name> i.e., imp.dead or washerwoman.townsfolk
 
 func error(message: String):
-	print("An error occurred: " + message)
-	get_tree().quit()
+	push_error(message)
 
 func reminder_to_regex(parent_character: String, reminder_text: String) -> RegEx:
 	match reminder_text[0]:

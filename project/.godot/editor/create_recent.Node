@@ -1,7 +1,9 @@
 Button
+LineEdit
+Control
+XRController3D
 OptionButton
 Label
-Control
 TextureRect
 RichTextLabel
 HBoxContainer
@@ -10,5 +12,3 @@ Node2D
 MultiplayerSynchronizer
 TextureButton
 HTTPRequest
-Container
-Popup

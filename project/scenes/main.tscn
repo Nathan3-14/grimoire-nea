@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://bcebh3ksu3e6s" path="res://scripts/pages.gd" id="2_jyhfs"]
 [ext_resource type="FontFile" uid="uid://bt4qvlr5gj2e" path="res://assets/fonts/oldenglishtextmt.ttf" id="2_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://d3vscupwwnho4" path="res://scenes/ability_controller.tscn" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://b7sj2s14ix7bn" path="res://scripts/custom_script.gd" id="4_tbgi4"]
+[ext_resource type="Script" uid="uid://b17ol6fejlwcp" path="res://scripts/grimoire.gd" id="5_tefeu"]
 
 [sub_resource type="Gradient" id="Gradient_tbgi4"]
 offsets = PackedFloat32Array(0.46875, 1)
@@ -13,6 +15,13 @@ colors = PackedColorArray(0.16078432, 0, 0.3882353, 1, 0.16078432, 0, 0.69803923
 gradient = SubResource("Gradient_tbgi4")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(0.73828125, 0.875)
+
+[sub_resource type="Gradient" id="Gradient_jyhfs"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.18039216, 0.45882353, 0.7137255, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tbgi4"]
+gradient = SubResource("Gradient_jyhfs")
 
 [node name="Main" type="Node2D" unique_id=1618479902]
 
@@ -30,13 +39,23 @@ offset_right = 512.0
 offset_bottom = 384.0
 texture = SubResource("GradientTexture2D_tefeu")
 
-[node name="Pages" type="Control" parent="." unique_id=872402811]
+[node name="Grimoire" type="TextureRect" parent="Background" unique_id=563901708]
+visible = false
+layout_mode = 0
+offset_left = -512.0
+offset_top = -384.0
+offset_right = 512.0
+offset_bottom = 384.0
+texture = SubResource("GradientTexture1D_tbgi4")
+
+[node name="Pages" type="Control" parent="." unique_id=872402811 node_paths=PackedStringArray("backgrounds")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 theme = ExtResource("1_jyhfs")
 script = ExtResource("2_jyhfs")
+backgrounds = NodePath("../Background")
 
 [node name="Home" type="Control" parent="Pages" unique_id=1817952265]
 visible = false
@@ -100,7 +119,6 @@ layout_mode = 2
 text = "Credits"
 
 [node name="GrimoireSetup" type="Control" parent="Pages" unique_id=1630772441]
-visible = false
 anchors_preset = 0
 offset_left = -512.0
 offset_top = -384.0
@@ -135,8 +153,9 @@ vertical_alignment = 1
 [node name="OptionButton" type="OptionButton" parent="Pages/GrimoireSetup/Script" unique_id=683721092]
 layout_mode = 0
 offset_left = 64.0
-offset_right = 280.0
+offset_right = 320.0
 offset_bottom = 64.0
+alignment = 1
 selected = 0
 item_count = 3
 popup/item_0/text = "Trouble Brewing"
@@ -145,6 +164,83 @@ popup/item_1/text = "Bad Moon Rising"
 popup/item_1/id = 1
 popup/item_2/text = "Sects and Violets"
 popup/item_2/id = 2
+
+[node name="CustomScript" type="Control" parent="Pages/GrimoireSetup" unique_id=793940276 node_paths=PackedStringArray("grimoire")]
+anchors_preset = 0
+offset_left = 192.0
+offset_top = 280.0
+offset_right = 232.0
+offset_bottom = 320.0
+script = ExtResource("4_tbgi4")
+grimoire = NodePath("../../Grimoire")
+
+[node name="Label" type="Label" parent="Pages/GrimoireSetup/CustomScript" unique_id=278187352]
+layout_mode = 0
+offset_top = -16.0
+offset_right = 128.0
+offset_bottom = 32.0
+text = "Script Source:"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Pages/GrimoireSetup/CustomScript" unique_id=221499849]
+layout_mode = 0
+offset_left = 128.0
+offset_top = -16.0
+offset_right = 266.0
+offset_bottom = 32.0
+alignment = 1
+selected = 0
+item_count = 3
+popup/item_0/text = "URL"
+popup/item_0/id = 0
+popup/item_1/text = "JSON"
+popup/item_1/id = 1
+popup/item_2/text = "Clipboard"
+popup/item_2/id = 2
+popup/item_2/disabled = true
+
+[node name="URLInput" type="LineEdit" parent="Pages/GrimoireSetup/CustomScript" unique_id=945530434]
+visible = false
+layout_mode = 0
+offset_left = 96.0
+offset_top = 48.0
+offset_right = 544.0
+offset_bottom = 79.0
+placeholder_text = "https://example.com/script.json"
+
+[node name="URLSubmit" type="Button" parent="Pages/GrimoireSetup/CustomScript" unique_id=976276838]
+visible = false
+layout_mode = 0
+offset_left = -16.0
+offset_top = 40.0
+offset_right = 88.0
+offset_bottom = 84.0
+text = "Submit"
+
+[node name="JSONInput" type="LineEdit" parent="Pages/GrimoireSetup/CustomScript" unique_id=1140337845]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 48.0
+offset_right = 448.0
+offset_bottom = 79.0
+placeholder_text = "[]"
+
+[node name="JSONSubmit" type="Button" parent="Pages/GrimoireSetup/CustomScript" unique_id=1880163630]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 40.0
+offset_right = 88.0
+offset_bottom = 84.0
+text = "Submit"
+
+[node name="ClipboardButton" type="Button" parent="Pages/GrimoireSetup/CustomScript" unique_id=1662140093]
+visible = false
+layout_mode = 0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 168.0
+offset_bottom = 96.0
+text = "Clipboard"
 
 [node name="PlayerCount" type="Control" parent="Pages/GrimoireSetup" unique_id=1603066587]
 anchors_preset = 0
@@ -155,16 +251,18 @@ offset_bottom = 232.0
 
 [node name="Label" type="Label" parent="Pages/GrimoireSetup/PlayerCount" unique_id=672415385]
 layout_mode = 0
-offset_right = 128.0
+offset_left = 128.0
+offset_right = 256.0
 offset_bottom = 64.0
 text = "Player Count:"
 vertical_alignment = 1
 
 [node name="OptionButton" type="OptionButton" parent="Pages/GrimoireSetup/PlayerCount" unique_id=823674717]
 layout_mode = 0
-offset_left = 128.0
-offset_right = 192.0
+offset_left = 256.0
+offset_right = 320.0
 offset_bottom = 64.0
+alignment = 1
 selected = 3
 item_count = 11
 popup/item_0/text = "5"
@@ -199,16 +297,19 @@ offset_bottom = 360.0
 
 [node name="Label" type="Label" parent="Pages/GrimoireSetup/Mode" unique_id=1957629948]
 layout_mode = 0
+offset_top = 64.0
 offset_right = 64.0
-offset_bottom = 64.0
+offset_bottom = 128.0
 text = "Mode:"
 vertical_alignment = 1
 
 [node name="OptionButton" type="OptionButton" parent="Pages/GrimoireSetup/Mode" unique_id=154390794]
 layout_mode = 0
 offset_left = 64.0
-offset_right = 192.0
-offset_bottom = 64.0
+offset_top = 64.0
+offset_right = 224.0
+offset_bottom = 128.0
+alignment = 1
 selected = 0
 item_count = 2
 popup/item_0/text = "Flexible"
@@ -225,16 +326,20 @@ offset_bottom = 360.0
 
 [node name="Label" type="Label" parent="Pages/GrimoireSetup/GrimoireLayout" unique_id=1649972439]
 layout_mode = 0
-offset_right = 144.0
-offset_bottom = 64.0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 240.0
+offset_bottom = 128.0
 text = "Grimoire Layout:"
 vertical_alignment = 1
 
 [node name="OptionButton" type="OptionButton" parent="Pages/GrimoireSetup/GrimoireLayout" unique_id=1617647320]
 layout_mode = 0
-offset_left = 144.0
-offset_right = 256.0
-offset_bottom = 64.0
+offset_left = 256.0
+offset_top = 64.0
+offset_right = 384.0
+offset_bottom = 128.0
+alignment = 1
 selected = 0
 item_count = 2
 popup/item_0/text = "Circle"
@@ -251,6 +356,7 @@ offset_bottom = 576.0
 text = "Select Characters"
 
 [node name="CharacterSelection" type="Control" parent="Pages" unique_id=1481496205]
+visible = false
 anchors_preset = 0
 offset_left = -512.0
 offset_top = -384.0
@@ -291,6 +397,7 @@ offset_left = -512.0
 offset_top = -384.0
 offset_right = 512.0
 offset_bottom = 384.0
+script = ExtResource("5_tefeu")
 
 [node name="Settings" type="Control" parent="Pages" unique_id=411631957]
 visible = false
@@ -356,12 +463,20 @@ text = "Home"
 [node name="AbilityController" parent="." unique_id=568237001 instance=ExtResource("4_jyhfs")]
 visible = false
 
-[connection signal="pressed" from="Pages/Home/Buttons/GrimoireButton/New" to="Pages" method="go_to" binds= [NodePath("GrimoireSetup")]]
-[connection signal="pressed" from="Pages/Home/Buttons/GrimoireButton/Continue" to="Pages" method="go_to" binds= [NodePath("Grimoire")]]
-[connection signal="pressed" from="Pages/Home/Buttons/Settings" to="Pages" method="go_to" binds= [NodePath("Settings")]]
-[connection signal="pressed" from="Pages/Home/Buttons/Credits" to="Pages" method="go_to" binds= [NodePath("Credits")]]
-[connection signal="pressed" from="Pages/GrimoireSetup/SelectCharacters" to="Pages" method="go_to" binds= [NodePath("CharacterSelection")]]
-[connection signal="pressed" from="Pages/CharacterSelection/Back" to="Pages" method="go_to" binds= [NodePath("GrimoireSetup")]]
-[connection signal="pressed" from="Pages/CharacterSelection/CreateGrimoire" to="Pages" method="go_to" binds= [NodePath("Grimoire")]]
-[connection signal="pressed" from="Pages/Settings/Home" to="Pages" method="go_to" binds= [NodePath("Home")]]
-[connection signal="pressed" from="Pages/Credits/Home" to="Pages" method="go_to" binds= [NodePath("Home")]]
+[connection signal="pressed" from="Pages/Home/Buttons/GrimoireButton/New" to="Pages" method="go_to" binds= [NodePath("GrimoireSetup"), NodePath("../Background/Menu")]]
+[connection signal="pressed" from="Pages/Home/Buttons/GrimoireButton/Continue" to="Pages" method="go_to" binds= [NodePath("Grimoire"), NodePath("../Background/Grimoire")]]
+[connection signal="pressed" from="Pages/Home/Buttons/Settings" to="Pages" method="go_to" binds= [NodePath("Settings"), NodePath("../Background/Menu")]]
+[connection signal="pressed" from="Pages/Home/Buttons/Credits" to="Pages" method="go_to" binds= [NodePath("Credits"), NodePath("../Background/Menu")]]
+[connection signal="item_selected" from="Pages/GrimoireSetup/CustomScript/OptionButton" to="Pages/GrimoireSetup/CustomScript" method="new_custom_script_input"]
+[connection signal="text_changed" from="Pages/GrimoireSetup/CustomScript/URLInput" to="Pages/GrimoireSetup/CustomScript" method="url_changed"]
+[connection signal="text_submitted" from="Pages/GrimoireSetup/CustomScript/URLInput" to="Pages/GrimoireSetup/CustomScript" method="url_submit"]
+[connection signal="pressed" from="Pages/GrimoireSetup/CustomScript/URLSubmit" to="Pages/GrimoireSetup/CustomScript" method="url_submit"]
+[connection signal="text_changed" from="Pages/GrimoireSetup/CustomScript/JSONInput" to="Pages/GrimoireSetup/CustomScript" method="json_changed"]
+[connection signal="text_submitted" from="Pages/GrimoireSetup/CustomScript/JSONInput" to="Pages/GrimoireSetup/CustomScript" method="json_submit"]
+[connection signal="pressed" from="Pages/GrimoireSetup/CustomScript/JSONSubmit" to="Pages/GrimoireSetup/CustomScript" method="json_submit"]
+[connection signal="pressed" from="Pages/GrimoireSetup/CustomScript/ClipboardButton" to="Pages/GrimoireSetup/CustomScript" method="clipboard_submit"]
+[connection signal="pressed" from="Pages/GrimoireSetup/SelectCharacters" to="Pages" method="go_to" binds= [NodePath("CharacterSelection"), NodePath("../Background/Menu")]]
+[connection signal="pressed" from="Pages/CharacterSelection/Back" to="Pages" method="go_to" binds= [NodePath("GrimoireSetup"), NodePath("../Background/Menu")]]
+[connection signal="pressed" from="Pages/CharacterSelection/CreateGrimoire" to="Pages" method="go_to" binds= [NodePath("Grimoire"), NodePath("../Background/Grimoire")]]
+[connection signal="pressed" from="Pages/Settings/Home" to="Pages" method="go_to" binds= [NodePath("Home"), NodePath("../Background/Menu")]]
+[connection signal="pressed" from="Pages/Credits/Home" to="Pages" method="go_to" binds= [NodePath("Home"), NodePath("../Background/Menu")]]
