@@ -22,9 +22,9 @@
 #*   (of a list) Count = length of that list
 
 #? Comparisons:
-#*   object (==)/(>=)/(<=)/(>)/(<)/(!=) object = is object (equal) / (greater than or equal to) / (less than or equal to) / (greater than) / (less than) / (not equal) to object
-#*   player is ((@*%)name)/(townsfolk/outsider/minion/demon/dead/alive) = does the player have (@*%)name reminder / is the player (townsfolk/outsider/minion/demon/dead/alive)
-#*   list get (comparator) object = returns a list of any items that fit requirements
+#*   object (comparator) object = is object (comparator) to object
+#*   player is ((@*%)name) / (townsfolk/outsider/minion/demon/dead/alive) = does the player have reminder (@*%)name / is the player (townsfolk/outsider/minion/demon/dead/alive)
+#! Doesn't Work   list get (comparator) object = returns a list of any items that fit requirements
 
 #? Misc:
 #*   statement [] = create a list of this
@@ -87,7 +87,7 @@ fortune_teller:
     - "red_herring"
   ability_text: "Each night, choose 2 players: you learn if either is a Demon. There is a good player that registers as a Demon to you."
   ability:
-    - "pick(2) is demon|@red_herring [] -> Count >= 1"
+    - "pick(2) is demon|@red_herring -> Count >= 1"
 
 undertaker:
   image_url: "https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/undertaker.png"
