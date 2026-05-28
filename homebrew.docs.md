@@ -45,3 +45,9 @@ Abilities are resolved left to right, brackets do nothing to affect this order
 ## Misc:
 - statement [] = create a list of this (not needed)
 - statement () = select the first item of this list
+
+## Ability Examples
+`players is townsfolk` - returns a list of all players who are townsfolk  
+`players is @public -> Name` - returns the names of all players marked with the public reminder from this character  
+`pick(3) is demon -> Count >= 1` - returns true if there is at least 1 demon in the players picked  
+`players is townsfolk|outsider -> Character` - returns all townsfolk and outsiders in play
