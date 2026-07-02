@@ -1,8 +1,0 @@
-res://scenes/main.tscn
-res://resources/base_theme.tres
-res://scripts/pages.gd
-res://scripts/custom_script.gd
-res://scripts/grimoire.gd
-res://scripts/custom_nodes/url_rect.gd
-res://scripts/custom_nodes/player.gd
-res://scripts/ability_controller.gd
