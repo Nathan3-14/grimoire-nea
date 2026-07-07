@@ -2,6 +2,10 @@
     font-family: "Old English MT";
     src: url("/src/assets/oldenglishtextmt.ttf");
 }
+@font-face {
+    font-family: "Papyrus";
+    src: url("/src/assets/papyrus.ttf");
+}
 
 body {
     transition: color .25s;
