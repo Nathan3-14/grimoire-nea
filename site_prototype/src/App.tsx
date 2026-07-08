@@ -1,21 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import './App.css'
 import Home from './pages/Home'
-import convert from 'color-convert';
 import Settings from './pages/Settings';
+import Credits from './pages/Credits';
+
+export interface Settings {
+    backgroundColour: string,
+    setBackgroundColour: CallableFunction,
+    textColour: string,
+    setTextColour: CallableFunction
+};
 
 export default function App() {
     const [backgroundColour, setBackgroundColour] = useState("#2f4f4f");
-
-    //? Background Colour Change Handler
-    useEffect(() => {
-            const backgroundColorHSL = convert.hex.hsl(backgroundColour)
-            document.body.style.backgroundColor = backgroundColour;
-            document.body.style.color = backgroundColorHSL[2] < 40 ? "white" : "black"; //changes font colour if the background is too dark
-    }, backgroundColour); //only runs when "backgroundColour" updates
+    const [textColour, setTextColour] = useState("#ffffff");
+    const settings: Settings = {
+        backgroundColour: backgroundColour,
+        setBackgroundColour: setBackgroundColour,
+        textColour: textColour,
+        setTextColour: setTextColour
+    };
     
-    return <>
-        {/* <Home /> */}
-        <Settings backgroundColour={backgroundColour} setBackgroundColour={setBackgroundColour} />
-    </>
+    return <div className="main" style={{backgroundColor: backgroundColour, color: textColour, '--col': textColour} as CSSProperties}>
+        {/* <Home settings={settings} />
+        <Settings settings={settings} /> */}
+        <Credits settings={settings} />
+    </div>
 }

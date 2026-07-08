@@ -1,5 +1,13 @@
-export default function Settings({backgroundColour, setBackgroundColour}: {backgroundColour: string, setBackgroundColour: CallableFunction}) {
+import type { Settings } from "../App"
+import { hsl } from "../funcs";
+
+export default function Settings({settings}: {settings: Settings}) {
     return <>
-        <input type="color" value={backgroundColour} onChange={(e) => setBackgroundColour(e.target.value)} /> {/* sets "backgroundColour" whenever its value changes */}
+        <label htmlFor="background-colour">Background Colour: </label>
+        <input type="color" name="background-colour" value={settings.backgroundColour} onChange={(e) => {
+            const colour = e.target.value;
+            settings.setBackgroundColour(e.target.value);
+            settings.setTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000"); //changes font colour if the background is too dark
+        }} /> {/* sets "backgroundColour" whenever its value changes */}
     </>
 }
