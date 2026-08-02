@@ -1,0 +1,13 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="
+      M 15 5
+      A 22 22
+      0 1 0
+      35 5"
+    fill="none"
+    stroke="red"
+    stroke-width="1"
+  />
+  <!-- https://editsvgcode.com/ -->
+</svg>

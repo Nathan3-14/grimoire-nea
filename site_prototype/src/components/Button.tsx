@@ -1,10 +1,13 @@
-import { useEffect, useState, type ReactNode } from "react"
+import { useEffect, useState, type ComponentPropsWithoutRef } from "react"
 import { type Settings } from "../App"
 import { hsl } from "../funcs";
 import styles from "./Button.module.css"
 
+interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
+    settings: Settings;
+}
 
-export default function Button({children, settings, ...rest}: {children: ReactNode,settings: Settings}) {
+export default function Button({children, settings, ...rest}: ButtonProps) {
     const [borderColour, setBorderColour] = useState(settings.textColour);
 
     useEffect(() => {
