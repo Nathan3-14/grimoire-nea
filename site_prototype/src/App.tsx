@@ -9,21 +9,32 @@ import Grim from './pages/Grim';
 export interface Settings {
     backgroundColour: string,
     setBackgroundColour: CallableFunction,
+    secondaryColour: string,
+    setSecondaryColour: CallableFunction
     textColour: string,
-    setTextColour: CallableFunction
+    setTextColour: CallableFunction,
+    tokenSize: number,
+    setTokenSize: CallableFunction
 };
 
 export default function App() {
     const [backgroundColour, setBackgroundColour] = useState("#2f4f4f");
+    const [secondaryColour, setSecondaryColour] = useState("#1f4040");
     const [textColour, setTextColour] = useState("#ffffff");
+    const [tokenSize, setTokenSize] = useState(100);
+    const [tokenBackgroundColour, setTokenBackgroundColour] = useState();
     const settings: Settings = {
         backgroundColour: backgroundColour,
         setBackgroundColour: setBackgroundColour,
+        secondaryColour: secondaryColour,
+        setSecondaryColour: setSecondaryColour,
         textColour: textColour,
-        setTextColour: setTextColour
+        setTextColour: setTextColour,
+        tokenSize: tokenSize,
+        setTokenSize: setTokenSize
     };
 
-    return <div className="main" style={{backgroundColor: backgroundColour, color: textColour}}>
+    return <div className="main" style={{backgroundColor: "lightslategrey"}}>
         <BrowserRouter>
             <Routes>
                 <Route path="" element={<Home settings={settings} />} />
