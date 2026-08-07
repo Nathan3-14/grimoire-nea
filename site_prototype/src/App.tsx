@@ -14,7 +14,12 @@ export interface Settings {
     textColour: string,
     setTextColour: CallableFunction,
     tokenSize: number,
-    setTokenSize: CallableFunction
+    halfTokenSize: number,
+    setTokenSize: CallableFunction,
+    tokenBackgroundColour: string,
+    setTokenBackgroundColour: CallableFunction,
+    initialTokenRadius: number,
+    setInitialTokenRadius: CallableFunction
 };
 
 export default function App() {
@@ -22,7 +27,8 @@ export default function App() {
     const [secondaryColour, setSecondaryColour] = useState("#1f4040");
     const [textColour, setTextColour] = useState("#ffffff");
     const [tokenSize, setTokenSize] = useState(100);
-    const [tokenBackgroundColour, setTokenBackgroundColour] = useState();
+    const [tokenBackgroundColour, setTokenBackgroundColour] = useState("#3a7e7e");
+    const [initialTokenRadius, setInitialTokenRadius] = useState(200);
     const settings: Settings = {
         backgroundColour: backgroundColour,
         setBackgroundColour: setBackgroundColour,
@@ -31,7 +37,12 @@ export default function App() {
         textColour: textColour,
         setTextColour: setTextColour,
         tokenSize: tokenSize,
-        setTokenSize: setTokenSize
+        halfTokenSize: Math.floor(tokenSize / 2),
+        setTokenSize: setTokenSize,
+        tokenBackgroundColour: tokenBackgroundColour,
+        setTokenBackgroundColour: setTokenBackgroundColour,
+        initialTokenRadius: initialTokenRadius,
+        setInitialTokenRadius: setInitialTokenRadius
     };
 
     return <div className="main" style={{backgroundColor: "lightslategrey"}}>

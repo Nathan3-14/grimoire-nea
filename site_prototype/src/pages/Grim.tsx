@@ -4,31 +4,34 @@ import useImage from "use-image";
 import { useState } from "react";
 import { getCharacterIcon } from "../funcs";
 
+const TAU = 2 * Math.PI;
+
 export default function Grim({settings}: {settings: Settings}) {
-    const Player = (starting_character: string, name: string) => {
+    const Player = ({starting_character="", name="", ...rest}) => {
         const [character, setCharacter] = useState(starting_character);
         const [characterImage] = useImage(getCharacterIcon(character));
 
         const tokenSize = settings.tokenSize;
-        const tokenRadius = Math.floor(tokenSize / 2);
+        const tokenRadius = settings.halfTokenSize;
         
         const scaleFactor = Math.floor(tokenSize / 50);
         const start = `${15*scaleFactor},${5*scaleFactor}`;
         const end = `${35*scaleFactor},${5*scaleFactor}`;
         const radii = `${22*scaleFactor},${22*scaleFactor}`;
         const svg = `M${start} A${radii} 0 1 0 ${end}`;
-        console.log(svg);
 
         return <Group
             draggable={true}
-            onDblClick={() => setCharacter("undertaker")}
+            onDblClick={() => setCharacter("undertaker")} //TODO Open menu here
+            onDblTap={() => setCharacter("undertaker")} //TODO Open menu here
             id={name}
+            {...rest}
             >
             <Circle
                 x={tokenRadius}
                 y={tokenRadius}
                 radius={tokenRadius}
-                fill="red"
+                fill={settings.tokenBackgroundColour}
             />
             <Image
                 image={characterImage}
@@ -59,16 +62,24 @@ export default function Grim({settings}: {settings: Settings}) {
         {"character": "librarian", "name": "Bob"},
         {"character": "investigator", "name": "Carol"},
         {"character": "poisoner", "name": "David"},
-        {"character": "imp", "name": "Edith"}
-    ].map((item) => {
-        return Player(item.character, item.name)
+        {"character": "imp", "name": "Edith"},
+        {"character": "ravenkeeper", "name": "Freya"},
+        {"character": "monk", "name": "Gary"}
+    ]
+    const player_tokens = players.map((item, index) => {
+        return <Player
+            starting_character={item.character}
+            name={item.name}
+            x={(settings.initialTokenRadius * Math.sin(index / players.length * TAU) - settings.halfTokenSize + 250)}
+            y={(settings.initialTokenRadius * Math.cos(index / players.length * TAU) - settings.halfTokenSize + 250)}
+        />
     });
 
     return <Stage width={500} height={500}>
         <Layer id="test">
             <Rect width={500} height={500} fill={settings.backgroundColour} cornerRadius={10} />
         </Layer>
-        <Layer id="player-tokens">{players}</Layer>
+        <Layer id="player-tokens">{player_tokens}</Layer>
         <Layer id="reminder-tokens"></Layer>
     </Stage>
 }
