@@ -16,8 +16,8 @@ export default function Grim({settings}: {settings: Settings}) {
         
         const scaleFactor = Math.floor(tokenSize / 50);
         const start = `${15*scaleFactor},${5*scaleFactor}`;
-        const end = `${35*scaleFactor},${5*scaleFactor}`;
         const radii = `${22*scaleFactor},${22*scaleFactor}`;
+        const end = `${35*scaleFactor},${5*scaleFactor}`;
         const svg = `M${start} A${radii} 0 1 0 ${end}`;
 
         return <Group
@@ -57,6 +57,10 @@ export default function Grim({settings}: {settings: Settings}) {
         </Group>
     };
 
+    const angleFromIndex = (index: number, max: number) => {
+        return (index / max) * TAU + Math.PI;
+    }
+
     const players = [
         {"character": "washerwoman", "name": "Alice"},
         {"character": "librarian", "name": "Bob"},
@@ -70,8 +74,8 @@ export default function Grim({settings}: {settings: Settings}) {
         return <Player
             starting_character={item.character}
             name={item.name}
-            x={(settings.initialTokenRadius * Math.sin(index / players.length * TAU) - settings.halfTokenSize + 250)}
-            y={(settings.initialTokenRadius * Math.cos(index / players.length * TAU) - settings.halfTokenSize + 250)}
+            x={settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250}
+            y={settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250}
         />
     });
 
