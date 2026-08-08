@@ -1,14 +1,11 @@
 import { Circle, Layer, Rect, Stage } from "react-konva";
 import type { Settings } from "../App"
-import { hsl } from "../funcs";
+import { angleFromIndex, hsl } from "../funcs";
 import { useState } from "react";
 import "./Settings.css"
 
-const TAU = 2 * Math.PI;
-
 export default function Settings({settings}: {settings: Settings}) {
-    const angleFromIndex = (index: number, max: number) => {return (index / max) * TAU + Math.PI;}
-    const [examplePlayerCount, setExamplePlayerCount] = useState(7);
+    const [previewPlayerCount, setPreviewPlayerCount] = useState(7);
     
     const examplePlayers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((_item, index) => {
         const halfTokenCircleRadius = settings.initialTokenCircleRadius / 2;
@@ -16,8 +13,8 @@ export default function Settings({settings}: {settings: Settings}) {
         return <Circle
             radius={quarterTokenSize}
             fill={settings.tokenBackgroundColour}
-            x={halfTokenCircleRadius * Math.sin(angleFromIndex(index, examplePlayerCount)) + 125}
-            y={halfTokenCircleRadius * Math.cos(angleFromIndex(index, examplePlayerCount)) + 125}
+            x={halfTokenCircleRadius * Math.sin(angleFromIndex(index, previewPlayerCount)) + 125}
+            y={halfTokenCircleRadius * Math.cos(angleFromIndex(index, previewPlayerCount)) + 125}
         />
     });
 
@@ -53,15 +50,15 @@ export default function Settings({settings}: {settings: Settings}) {
         }} />
 
         <br /><br />
-
-        <label htmlFor="player-count">Example Player Count: </label>
-        <input type="number" name="player-count" value={examplePlayerCount} onChange={(e) => {
+        
+        <label htmlFor="player-count">Preview (half scale):<br />Player Count: </label>
+        <input type="number" name="player-count" value={previewPlayerCount} onChange={(e) => {
             const playerCount = e.target.value;
             // +variable converts it to a number
             if (+playerCount < 5) {e.target.value = "5"}
             else if (+playerCount > 20) {e.target.value = "20"}
 
-            setExamplePlayerCount(+e.target.value);
+            setPreviewPlayerCount(+e.target.value);
         }}/>
         <br />
         <Stage width={250} height={250}>

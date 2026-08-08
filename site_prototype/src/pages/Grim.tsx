@@ -2,14 +2,15 @@ import { Circle, Group, Image, Layer, Rect, Stage, Text, TextPath } from "react-
 import type { Settings } from "../App";
 import useImage from "use-image";
 import { useState } from "react";
-import { getCharacterIcon } from "../funcs";
+import { angleFromIndex, getCharacterIcon, isInsideStage } from "../funcs";
 
-const TAU = 2 * Math.PI;
 
 export default function Grim({settings}: {settings: Settings}) {
     const Player = ({starting_character="", name="", ...rest}) => {
         const [character, setCharacter] = useState(starting_character);
         const [characterImage] = useImage(getCharacterIcon(character));
+        const [isMenuVisible, setIsMenuVisisble] = useState(false);
+        const toggleIsMenuVisible = () => setIsMenuVisisble(!isMenuVisible);
 
         const tokenSize = settings.tokenSize;
         const tokenRadius = settings.halfTokenSize;
@@ -22,8 +23,10 @@ export default function Grim({settings}: {settings: Settings}) {
 
         return <Group
             draggable={true}
-            onDblClick={() => setCharacter("undertaker")} //TODO Open menu here
-            onDblTap={() => setCharacter("undertaker")} //TODO Open menu here
+            onDblClick={toggleIsMenuVisible}
+            onDblTap={toggleIsMenuVisible}
+            onDragEnd={(e) => {console.log(isInsideStage(e.target, e.target.getStage()))}}
+            // onDragEnd={(e) => {console.log(e.target)}}
             id={name}
             {...rest}
             >
@@ -44,6 +47,7 @@ export default function Grim({settings}: {settings: Settings}) {
                 fill="black"
                 align="center"
             />
+            {/* Name Tag */}
             <Group draggable={true} >
                 <Rect
                     fill={settings.secondaryColour}
@@ -54,12 +58,13 @@ export default function Grim({settings}: {settings: Settings}) {
                 />
                 <Text x={3} y={1} text={name} fontFamily="Fredoka" fontSize={14} fill={settings.textColour} />
             </Group>
+
+            {/* Toggleable Menu */}
+            <Group>
+                <Rect x={settings.tokenSize + 5} fill={settings.secondaryColour} width={100} height={100} visible={isMenuVisible} />
+            </Group>
         </Group>
     };
-
-    const angleFromIndex = (index: number, max: number) => {
-        return (index / max) * TAU + Math.PI;
-    }
 
     const players = [
         {"character": "washerwoman", "name": "Alice"},
