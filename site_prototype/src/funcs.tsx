@@ -8,26 +8,31 @@ export const angleFromIndex = (index: number, max: number) => {
     return (index / max) * TAU + Math.PI;
 }
 
-export const isInsideStage = (obj: Node, stage: Stage) => {
+export const isInsideStage = (obj: Node, stage: Stage | null) => {
+    if (!stage) {return {"result": false, "direction": {"left": true, "right": true, "top": true, "bottom": true}}}
+    
     const objBound = obj.getClientRect();
-    const containerBound = stage.getClientRect();
     console.log(`${objBound.x} -> ${objBound.x+objBound.width}`)
     console.log(`${objBound.y} -> ${objBound.y+objBound.height}`)
-    console.log(`${containerBound.x} -> ${containerBound.x+stage.width()}`)
-    console.log(`${containerBound.y} -> ${containerBound.y+stage.height()}`)
+    console.log(`${0} -> ${stage.width()}`)
+    console.log(`${0} -> ${stage.height()}`)
+    const left = objBound.x >= 0;
+    const right = (objBound.x + objBound.width) <= stage.width();
+    const top = objBound.y >= 0;
+    const bottom = (objBound.y + objBound.height) <= stage.height();
     return {
         "result": (
-            objBound.x >= containerBound.x &&
-            objBound.y >= containerBound.y &&
-            (objBound.x + objBound.width) <= (containerBound.x + stage.width()) &&
-            (objBound.y + objBound.height) <= (containerBound.y + stage.height())
+            left &&
+            right &&
+            top &&
+            bottom
         ),
         "direction": {
-            "left": false,
-            "right": false,
-            "top": false,
-            "bottom": false
-        } //TODO Return direction where the collision is
+            "left": !left,
+            "right": !right,
+            "top": !top,
+            "bottom": !bottom
+        }
     };
 }
 

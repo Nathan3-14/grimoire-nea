@@ -24,7 +24,10 @@ export interface Settings {
     setTokenTextColour: CallableFunction,
 
     initialTokenCircleRadius: number,
-    setinitialTokenCircleRadius: CallableFunction
+    setinitialTokenCircleRadius: CallableFunction,
+
+    grimWidth: number,
+    grimHeight: number
 };
 
 export default function App() {
@@ -54,7 +57,10 @@ export default function App() {
         setTokenTextColour: setTokenTextColour,
 
         initialTokenCircleRadius: initialTokenCircleRadius, //? Radius of tokens when first placed
-        setinitialTokenCircleRadius: setinitialTokenCircleRadius
+        setinitialTokenCircleRadius: setinitialTokenCircleRadius,
+
+        grimWidth: 500,
+        grimHeight: 500
     };
 
     // return <div className="main" style={{backgroundColor: "lightslategrey"}}>

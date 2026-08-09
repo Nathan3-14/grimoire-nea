@@ -2,8 +2,8 @@ import { Circle, Group, Image, Layer, Rect, Stage, Text, TextPath } from "react-
 import type { Settings } from "../App";
 import useImage from "use-image";
 import { useState } from "react";
-import { angleFromIndex, getCharacterIcon, isInsideStage } from "../funcs";
-
+import { angleFromIndex, getCharacterIcon,  } from "../funcs";
+import type { Group as GroupType } from "konva/lib/Group";
 
 export default function Grim({settings}: {settings: Settings}) {
     const Player = ({starting_character="", name="", ...rest}) => {
@@ -11,6 +11,30 @@ export default function Grim({settings}: {settings: Settings}) {
         const [characterImage] = useImage(getCharacterIcon(character));
         const [isMenuVisible, setIsMenuVisisble] = useState(false);
         const toggleIsMenuVisible = () => setIsMenuVisisble(!isMenuVisible);
+        const onDoubleClick = (e) => {
+            const player: GroupType = e.currentTarget;
+            const menu = player.findOne("#menu");
+            if (!menu) {return}
+            toggleIsMenuVisible();
+            player.moveToTop();
+            menu.moveToTop();
+
+            const menuPosition = menu.getAbsolutePosition();
+            const left = menuPosition.x;
+            const right = left + menu.width();
+            const top = menuPosition.y;
+            const bottom = top + menu.height();
+
+            if (right > 500) {
+                menu.x(-105);
+            } else {
+                menu.x(settings.tokenSize + 5)
+            }
+
+            console.log(`L: ${left} T: ${top}`);
+            console.log(`R: ${right} B: ${bottom}`);
+            console.log(`MW: ${menu.width()} MH: ${menu.height()}`);
+        }
 
         const tokenSize = settings.tokenSize;
         const tokenRadius = settings.halfTokenSize;
@@ -23,10 +47,9 @@ export default function Grim({settings}: {settings: Settings}) {
 
         return <Group
             draggable={true}
-            onDblClick={toggleIsMenuVisible}
-            onDblTap={toggleIsMenuVisible}
-            onDragEnd={(e) => {console.log(isInsideStage(e.target, e.target.getStage()))}}
-            // onDragEnd={(e) => {console.log(e.target)}}
+            onDragStart={(e) => {e.currentTarget.moveToTop()}}
+            onDblClick={onDoubleClick}
+            onDblTap={onDoubleClick}
             id={name}
             {...rest}
             >
@@ -60,8 +83,8 @@ export default function Grim({settings}: {settings: Settings}) {
             </Group>
 
             {/* Toggleable Menu */}
-            <Group>
-                <Rect x={settings.tokenSize + 5} fill={settings.secondaryColour} width={100} height={100} visible={isMenuVisible} />
+            <Group id="menu" onClick={toggleIsMenuVisible} visible={isMenuVisible} x={settings.tokenSize + 5} width={100} height={100} >
+                <Rect fill={settings.secondaryColour} width={100} height={100} />
             </Group>
         </Group>
     };
