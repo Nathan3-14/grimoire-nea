@@ -24,6 +24,7 @@ export default function Settings({settings}: {settings: Settings}) {
             const colour = e.target.value;
             settings.setBackgroundColour(colour);
             settings.setTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000"); //changes font colour if the background is too dark
+            settings.setLinkColour(hsl(colour)[2] < 50 ? "#88efe9" : "#42928e")
         }} /> {/* sets "backgroundColour" whenever its value changes */}
 
         <br />
@@ -42,8 +43,8 @@ export default function Settings({settings}: {settings: Settings}) {
 
         <br />
 
-        <label htmlFor="background-colour">Token Background Colour: </label>
-        <input type="color" name="background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
+        <label htmlFor="token-background-colour">Token Background Colour: </label>
+        <input type="color" name="token-background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
             const colour = e.target.value;
             settings.setTokenBackgroundColour(colour);
             settings.setTokenTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000");

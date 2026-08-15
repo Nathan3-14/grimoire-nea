@@ -3,37 +3,56 @@ import type { Settings } from "../App";
 import useImage from "use-image";
 import { useState } from "react";
 import { angleFromIndex, getCharacterIcon,  } from "../funcs";
-import type { Group as GroupType } from "konva/lib/Group";
+import { Group as GroupType } from "konva/lib/Group";
+import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
+
+
+type KonvaEvent = KonvaEventObject<DragEvent, NodeType<NodeConfig>>
 
 export default function Grim({settings}: {settings: Settings}) {
     const Player = ({starting_character="", name="", ...rest}) => {
+        const handlePlayerDrag = (e: KonvaEvent) => {
+            const player: GroupType = e.currentTarget;
+            const position = player.getAbsolutePosition();
+            const size = settings.tokenSize;
+        
+            if (position.x < 0) {player.x(0)}
+            if (position.y < 0) {player.y(0)}
+            if ((position.x + size) > settings.grimWidth) {player.x(settings.grimWidth - size)}
+            if ((position.y + size) > settings.grimHeight) {player.y(settings.grimHeight - size)}
+    
+            checkMenuBorder(player.findOne("#menu"));   
+        }
+
         const [character, setCharacter] = useState(starting_character);
         const [characterImage] = useImage(getCharacterIcon(character));
         const [isMenuVisible, setIsMenuVisisble] = useState(false);
+        const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
+
         const toggleIsMenuVisible = () => setIsMenuVisisble(!isMenuVisible);
-        const onDoubleClick = (e) => {
+        const checkMenuBorder = (menu: NodeType<NodeConfig> | undefined) => {
+            if (!menu) {return};
+
+            menu.x(settings.tokenSize + 5); //? Placed here to prevent flickering effect
+
+            const menuPosition = menu.getAbsolutePosition();
+            const right_edge = menuPosition.x + menu.width();
+            
+            if (right_edge > 500) {
+                menu.x(-105);
+            }
+        }
+
+        const onDoubleClick = (e: KonvaEvent) => {
             const player: GroupType = e.currentTarget;
             const menu = player.findOne("#menu");
-            if (!menu) {return}
+            if (!menu) {return};
+
             toggleIsMenuVisible();
             player.moveToTop();
             menu.moveToTop();
 
-            const menuPosition = menu.getAbsolutePosition();
-            const left = menuPosition.x;
-            const right = left + menu.width();
-            const top = menuPosition.y;
-            const bottom = top + menu.height();
-
-            if (right > 500) {
-                menu.x(-105);
-            } else {
-                menu.x(settings.tokenSize + 5)
-            }
-
-            console.log(`L: ${left} T: ${top}`);
-            console.log(`R: ${right} B: ${bottom}`);
-            console.log(`MW: ${menu.width()} MH: ${menu.height()}`);
+            checkMenuBorder(menu);
         }
 
         const tokenSize = settings.tokenSize;
@@ -48,6 +67,7 @@ export default function Grim({settings}: {settings: Settings}) {
         return <Group
             draggable={true}
             onDragStart={(e) => {e.currentTarget.moveToTop()}}
+            onDragMove={handlePlayerDrag}
             onDblClick={onDoubleClick}
             onDblTap={onDoubleClick}
             id={name}
@@ -83,11 +103,63 @@ export default function Grim({settings}: {settings: Settings}) {
             </Group>
 
             {/* Toggleable Menu */}
-            <Group id="menu" onClick={toggleIsMenuVisible} visible={isMenuVisible} x={settings.tokenSize + 5} width={100} height={100} >
+            <Group id="menu" visible={isMenuVisible} x={settings.tokenSize + 5} width={100} height={100} >
                 <Rect fill={settings.secondaryColour} width={100} height={100} />
+                <Text
+                    fill={settings.linkColour}
+                    onMouseEnter={(e) => changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => changeCursor(e, "default")}
+                    text="Change Character"
+                    fontSize={11} fontStyle="bold"
+                />
+                <Text
+                    y={17}
+                    fill={settings.linkColour}
+                    onMouseEnter={(e) => changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => changeCursor(e, "default")}
+                    text="Add Reminder"
+                    onClick={() => {
+                        setIsAddReminderVisible(true);
+                        setIsMenuVisisble(false);
+                    }}
+                    fontSize={11} fontStyle="bold"
+                />
+            </Group>
+
+            {/* Add Reminder Menu */}
+            <Group id="add-reminder" visible={isAddReminderVisible}>
+                <Rect width={300} height={300} fill={settings.secondaryColour} />
             </Group>
         </Group>
     };
+
+    const script = [
+        "imp",
+
+        "scarletwoman",
+        "baron",
+        "spy",
+        "poisoner",
+
+        "drunk",
+        "saint",
+        "butler",
+        "recluse",
+
+        "washerwoman",
+        "librarian",
+        "investigator",
+        "chef",
+        "empath",
+        "fortuneteller",
+        "soldier",
+        "monk",
+        "mayor",
+        "slayer",
+        "virgin",
+        "ravenkeeper",
+        "undertaker"
+    ]
 
     const players = [
         {"character": "washerwoman", "name": "Alice"},
@@ -106,6 +178,10 @@ export default function Grim({settings}: {settings: Settings}) {
             y={settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250}
         />
     });
+
+    const changeCursor = (e, cursor: string) => {
+        e.target.getStage().container().style.cursor = cursor;
+    }
 
     return <Stage width={500} height={500}>
         <Layer id="test">

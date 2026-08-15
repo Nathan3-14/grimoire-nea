@@ -13,6 +13,8 @@ export interface Settings {
     setSecondaryColour: CallableFunction
     textColour: string,
     setTextColour: CallableFunction,
+    linkColour: string,
+    setLinkColour: CallableFunction,
 
     tokenSize: number,
     halfTokenSize: number,
@@ -34,6 +36,7 @@ export default function App() {
     const [backgroundColour, setBackgroundColour] = useState("#2f4f4f");
     const [secondaryColour, setSecondaryColour] = useState("#1f4040");
     const [textColour, setTextColour] = useState("#ffffff");
+    const [linkColour, setLinkColour] = useState("#88efe9")
     const [tokenSize, setTokenSize] = useState(100);
     const [tokenBackgroundColour, setTokenBackgroundColour] = useState("#3a7e7e");
     const [tokenTextColour, setTokenTextColour] = useState("#ffffff");
@@ -45,6 +48,8 @@ export default function App() {
         setSecondaryColour: setSecondaryColour,
         textColour: textColour,
         setTextColour: setTextColour,
+        linkColour: linkColour,
+        setLinkColour: setLinkColour,
 
 
         tokenSize: tokenSize,
@@ -63,11 +68,10 @@ export default function App() {
         grimHeight: 500
     };
 
-    // return <div className="main" style={{backgroundColor: "lightslategrey"}}>
     return <div className="main" style={{backgroundColor: settings.backgroundColour, color: settings.textColour}}>
         <BrowserRouter>
             <Routes>
-                <Route path="" element={<Home settings={settings} />} />
+                <Route path="/" element={<Home settings={settings} />} />
                 <Route path="/settings" element={<Settings settings={settings} />} />
                 <Route path="/credits" element={<Credits settings={settings} />} />
                 <Route path="/grim" element={<Grim settings={settings} />} />
