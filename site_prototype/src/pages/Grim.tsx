@@ -22,13 +22,12 @@ export default function Grim({settings}: {settings: Settings}) {
             if ((position.x + size) > settings.grimWidth) {player.x(settings.grimWidth - size)}
             if ((position.y + size) > settings.grimHeight) {player.y(settings.grimHeight - size)}
     
-            checkMenuBorder(player.findOne("#menu"));   
+            checkMenuBorder(player.findOne("#menu"));
         }
 
         const [character, setCharacter] = useState(starting_character);
         const [characterImage] = useImage(getCharacterIcon(character));
         const [isMenuVisible, setIsMenuVisisble] = useState(false);
-        const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
 
         const toggleIsMenuVisible = () => setIsMenuVisisble(!isMenuVisible);
         const checkMenuBorder = (menu: NodeType<NodeConfig> | undefined) => {
@@ -126,41 +125,10 @@ export default function Grim({settings}: {settings: Settings}) {
                     fontSize={11} fontStyle="bold"
                 />
             </Group>
-
-            {/* Add Reminder Menu */}
-            <Group id="add-reminder" visible={isAddReminderVisible}>
-                <Rect width={300} height={300} fill={settings.secondaryColour} />
-            </Group>
         </Group>
     };
 
-    const script = [
-        "imp",
-
-        "scarletwoman",
-        "baron",
-        "spy",
-        "poisoner",
-
-        "drunk",
-        "saint",
-        "butler",
-        "recluse",
-
-        "washerwoman",
-        "librarian",
-        "investigator",
-        "chef",
-        "empath",
-        "fortuneteller",
-        "soldier",
-        "monk",
-        "mayor",
-        "slayer",
-        "virgin",
-        "ravenkeeper",
-        "undertaker"
-    ]
+    const script = ["imp", "scarletwoman", "baron", "spy", "poisoner", "drunk", "saint", "butler", "recluse", "washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "soldier", "monk", "mayor", "slayer", "virgin", "ravenkeeper", "undertaker"]
 
     const players = [
         {"character": "washerwoman", "name": "Alice"},
@@ -179,16 +147,25 @@ export default function Grim({settings}: {settings: Settings}) {
             y={settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250}
         />
     });
+    const [currentPlayer, setCurrentPlayer] = useState("none"); //* Player Elemnt's ID
+    const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
 
     const changeCursor = (e, cursor: string) => {
         e.target.getStage().container().style.cursor = cursor;
     }
 
     return <Stage width={500} height={500}>
-        <Layer id="test">
+        <Layer id="background">
             <Rect width={500} height={500} fill={settings.backgroundColour} cornerRadius={10} />
         </Layer>
         <Layer id="player-tokens">{player_tokens}</Layer>
+        <Layer id="menus">
+            {/* Add Reminder Menu */}
+            <Group id="add-reminder" visible={isAddReminderVisible} onDblClick={() => setIsAddReminderVisible(false)} onDblTap={() => setIsAddReminderVisible(false)}>
+                <Rect width={300} height={300} fill={settings.secondaryColour} />
+                <Text text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} />
+            </Group>
+        </Layer>
         <Layer id="reminder-tokens"></Layer>
     </Stage>
 }

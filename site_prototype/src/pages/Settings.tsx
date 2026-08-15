@@ -2,7 +2,7 @@ import type { Settings } from "../App"
 import { angleFromIndex, hsl } from "../funcs";
 import { useState } from "react";
 import "./Settings.css"
-import { Stage, Layer, Rect } from "react-konva";
+import { Stage, Layer, Rect, Circle } from "react-konva";
 
 
 export default function Settings({settings}: {settings: Settings}) {
@@ -24,7 +24,7 @@ export default function Settings({settings}: {settings: Settings}) {
         <input type="color" name="background-colour" value={settings.backgroundColour} onChange={(e) => {
             const colour = e.target.value;
             settings.setBackgroundColour(colour);
-            settings.setTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000"); //changes font colour if the background is too dark
+            settings.setTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000"); //? changes font colour if the background is too dark
             settings.setLinkColour(hsl(colour)[2] < 50 ? "#88efe9" : "#42928e")
         }} /> {/* sets "backgroundColour" whenever its value changes */}
 
@@ -48,7 +48,7 @@ export default function Settings({settings}: {settings: Settings}) {
         <input type="color" name="token-background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
             const colour = e.target.value;
             settings.setTokenBackgroundColour(colour);
-            settings.setTokenTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000");
+            settings.setTokenTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000"); //? changes font colour if the background is too dark
         }} />
 
         <br /><br />
