@@ -71,11 +71,15 @@ export default function App() {
     return <div className="main" style={{backgroundColor: settings.backgroundColour, color: settings.textColour}}>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home settings={settings} />} />
-                <Route path="/settings" element={<Settings settings={settings} />} />
-                <Route path="/credits" element={<Credits settings={settings} />} />
-                <Route path="/grim" element={<Grim settings={settings} />} />
-                <Route path="/grim/create" element={<h1>New Grimoire Page</h1>} />
+                <Route path="*">
+                    <Route index element={<Home settings={settings} />} />
+                    <Route path="settings" element={<Settings settings={settings} />} />
+                    <Route path="credits" element={<Credits settings={settings} />} />
+                    <Route path="grim/*">
+                        <Route index element={<Grim settings={settings} />} />
+                        <Route path="create" element={<h1>New Grimoire Page</h1>} />
+                    </Route>
+                </Route>
             </Routes>
         </BrowserRouter>    
     </div>

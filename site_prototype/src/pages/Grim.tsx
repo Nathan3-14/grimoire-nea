@@ -1,10 +1,11 @@
-import { Circle, Group, Image, Layer, Rect, Stage, Text, TextPath } from "react-konva";
 import type { Settings } from "../App";
 import useImage from "use-image";
 import { useState } from "react";
 import { angleFromIndex, getCharacterIcon,  } from "../funcs";
-import { Group as GroupType } from "konva/lib/Group";
+
+import type {Group as GroupType} from "konva/lib/Group";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
+import { Stage, Layer, Rect, Group, Image, Text, TextPath, Circle } from "react-konva";
 
 
 type KonvaEvent = KonvaEventObject<DragEvent, NodeType<NodeConfig>>

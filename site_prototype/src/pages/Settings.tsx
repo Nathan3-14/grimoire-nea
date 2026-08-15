@@ -1,8 +1,9 @@
-import { Circle, Layer, Rect, Stage } from "react-konva";
 import type { Settings } from "../App"
 import { angleFromIndex, hsl } from "../funcs";
 import { useState } from "react";
 import "./Settings.css"
+import { Stage, Layer, Rect } from "react-konva";
+
 
 export default function Settings({settings}: {settings: Settings}) {
     const [previewPlayerCount, setPreviewPlayerCount] = useState(7);
