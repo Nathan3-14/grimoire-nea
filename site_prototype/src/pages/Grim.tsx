@@ -169,6 +169,7 @@ export default function Grim({settings}: {settings: Settings}) {
                 y={Math.floor(index / 5) * 70 + 30}
                 onClick={() => {
                     console.log(`Adding ${characterID}.${reminderText} to ${currentPlayer}`);
+                    setIsAddReminderVisible(false);
                     //TODO Add <Reminder...> to reminders layer on top of gary? or specific distance inwards
                 }}
             />);
