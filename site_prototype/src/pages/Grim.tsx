@@ -1,14 +1,22 @@
 import type { Settings } from "../App";
 import useImage from "use-image";
-import { useState } from "react";
+import { useState, type ReactElement } from "react";
 import { angleFromIndex, getCharacterIcon,  } from "../funcs";
-
+import roleData from "../botc_roles.json";
 import type {Group as GroupType} from "konva/lib/Group";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
 import { Stage, Layer, Rect, Group, Image, Text, TextPath, Circle } from "react-konva";
 
 
 type KonvaEvent = KonvaEventObject<DragEvent, NodeType<NodeConfig>>
+
+const getCharacterData = (characterID: string) => {
+    let output = roleData[0];
+    roleData.forEach((value) => {
+        if (value.id == characterID) {output = value}
+    })
+    return output;
+}
 
 export default function Grim({settings}: {settings: Settings}) {
     const Player = ({starting_character="", name="", ...rest}) => {
@@ -118,7 +126,14 @@ export default function Grim({settings}: {settings: Settings}) {
                     onMouseEnter={(e) => changeCursor(e, "pointer")}
                     onMouseLeave={(e) => changeCursor(e, "default")}
                     text="Add Reminder"
-                    onClick={() => {
+                    onClick={(e) => {
+                        setCurrentPlayer(name);
+                        changeCursor(e, "default");
+                        setIsAddReminderVisible(true);
+                        setIsMenuVisisble(false);
+                    }}
+                    onTap={(e) => {
+                        setCurrentPlayer(name);
                         setIsAddReminderVisible(true);
                         setIsMenuVisisble(false);
                     }}
@@ -128,7 +143,38 @@ export default function Grim({settings}: {settings: Settings}) {
         </Group>
     };
 
+    const Reminder = ({reminderID="", ...rest}) => {
+        const reminderImageURL = getCharacterIcon(reminderID.split(".")[0]);
+        return <Group width={60} height={60} id={reminderID} {...rest}>
+            <Circle x={30} y={30} radius={30} fill={settings.tokenBackgroundColour} />
+            <Image width={60} height={60} image={useImage(reminderImageURL)[0]} />
+            <Text text={reminderID.split(".")[1]} fill={settings.textColour} width={60} align="center"/>
+        </Group>
+    }
+
     const script = ["imp", "scarletwoman", "baron", "spy", "poisoner", "drunk", "saint", "butler", "recluse", "washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "soldier", "monk", "mayor", "slayer", "virgin", "ravenkeeper", "undertaker"]
+    const reminderElements: ReactElement[] = [];
+    let index = 0;
+    script.forEach((characterID) => {
+        const characterData = getCharacterData(characterID);
+
+        let allReminders = characterData.reminders;
+        if (characterData.remindersGlobal) {
+            allReminders = [...allReminders, ...characterData.remindersGlobal];
+        }
+        allReminders.forEach((reminderText) => {
+            reminderElements.push(<Reminder
+                reminderID={`${characterID}.${reminderText}`}
+                x={(index % 5) * 60}
+                y={Math.floor(index / 5) * 70 + 30}
+                onClick={() => {
+                    console.log(`Adding ${characterID}.${reminderText} to ${currentPlayer}`);
+                    //TODO Add <Reminder...> to reminders layer on top of gary? or specific distance inwards
+                }}
+            />);
+            index++;
+        });
+    });
 
     const players = [
         {"character": "washerwoman", "name": "Alice"},
@@ -147,7 +193,7 @@ export default function Grim({settings}: {settings: Settings}) {
             y={settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250}
         />
     });
-    const [currentPlayer, setCurrentPlayer] = useState("none"); //* Player Elemnt's ID
+    const [currentPlayer, setCurrentPlayer] = useState("none"); //* Player Element's ID
     const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
 
     const changeCursor = (e, cursor: string) => {
@@ -161,9 +207,15 @@ export default function Grim({settings}: {settings: Settings}) {
         <Layer id="player-tokens">{player_tokens}</Layer>
         <Layer id="menus">
             {/* Add Reminder Menu */}
-            <Group id="add-reminder" visible={isAddReminderVisible} onDblClick={() => setIsAddReminderVisible(false)} onDblTap={() => setIsAddReminderVisible(false)}>
-                <Rect width={300} height={300} fill={settings.secondaryColour} />
-                <Text text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} />
+            <Group
+            id="add-reminder"
+            visible={isAddReminderVisible}
+            onDblClick={() => setIsAddReminderVisible(false)} onDblTap={() => setIsAddReminderVisible(false)}
+            x={100} y={100}
+            >
+                <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
+                <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
+                {reminderElements}
             </Group>
         </Layer>
         <Layer id="reminder-tokens"></Layer>
