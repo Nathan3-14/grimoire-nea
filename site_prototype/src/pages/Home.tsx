@@ -3,10 +3,14 @@ import Button from "../components/Button"
 import "./Home.css"
 
 export default function Home({settings}: {settings: Settings}) {
+    const goto = (address: string) => {
+        window.location.href = address;
+    }
     return <>
         <h1>Grimoire</h1>
-        <Button onClick={() => {}} settings={settings}>New Grimoire</Button>
-        <Button settings={settings}>Settings</Button>
-        <Button settings={settings}>Credits</Button>
+        <p>The current Character Art is temporary and <span className="emph">will not be used</span> in final project due to usage restrictions on the official images (the ones shown).</p>
+        <Button onClick={() => {goto("/grim")}} settings={settings}>New Grimoire</Button>
+        <Button onClick={() => {goto("/settings")}} settings={settings}>Settings</Button>
+        <Button onClick={() => {goto("/credits")}} settings={settings}>Credits</Button>
     </>
 }
