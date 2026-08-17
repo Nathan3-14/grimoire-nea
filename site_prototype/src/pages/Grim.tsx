@@ -1,14 +1,16 @@
 import type { Settings } from "../App";
 import useImage from "use-image";
-import { useState, type ReactElement } from "react";
+import { useRef, useState, type ReactElement } from "react";
 import { angleFromIndex, getCharacterIcon,  } from "../funcs";
 import roleData from "../botc_roles.json";
-import type {Group as GroupType} from "konva/lib/Group";
+import { Group as GroupType} from "konva/lib/Group";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
+import type { Layer as LayerType} from "konva/lib/Layer"
 import { Stage, Layer, Rect, Group, Image, Text, TextPath, Circle } from "react-konva";
 
 
-type KonvaEvent = KonvaEventObject<DragEvent, NodeType<NodeConfig>>
+type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
+type PlayerProperties = {character?: string, name?: string, x?: number, y?: number};
 
 const getCharacterData = (characterID: string) => {
     let output = roleData[0];
@@ -19,30 +21,42 @@ const getCharacterData = (characterID: string) => {
 }
 
 export default function Grim({settings}: {settings: Settings}) {
-    const Player = ({starting_character="", name="", ...rest}) => {
-        const handlePlayerDrag = (e: KonvaEvent) => {
-            const player: GroupType = e.currentTarget;
-            const position = player.getAbsolutePosition();
-            const size = settings.tokenSize;
-        
-            if (position.x < 0) {player.x(0)}
-            if (position.y < 0) {player.y(0)}
-            if ((position.x + size) > settings.grimWidth) {player.x(settings.grimWidth - size)}
-            if ((position.y + size) > settings.grimHeight) {player.y(settings.grimHeight - size)}
-    
-            checkMenuBorder(player.findOne("#menu"));
+    const Player = ({starting_character="", name="", position={x: 0, y: 0}, setPlayer=(_name: string|undefined, _properties: PlayerProperties) => {}, ...rest}) => {
+        const player = useRef<GroupType>(null);
+        const setX = (newX: number) => setPlayer(player.current?.id(), {x: newX});
+        const setY = (newY: number) => setPlayer(player.current?.id(), {y: newY});
+        const setPosition = (newPosition: {x: number, y: number}) => {
+            setX(newPosition.x);
+            setY(newPosition.y);
         }
-
-        const [character, setCharacter] = useState(starting_character);
+        
+        const handlePlayerDrag = () => {
+            if (!player.current) {return}
+            const playerc = player.current //? player current
+            
+            const size = settings.tokenSize;
+            if (playerc.absolutePosition().x < 0) {playerc.x(1)} //? Bugs out if set to 0 instead of 1
+            if (playerc.absolutePosition().y < 0) {playerc.y(1)} //? Bugs out if set to 0 instead of 1
+            if ((playerc.absolutePosition().x + size) > settings.grimWidth) {playerc.x(settings.grimWidth - size)}
+            if ((playerc.absolutePosition().y + size) > settings.grimHeight) {playerc.y(settings.grimHeight - size)}
+            
+            checkMenuBorder(playerc.findOne("#menu"));
+        }
+        const handleEndOfDrag = () => {
+            if (!player.current) {return}
+            const playerc = player.current //? player current
+            setPosition(playerc.absolutePosition());
+        }
+        
+        const [character, _setCharacter] = useState(starting_character);
         const [characterImage] = useImage(getCharacterIcon(character));
         const [isMenuVisible, setIsMenuVisisble] = useState(false);
-
+        
         const toggleIsMenuVisible = () => setIsMenuVisisble(!isMenuVisible);
-        const checkMenuBorder = (menu: NodeType<NodeConfig> | undefined) => {
+        const checkMenuBorder = (menu: NodeType<NodeConfig> | undefined) => { //* Determine whether to switch the side that the menu is on
             if (!menu) {return};
-
-            menu.x(settings.tokenSize + 5); //? Placed here to prevent flickering effect
-
+            
+            menu.x(settings.tokenSize + 5); //? Set to its default position
             const menuPosition = menu.getAbsolutePosition();
             const right_edge = menuPosition.x + menu.width();
             
@@ -50,55 +64,64 @@ export default function Grim({settings}: {settings: Settings}) {
                 menu.x(-105);
             }
         }
+        
+        const onDoubleClick = () => {
+            if (!player.current) {return}
+            const playerc = player.current //? player current
 
-        const onDoubleClick = (e: KonvaEvent) => {
-            const player: GroupType = e.currentTarget;
-            const menu = player.findOne("#menu");
+            const menu = playerc.findOne("#menu");
             if (!menu) {return};
-
+            
             toggleIsMenuVisible();
-            player.moveToTop();
+            playerc.moveToTop();
             menu.moveToTop();
-
+            
             checkMenuBorder(menu);
         }
-
+        
         const tokenSize = settings.tokenSize;
         const tokenRadius = settings.halfTokenSize;
         
+        //? Used to create the path for the character name to follow
         const scaleFactor = Math.floor(tokenSize / 50);
         const start = `${15*scaleFactor},${5*scaleFactor}`;
         const radii = `${22*scaleFactor},${22*scaleFactor}`;
         const end = `${35*scaleFactor},${5*scaleFactor}`;
         const svg = `M${start} A${radii} 0 1 0 ${end}`;
 
+        
         return <Group
-            draggable={true}
-            onDragStart={(e) => {e.currentTarget.moveToTop()}}
-            onDragMove={handlePlayerDrag}
-            onDblClick={onDoubleClick}
-            onDblTap={onDoubleClick}
-            id={name}
-            {...rest}
-            >
+        draggable
+        onDragStart={(e) => {e.currentTarget.moveToTop()}} onDragMove={handlePlayerDrag} onDragEnd={handleEndOfDrag}
+        onDblClick={onDoubleClick} onDblTap={onDoubleClick}
+        id={name} ref={player}
+        x={position.x} y={position.y}
+        {...rest}
+        >
+            {/* //* Background */}
             <Circle
                 x={tokenRadius}
                 y={tokenRadius}
                 radius={tokenRadius}
                 fill={settings.tokenBackgroundColour}
             />
+
+            {/* //* Character Image */}
             <Image
                 image={characterImage}
                 width={tokenSize}
                 height={tokenSize}
             />
+
+            {/* //* Character Name */}
             <TextPath
                 data={svg}
                 text={character}
                 fill="black"
                 align="center"
             />
-            {/* Name Tag */}
+
+            {/* //* Name Tag */}
             <Group draggable={true} >
                 <Rect
                     fill={settings.secondaryColour}
@@ -110,9 +133,13 @@ export default function Grim({settings}: {settings: Settings}) {
                 <Text x={3} y={1} text={name} fontFamily="Fredoka" fontSize={14} fill={settings.textColour} />
             </Group>
 
-            {/* Toggleable Menu */}
+            {/* //* Toggleable Menu */}
             <Group id="menu" visible={isMenuVisible} x={settings.tokenSize + 5} width={100} height={100} >
+                {/* //* Background */}
                 <Rect fill={settings.secondaryColour} width={100} height={100} />
+
+                {/* //* Change Character Button */}
+                {/* //! NOT IMPLEMENTED */}
                 <Text
                     fill={settings.linkColour}
                     onMouseEnter={(e) => changeCursor(e, "pointer")}
@@ -132,7 +159,7 @@ export default function Grim({settings}: {settings: Settings}) {
                         setIsAddReminderVisible(true);
                         setIsMenuVisisble(false);
                     }}
-                    onTap={(e) => {
+                    onTap={() => {
                         setCurrentPlayer(name);
                         setIsAddReminderVisible(true);
                         setIsMenuVisisble(false);
@@ -153,7 +180,7 @@ export default function Grim({settings}: {settings: Settings}) {
     }
 
     const script = ["imp", "scarletwoman", "baron", "spy", "poisoner", "drunk", "saint", "butler", "recluse", "washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "soldier", "monk", "mayor", "slayer", "virgin", "ravenkeeper", "undertaker"]
-    const reminderElements: ReactElement[] = [];
+    const reminderButtonElements: ReactElement[] = [];
     let index = 0;
     script.forEach((characterID) => {
         const characterData = getCharacterData(characterID);
@@ -161,44 +188,88 @@ export default function Grim({settings}: {settings: Settings}) {
         let allReminders = characterData.reminders;
         if (characterData.remindersGlobal) {
             allReminders = [...allReminders, ...characterData.remindersGlobal];
-        }
+        } //? Some characters have global reminders so they need to be added if present
         allReminders.forEach((reminderText) => {
-            reminderElements.push(<Reminder
+            reminderButtonElements.push(<Reminder
                 reminderID={`${characterID}.${reminderText}`}
                 x={(index % 5) * 60}
                 y={Math.floor(index / 5) * 70 + 30}
-                onClick={() => {
+                onClick={(e: KonvaEvent) => {
                     console.log(`Adding ${characterID}.${reminderText} to ${currentPlayer}`);
                     setIsAddReminderVisible(false);
+                    const stage = e.currentTarget.getStage();
+                    if (!stage) {return}
+
+                    const reminderLayer: LayerType|undefined = stage.findOne("#reminder-tokens");
+                    const playerLayer: LayerType|undefined = stage.findOne("#player-tokens");
+                    const currentPlayerElement = playerLayer?.findOne(`#${currentPlayer}`);
+                    if (!reminderLayer || !playerLayer || !currentPlayerElement) {return}
+
+                    // reminderLayer.add(<Reminder
+                    //     x={currentPlayerElement.x()}
+                    //     y={currentPlayerElement.y()}
+
+                    // />);
                     //TODO Add <Reminder...> to reminders layer on top of gary? or specific distance inwards
+                    //TODO Make settings persistant across pages
                 }}
             />);
             index++;
         });
     });
 
-    const players = [
-        {"character": "washerwoman", "name": "Alice"},
-        {"character": "librarian", "name": "Bob"},
-        {"character": "investigator", "name": "Carol"},
-        {"character": "poisoner", "name": "David"},
-        {"character": "imp", "name": "Edith"},
-        {"character": "ravenkeeper", "name": "Freya"},
-        {"character": "monk", "name": "Gary"}
-    ]
-    const player_tokens = players.map((item, index) => {
+    const [players, setPlayers] = useState([
+        {character: "washerwoman", name: "Alice", x: 0, y: 0},
+        {character: "librarian", name: "Bob", x: 0, y: 0},
+        {character: "investigator", name: "Carol", x: 0, y: 0},
+        {character: "poisoner", name: "David", x: 0, y: 0},
+        {character: "imp", name: "Edith", x: 0, y: 0},
+        {character: "ravenkeeper", name: "Freya", x: 0, y: 0},
+        {character: "monk", name: "Gary", x: 0, y: 0}
+    ]);
+    const setPlayer = (name: string|undefined, properties: PlayerProperties) => {
+        if (!name) {return}
+
+        const newPlayers: {character: string, name: string, x: number, y: number}[] = []; 
+        players.forEach((player) => {
+            const tempPlayer = player;
+            if (player.name == name) {
+                if (properties.character) {tempPlayer.character = properties.character}
+                if (properties.name) {tempPlayer.name = properties.name}
+                if (properties.x) {tempPlayer.x = properties.x}
+                if (properties.y) {tempPlayer.y = properties.y}
+            }
+            newPlayers.push(tempPlayer);
+        });
+        setPlayers(newPlayers);
+    }
+
+    const player_tokens = players.map((player) => {
         return <Player
-            starting_character={item.character}
-            name={item.name}
-            x={settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250}
-            y={settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250}
+            starting_character={player.character}
+            name={player.name}
+            position={{x: player.x, y: player.y}}
+            setPlayer={setPlayer}
         />
     });
-    const [currentPlayer, setCurrentPlayer] = useState("none"); //* Player Element's ID
+
+    const [currentPlayer, setCurrentPlayer] = useState("initial"); //* Player Element's ID
     const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
 
-    const changeCursor = (e, cursor: string) => {
-        e.target.getStage().container().style.cursor = cursor;
+    const changeCursor = (e: KonvaEvent, cursor: string) => {
+        const stage = e.target.getStage();
+        if (!stage) {return}
+        stage.container().style.cursor = cursor;
+    }
+
+    if (currentPlayer == "initial") {
+        players.forEach((player, index) => {
+            setPlayer(player.name, {
+                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250,
+                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250
+            });
+            setCurrentPlayer("none");
+        })
     }
 
     return <Stage width={500} height={500}>
@@ -206,6 +277,7 @@ export default function Grim({settings}: {settings: Settings}) {
             <Rect width={500} height={500} fill={settings.backgroundColour} cornerRadius={10} />
         </Layer>
         <Layer id="player-tokens">{player_tokens}</Layer>
+        <Layer id="reminder-tokens"></Layer>
         <Layer id="menus">
             {/* Add Reminder Menu */}
             <Group
@@ -216,9 +288,8 @@ export default function Grim({settings}: {settings: Settings}) {
             >
                 <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
                 <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
-                {reminderElements}
+                {/* {reminderButtonElements} */}
             </Group>
         </Layer>
-        <Layer id="reminder-tokens"></Layer>
     </Stage>
 }
