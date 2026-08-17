@@ -122,7 +122,7 @@ export default function Grim({settings}: {settings: Settings}) {
             />
 
             {/* //* Name Tag */}
-            <Group draggable={true} >
+            <Group>
                 <Rect
                     fill={settings.secondaryColour}
                     width={50} height={20}
@@ -182,6 +182,7 @@ export default function Grim({settings}: {settings: Settings}) {
     const script = ["imp", "scarletwoman", "baron", "spy", "poisoner", "drunk", "saint", "butler", "recluse", "washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "soldier", "monk", "mayor", "slayer", "virgin", "ravenkeeper", "undertaker"]
     const reminderButtonElements: ReactElement[] = [];
     let index = 0;
+    //* Iterate through all characters and their reminders (supplied from https://release.botc.app/resources/data/roles.json (https://release.botc.app/resources))
     script.forEach((characterID) => {
         const characterData = getCharacterData(characterID);
 
@@ -192,8 +193,7 @@ export default function Grim({settings}: {settings: Settings}) {
         allReminders.forEach((reminderText) => {
             reminderButtonElements.push(<Reminder
                 reminderID={`${characterID}.${reminderText}`}
-                x={(index % 5) * 60}
-                y={Math.floor(index / 5) * 70 + 30}
+                x={(index % 5) * 60} y={Math.floor(index / 5) * 70 + 30}
                 onClick={(e: KonvaEvent) => {
                     console.log(`Adding ${characterID}.${reminderText} to ${currentPlayer}`);
                     setIsAddReminderVisible(false);
@@ -279,7 +279,7 @@ export default function Grim({settings}: {settings: Settings}) {
         <Layer id="player-tokens">{player_tokens}</Layer>
         <Layer id="reminder-tokens"></Layer>
         <Layer id="menus">
-            {/* Add Reminder Menu */}
+            {/* //* Add Reminder Menu */}
             <Group
             id="add-reminder"
             visible={isAddReminderVisible}
@@ -288,7 +288,7 @@ export default function Grim({settings}: {settings: Settings}) {
             >
                 <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
                 <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
-                {/* {reminderButtonElements} */}
+                {reminderButtonElements}
             </Group>
         </Layer>
     </Stage>
