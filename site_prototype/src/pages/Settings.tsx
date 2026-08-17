@@ -1,8 +1,9 @@
 import type { Settings } from "../App"
-import { angleFromIndex, hsl } from "../funcs";
+import { angleFromIndex, hsl, goto } from "../funcs";
 import { useState } from "react";
-import "./Settings.css"
 import { Stage, Layer, Rect, Circle } from "react-konva";
+import Button from "../components/Button";
+import "./Settings.css"
 
 
 export default function Settings({settings}: {settings: Settings}) {
@@ -20,6 +21,11 @@ export default function Settings({settings}: {settings: Settings}) {
     });
 
     return <>
+        <h1>Settings</h1>
+        <Button onClick={() => goto("/")} settings={settings}>Home</Button>
+
+        <br />
+
         <label htmlFor="background-colour">Background Colour: </label>
         <input type="color" name="background-colour" value={settings.backgroundColour} onChange={(e) => {
             const colour = e.target.value;

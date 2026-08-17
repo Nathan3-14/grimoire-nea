@@ -1,11 +1,9 @@
 import type { Settings } from "../App"
+import {goto} from "../funcs"
 import Button from "../components/Button"
 import "./Home.css"
 
 export default function Home({settings}: {settings: Settings}) {
-    const goto = (address: string) => {
-        window.location.href = address;
-    }
     return <>
         <h1>Grimoire</h1>
         <p>The current Character Art is temporary and <span className="emph">will not be used</span> in final project due to usage restrictions on the official images (the ones shown).</p>

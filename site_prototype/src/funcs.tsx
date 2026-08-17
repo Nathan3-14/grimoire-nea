@@ -1,12 +1,15 @@
 import convert from 'color-convert';
 import {Md5} from 'ts-md5';
-
 import type { Node } from 'konva/lib/Node';
 import type { Stage } from 'konva/lib/Stage';
 
 const TAU = 2 * Math.PI;
 export const angleFromIndex = (index: number, max: number) => {
     return (index / max) * TAU + Math.PI;
+}
+
+export const goto = (address: string) => {
+    window.location.href = address;
 }
 
 export const isInsideStage = (obj: Node, stage: Stage | null) => {
