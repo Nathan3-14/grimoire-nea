@@ -10,7 +10,8 @@ import { Stage, Layer, Rect, Group, Image, Text, TextPath, Circle } from "react-
 
 
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
-type PlayerProperties = {character?: string, name?: string, x?: number, y?: number};
+type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean};
+type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean};
 
 const getCharacterData = (characterID: string) => {
     let output = roleData[0];
@@ -21,7 +22,15 @@ const getCharacterData = (characterID: string) => {
 }
 
 export default function Grim({settings}: {settings: Settings}) {
-    const Player = ({starting_character="", name="", position={x: 0, y: 0}, setPlayer=(_name: string|undefined, _properties: PlayerProperties) => {}, ...rest}) => {
+    const Player = (
+        {character, name, position, isMenuOpen, setPlayer, ...rest}: {
+            character: string,
+            name: string,
+            position: {x: number, y: number}
+            isMenuOpen: boolean,
+            setPlayer: (_name: string|undefined, _properties: NewPlayerProperties) => {}
+        }
+    ) => {
         const player = useRef<GroupType>(null);
         const setX = (newX: number) => setPlayer(player.current?.id(), {x: newX});
         const setY = (newY: number) => setPlayer(player.current?.id(), {y: newY});
@@ -29,6 +38,7 @@ export default function Grim({settings}: {settings: Settings}) {
             setX(newPosition.x);
             setY(newPosition.y);
         }
+        const setIsMenuOpen = (newMenu: boolean) => setPlayer(player.current?.id(), {isMenuOpen: newMenu}); //TODO find out why it no longer functions even though it's the same as position and stuff, although maybe it isn't??????
         
         const handlePlayerDrag = () => {
             if (!player.current) {return}
@@ -48,11 +58,9 @@ export default function Grim({settings}: {settings: Settings}) {
             setPosition(playerc.absolutePosition());
         }
         
-        const [character, _setCharacter] = useState(starting_character);
         const [characterImage] = useImage(getCharacterIcon(character));
-        const [isMenuVisible, setIsMenuVisisble] = useState(false);
         
-        const toggleIsMenuVisible = () => setIsMenuVisisble(!isMenuVisible);
+        const toggleIsMenuOpen = () => setIsMenuOpen(true);
         const checkMenuBorder = (menu: NodeType<NodeConfig> | undefined) => { //* Determine whether to switch the side that the menu is on
             if (!menu) {return};
             
@@ -72,7 +80,7 @@ export default function Grim({settings}: {settings: Settings}) {
             const menu = playerc.findOne("#menu");
             if (!menu) {return};
             
-            toggleIsMenuVisible();
+            toggleIsMenuOpen();
             playerc.moveToTop();
             menu.moveToTop();
             
@@ -134,7 +142,7 @@ export default function Grim({settings}: {settings: Settings}) {
             </Group>
 
             {/* //* Toggleable Menu */}
-            <Group id="menu" visible={isMenuVisible} x={settings.tokenSize + 5} width={100} height={100} >
+            <Group id="menu" visible={isMenuOpen} x={settings.tokenSize + 5} width={100} height={100} >
                 {/* //* Background */}
                 <Rect fill={settings.secondaryColour} width={100} height={100} />
 
@@ -157,12 +165,12 @@ export default function Grim({settings}: {settings: Settings}) {
                         setCurrentPlayer(name);
                         changeCursor(e, "default");
                         setIsAddReminderVisible(true);
-                        setIsMenuVisisble(false);
+                        setIsMenuOpen(false);
                     }}
                     onTap={() => {
                         setCurrentPlayer(name);
                         setIsAddReminderVisible(true);
-                        setIsMenuVisisble(false);
+                        setIsMenuOpen(false);
                     }}
                     fontSize={11} fontStyle="bold"
                 />
@@ -218,16 +226,16 @@ export default function Grim({settings}: {settings: Settings}) {
         });
     });
 
-    const [players, setPlayers] = useState([
-        {character: "washerwoman", name: "Alice", x: 0, y: 0},
-        {character: "librarian", name: "Bob", x: 0, y: 0},
-        {character: "investigator", name: "Carol", x: 0, y: 0},
-        {character: "poisoner", name: "David", x: 0, y: 0},
-        {character: "imp", name: "Edith", x: 0, y: 0},
-        {character: "ravenkeeper", name: "Freya", x: 0, y: 0},
-        {character: "monk", name: "Gary", x: 0, y: 0}
+    const [players, setPlayers] = useState<PlayerProperties[]>([
+        {character: "washerwoman", name: "Alice", x: 0, y: 0, isMenuOpen: false},
+        {character: "librarian", name: "Bob", x: 0, y: 0, isMenuOpen: false},
+        {character: "investigator", name: "Carol", x: 0, y: 0, isMenuOpen: false},
+        {character: "poisoner", name: "David", x: 0, y: 0, isMenuOpen: false},
+        {character: "imp", name: "Edith", x: 0, y: 0, isMenuOpen: false},
+        {character: "ravenkeeper", name: "Freya", x: 0, y: 0, isMenuOpen: false},
+        {character: "monk", name: "Gary", x: 0, y: 0, isMenuOpen: false}
     ]);
-    const setPlayer = (name: string|undefined, properties: PlayerProperties) => {
+    const setPlayer = (name: string|undefined, properties: NewPlayerProperties) => {
         if (!name) {return}
 
         const newPlayers: {character: string, name: string, x: number, y: number}[] = []; 
@@ -246,9 +254,10 @@ export default function Grim({settings}: {settings: Settings}) {
 
     const player_tokens = players.map((player) => {
         return <Player
-            starting_character={player.character}
+            character={player.character}
             name={player.name}
             position={{x: player.x, y: player.y}}
+            isMenuOpen={player.isMenuOpen}
             setPlayer={setPlayer}
         />
     });
