@@ -1,5 +1,4 @@
 import convert from 'color-convert';
-import {Md5} from 'ts-md5';
 import type { Node } from 'konva/lib/Node';
 import type { Stage } from 'konva/lib/Stage';
 
@@ -43,10 +42,7 @@ export const isInsideStage = (obj: Node, stage: Stage | null) => {
 export const hsl = (colour: string) => {return convert.hex.hsl(colour)};
 
 export const getCharacterIcon = (name: string) => {
-    const filename = `Icon_${name.replace("_", "").replace("'", "").replace("-", "")}.png`;
-    const result = Md5.hashStr(filename);
-    const dirs = result.slice(0, 2);
-    const dir_path = `${dirs[0]}/${dirs}`;
-    const url = `https://wiki.bloodontheclocktower.com/images/${dir_path}/${filename}`
+    const filename = `${name.replace("_", "").replace("'", "").replace("-", "")}.png`;
+    const url = `https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/${filename}`;
     return url
 }
