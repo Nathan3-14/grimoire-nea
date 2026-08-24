@@ -28,7 +28,7 @@ export default function Grim({settings}: {settings: Settings}) {
             name: string,
             position: {x: number, y: number}
             isMenuOpen: boolean,
-            setPlayer: (_name: string|undefined, _properties: NewPlayerProperties) => {}
+            setPlayer: (name: string|undefined, properties: NewPlayerProperties) => void
         }
     ) => {
         const player = useRef<GroupType>(null);
@@ -60,8 +60,9 @@ export default function Grim({settings}: {settings: Settings}) {
         
         const [characterImage] = useImage(getCharacterIcon(character));
         
-        const toggleIsMenuOpen = () => setIsMenuOpen(true);
-        const checkMenuBorder = (menu: NodeType<NodeConfig> | undefined) => { //* Determine whether to switch the side that the menu is on
+        const toggleIsMenuOpen = () => setIsMenuOpen(!isMenuOpen);
+        //* Determine whether to switch the side that the menu is on
+        const checkMenuBorder = (menu: NodeType<NodeConfig> | undefined) => {
             if (!menu) {return};
             
             menu.x(settings.tokenSize + 5); //? Set to its default position
@@ -124,7 +125,7 @@ export default function Grim({settings}: {settings: Settings}) {
             {/* //* Character Name */}
             <TextPath
                 data={svg}
-                text={character}
+                text={`${character}${isMenuOpen}`}
                 fill="black"
                 align="center"
             />
@@ -147,7 +148,7 @@ export default function Grim({settings}: {settings: Settings}) {
                 <Rect fill={settings.secondaryColour} width={100} height={100} />
 
                 {/* //* Change Character Button */}
-                {/* //! NOT IMPLEMENTED */}
+                {/* //~~ NOT IMPLEMENTED */}
                 <Text
                     fill={settings.linkColour}
                     onMouseEnter={(e) => changeCursor(e, "pointer")}
@@ -235,10 +236,12 @@ export default function Grim({settings}: {settings: Settings}) {
         {character: "ravenkeeper", name: "Freya", x: 0, y: 0, isMenuOpen: false},
         {character: "monk", name: "Gary", x: 0, y: 0, isMenuOpen: false}
     ]);
+
+    //! Add new player properties here each time
     const setPlayer = (name: string|undefined, properties: NewPlayerProperties) => {
         if (!name) {return}
 
-        const newPlayers: {character: string, name: string, x: number, y: number}[] = []; 
+        const newPlayers: PlayerProperties[] = []; 
         players.forEach((player) => {
             const tempPlayer = player;
             if (player.name == name) {
@@ -246,6 +249,7 @@ export default function Grim({settings}: {settings: Settings}) {
                 if (properties.name) {tempPlayer.name = properties.name}
                 if (properties.x) {tempPlayer.x = properties.x}
                 if (properties.y) {tempPlayer.y = properties.y}
+                if (properties.isMenuOpen) {tempPlayer.isMenuOpen = properties.isMenuOpen}
             }
             newPlayers.push(tempPlayer);
         });
