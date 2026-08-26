@@ -27,35 +27,6 @@ export const checkCircleInsideGrim = (
     if ((position.y + diameter) > settings.grimHeight) {results.bottom()}
 }
 
-//~~ Unused?????
-// export const isInsideStage = (obj: Node, stage: Stage | null) => {
-//     if (!stage) {return {"result": false, "direction": {"left": true, "right": true, "top": true, "bottom": true}}}
-    
-//     const objBound = obj.getClientRect();
-//     console.log(`${objBound.x} -> ${objBound.x+objBound.width}`)
-//     console.log(`${objBound.y} -> ${objBound.y+objBound.height}`)
-//     console.log(`${0} -> ${stage.width()}`)
-//     console.log(`${0} -> ${stage.height()}`)
-//     const left = objBound.x >= 0;
-//     const right = (objBound.x + objBound.width) <= stage.width();
-//     const top = objBound.y >= 0;
-//     const bottom = (objBound.y + objBound.height) <= stage.height();
-//     return {
-//         "result": (
-//             left &&
-//             right &&
-//             top &&
-//             bottom
-//         ),
-//         "direction": {
-//             "left": !left,
-//             "right": !right,
-//             "top": !top,
-//             "bottom": !bottom
-//         }
-//     };
-// }
-
 export const hsl = (colour: string) => {return convert.hex.hsl(colour)};
 
 export const getCharacterIcon = (name: string) => {
