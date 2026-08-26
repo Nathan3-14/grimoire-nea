@@ -19,6 +19,8 @@ export interface Settings {
     tokenSize: number,
     halfTokenSize: number,
     setTokenSize: CallableFunction,
+    reminderSize: number,
+    halfReminderSize: number,
 
     tokenBackgroundColour: string,
     setTokenBackgroundColour: CallableFunction,
@@ -53,8 +55,10 @@ export default function App() {
 
 
         tokenSize: tokenSize,
-        halfTokenSize: Math.floor(tokenSize / 2),
+        halfTokenSize: tokenSize * 0.5,
         setTokenSize: setTokenSize,
+        reminderSize: 0.6 * tokenSize,
+        halfReminderSize: 0.6 * tokenSize * 0.5,
 
         tokenBackgroundColour: tokenBackgroundColour,
         setTokenBackgroundColour: setTokenBackgroundColour,
