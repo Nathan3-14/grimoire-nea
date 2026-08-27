@@ -3,10 +3,8 @@ import { useState, type ReactElement } from "react";
 import { angleFromIndex } from "../funcs";
 import roleData from "../botc_roles.json";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
-import { Stage, Layer, Rect, Group, Text } from "react-konva";
 import { Player, type NewPlayerProperties, type PlayerProperties } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
-import { matchRoutes } from "react-router-dom";
 
 
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
@@ -96,16 +94,26 @@ export default function Grim({settings}: {settings: Settings}) {
         });
         if (reminderAlreadyExists) {return}
 
-        //? adds the item '{id: reminderId...}' to all other reminders the player has
         const player = getPlayer(playerName);
-        const theta = Math.atan(player.y/player.x) + (player.y <= settings.grimHeight/2 ? 0 : Math.PI); //TODO essentially make player pos between -250 and 250 so atan works correctly
-        console.log(`(${player.x},${player.y}) => ${theta}`);
+        //? Changes player position so the centre of the screen is (0,0)
+        //? settings.halfTokenSize is added as the location of each player is where its top left corner is
+        const modifiedPosition = {
+            x: player.x-(settings.grimWidth/2)+settings.halfTokenSize,
+            y: -(player.y-(settings.grimHeight/2)+settings.halfTokenSize)
+        };
+
+        const playerDistance = Math.sqrt(modifiedPosition.x**2 + modifiedPosition.y**2);
+        const reminderDistance = 0.6 * playerDistance;
+        const theta = Math.atan(modifiedPosition.x/modifiedPosition.y) + (modifiedPosition.y <= 0 ? Math.PI : 0);
+        const newReminderX = reminderDistance * Math.sin(theta) + (settings.grimWidth / 2);
+        const newReminderY = reminderDistance * Math.cos(theta) + (settings.grimHeight / 2);
         setPlayer(playerName, {reminders: [
+            //? adds the item '{id: reminderId...}' to all other reminders the player has
             ...getPlayer(playerName).reminders,
             {
                 id: reminderID,
-                x: settings.initialTokenCircleRadius * Math.sin(theta) - settings.halfReminderSize + (settings.grimWidth / 2),
-                y: settings.initialTokenCircleRadius * Math.cos(theta) - settings.halfReminderSize + (settings.grimWidth / 2)
+                x: newReminderX - settings.halfReminderSize, //? Correct for top left positioning
+                y: settings.grimHeight - newReminderY - settings.halfReminderSize //? Correct for top left positioning and revert back to normal coordinates
             }
         ]});
     };
@@ -138,7 +146,8 @@ export default function Grim({settings}: {settings: Settings}) {
     };
 
     const playerTokens = players.map((player) => {
-        return <Player
+        return <>
+            <Player
             character={player.character}
             name={player.name}
             x={player.x}
@@ -147,7 +156,8 @@ export default function Grim({settings}: {settings: Settings}) {
             settings={settings}
             setPlayer={setPlayer}
             functions={functions}
-        />
+            />
+        </>
     });
 
     const reminderTokens: ReactElement[] = [];
