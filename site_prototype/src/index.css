@@ -1,14 +1,14 @@
 @font-face {
     font-family: "Old English MT";
-    src: url("/src/assets/oldenglishtextmt.ttf");
+    src: url("/src/assets/fonts/oldenglishtextmt.ttf");
 }
 @font-face {
     font-family: "Papyrus";
-    src: url("/src/assets/papyrus.ttf");
+    src: url("/src/assets/fonts/papyrus.ttf");
 }
 @font-face {
     font-family: "Fredoka";
-    src: url("/src/assets/fredoka.ttf");
+    src: url("/src/assets/fonts/fredoka.ttf");
 }
 
 .main {
