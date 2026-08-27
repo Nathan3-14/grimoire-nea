@@ -5,6 +5,7 @@ import roleData from "../botc_roles.json";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
 import { Player, type NewPlayerProperties, type PlayerProperties } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
+import { Group, Layer, Rect, Stage, Text } from "react-konva";
 
 
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
