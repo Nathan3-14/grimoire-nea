@@ -21,8 +21,9 @@ const getCharacterData = (characterID: string) => {
 export default function Grim({settings}: {settings: Settings}) {
     const script = ["imp", "scarletwoman", "baron", "spy", "poisoner", "drunk", "saint", "butler", "recluse", "washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "soldier", "monk", "mayor", "slayer", "virgin", "ravenkeeper", "undertaker"]
     const reminderButtonElements: ReactElement[] = [];
-    let index = 0;
+
     //* Iterate through all characters and their reminders (supplied from https://release.botc.app/resources/data/roles.json (https://release.botc.app/resources))
+    let index = 0;
     script.forEach((characterID) => {
         const characterData = getCharacterData(characterID);
 
@@ -51,13 +52,13 @@ export default function Grim({settings}: {settings: Settings}) {
     });
 
     const [players, setPlayers] = useState<PlayerProperties[]>([
-        {character: "washerwoman", name: "Alice", x: 0, y: 0, isMenuOpen: false, reminders: []},
-        {character: "librarian", name: "Bob", x: 0, y: 0, isMenuOpen: false, reminders: []},
-        {character: "investigator", name: "Carol", x: 0, y: 0, isMenuOpen: false, reminders: []},
-        {character: "poisoner", name: "David", x: 0, y: 0, isMenuOpen: false, reminders: []},
-        {character: "imp", name: "Edith", x: 0, y: 0, isMenuOpen: false, reminders: []},
-        {character: "ravenkeeper", name: "Freya", x: 0, y: 0, isMenuOpen: false, reminders: []},
-        {character: "monk", name: "Gary", x: 0, y: 0, isMenuOpen: false, reminders: []}
+        {character: "washerwoman", name: "Alice", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+        {character: "librarian", name: "Bob", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+        {character: "investigator", name: "Carol", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+        {character: "poisoner", name: "David", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+        {character: "imp", name: "Edith", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+        {character: "ravenkeeper", name: "Freya", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+        {character: "monk", name: "Gary", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false}
     ]);
     const getPlayer = (name: string) => {
         let playerIndex = 0;
@@ -83,6 +84,7 @@ export default function Grim({settings}: {settings: Settings}) {
                 if (properties.y) {tempPlayer.y = properties.y}
                 if (properties.isMenuOpen !== undefined) {tempPlayer.isMenuOpen = properties.isMenuOpen}
                 if (properties.reminders) {tempPlayer.reminders = properties.reminders}
+                if (properties.isDead !== undefined)  {tempPlayer.isDead = properties.isDead}
             }
             newPlayers.push(tempPlayer);
         });
@@ -148,18 +150,17 @@ export default function Grim({settings}: {settings: Settings}) {
     };
 
     const playerTokens = players.map((player) => {
-        return <>
-            <Player
+        return <Player
             character={player.character}
             name={player.name}
             x={player.x}
             y={player.y}
             isMenuOpen={player.isMenuOpen}
+            isDead={player.isDead}
             settings={settings}
             setPlayer={setPlayer}
             functions={functions}
-            />
-        </>
+        />
     });
 
     const reminderTokens: ReactElement[] = [];

@@ -7,18 +7,19 @@ import { Circle, Group, Image, Rect, Text, TextPath } from "react-konva";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
 import type { ReminderProperties } from "./Reminder";
 
-export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[]};
-export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[]};
+export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[], isDead: boolean};
+export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[], isDead?: boolean};
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
 
 export const Player = (
-        {settings, character, name, x, y, isMenuOpen, setPlayer, functions, ...rest}: {
+        {settings, character, name, x, y, isMenuOpen, isDead, setPlayer, functions, ...rest}: {
             settings: Settings,
             character: string,
             name: string,
             x: number,
             y: number,
             isMenuOpen: boolean,
+            isDead: boolean,
             setPlayer: (name: string|undefined, properties: NewPlayerProperties) => void,
             functions: {
                 setCurrentPlayer: (name: string) => void,
@@ -155,15 +156,14 @@ export const Player = (
                 {/* //* Change Character Button */}
                 {/* //~~ NOT IMPLEMENTED */}
                 <Text
-                    fill={settings.linkColour}
                     onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
                     onMouseLeave={(e) => functions.changeCursor(e, "default")}
                     text="Change Character"
+                    fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
                 />
                 <Text
                     y={17}
-                    fill={settings.linkColour}
                     onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
                     onMouseLeave={(e) => functions.changeCursor(e, "default")}
                     text="Add Reminder"
@@ -178,8 +178,35 @@ export const Player = (
                         functions.setIsAddReminderVisible(true);
                         setIsMenuOpen(false);
                     }}
+                    fill={settings.linkColour}
+                    fontSize={11} fontStyle="bold"
+                    />
+                <Text
+                    y={34}
+                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                    text="Toggle Dead"
+                    onClick = {(e) => {
+                        functions.changeCursor(e, "default");
+                        setPlayer(name, {isDead: !isDead});
+                        setIsMenuOpen(false);
+                    }}
+                    onTap = {() => {
+                        setPlayer(name, {isDead: !isDead});
+                        setIsMenuOpen(false);
+                    }}
+                    fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
                 />
             </Group>
+
+            {/* //* Toggleable Death Shroud */}
+            <Rect
+                fill="#000000"
+                height={settings.tokenSize}
+                width={40}
+                x={(settings.tokenSize-40)/2}
+                visible={isDead}
+            />
         </Group>
     };
