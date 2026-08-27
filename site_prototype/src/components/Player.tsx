@@ -11,7 +11,7 @@ export type PlayerProperties = {character: string, name: string, x: number, y: n
 export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[]};
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
 
-export const Player = ( //TODO Refactor into component
+export const Player = (
         {settings, character, name, x, y, isMenuOpen, setPlayer, functions, ...rest}: {
             settings: Settings,
             character: string,

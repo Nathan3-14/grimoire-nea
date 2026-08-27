@@ -3,10 +3,10 @@ import { useState, type ReactElement } from "react";
 import { angleFromIndex } from "../funcs";
 import roleData from "../botc_roles.json";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
-import type { Layer as LayerType} from "konva/lib/Layer"
 import { Stage, Layer, Rect, Group, Text } from "react-konva";
 import { Player, type NewPlayerProperties, type PlayerProperties } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
+import { matchRoutes } from "react-router-dom";
 
 
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
@@ -39,37 +39,10 @@ export default function Grim({settings}: {settings: Settings}) {
                 settings={settings}
                 reminderID={`${characterID}.${reminderText}`}
                 x={(index % 5) * 60} y={Math.floor(index / 5) * 70 + 30}
-                onClick={(e: KonvaEvent) => {
-                    console.log(`Adding ${characterID}.${reminderText} to ${currentPlayer}`);
+                onClick={() => {
                     setIsAddReminderVisible(false);
-                    console.info("Before .getStage()");
-                    const stage = e.currentTarget.getStage();
-                    console.info("After .getStage()");
-                    if (!stage) {return}
-                    
-                    console.info("Before .findOne()s");
-                    const reminderLayer: LayerType|undefined = stage.findOne("#reminder-tokens");
-                    const playerLayer: LayerType|undefined = stage.findOne("#player-tokens");
-                    const currentPlayerElement = playerLayer?.findOne(`#${currentPlayer}`);
-                    if (!reminderLayer || !playerLayer || !currentPlayerElement) {return}
-                    console.info("After .findOne()s");
                     addReminderToPlayer(currentPlayer, `${characterID}.${reminderText}`);
 
-
-                    // reminderLayer.add(<Reminder
-                    //     draggable
-                    //     x={currentPlayerElement.x()}
-                    //     y={currentPlayerElement.y()}
-                    // />);
-                    // reminderLayer.add(<Circle x={100} y={50} radius={10} fill="red" />);
-                    // reminderLayer.add(<Reminder
-                    //     draggable
-                    //     settings={settings}
-                    //     reminderID={`${characterID}.${reminderText}`}
-                    //     x={50}
-                    //     y={50}
-                    // />);
-                    //TODO Add <Reminder...> to reminders layer on top of gary? or specific distance inwards
                     //TODO Make settings persistant across pages
                 }}
             />);
@@ -123,8 +96,18 @@ export default function Grim({settings}: {settings: Settings}) {
         });
         if (reminderAlreadyExists) {return}
 
-        //? adds the item {id: reminderId...} to all other reminders the player has
-        setPlayer(playerName, {reminders: [...getPlayer(playerName).reminders, {id: reminderID, x: 50, y: 50}]});
+        //? adds the item '{id: reminderId...}' to all other reminders the player has
+        const player = getPlayer(playerName);
+        const theta = Math.atan(player.y/player.x) + (player.y <= settings.grimHeight/2 ? 0 : Math.PI); //TODO essentially make player pos between -250 and 250 so atan works correctly
+        console.log(`(${player.x},${player.y}) => ${theta}`);
+        setPlayer(playerName, {reminders: [
+            ...getPlayer(playerName).reminders,
+            {
+                id: reminderID,
+                x: settings.initialTokenCircleRadius * Math.sin(theta) - settings.halfReminderSize + (settings.grimWidth / 2),
+                y: settings.initialTokenCircleRadius * Math.cos(theta) - settings.halfReminderSize + (settings.grimWidth / 2)
+            }
+        ]});
     };
     //! Update when new properties are added
     const setReminder = (playerName: string, reminderID: string, properties: NewReminderProperties) => {
@@ -136,7 +119,7 @@ export default function Grim({settings}: {settings: Settings}) {
                 if (properties.x) {tempReminder.x = properties.x}
                 if (properties.y) {tempReminder.y = properties.y}
             };
-            newReminders.push(reminder);
+            newReminders.push(tempReminder);
         });
         setPlayer(playerName, {reminders: newReminders})
     };
@@ -186,16 +169,16 @@ export default function Grim({settings}: {settings: Settings}) {
     if (currentPlayer == "initial") {
         players.forEach((player, index) => {
             setPlayer(player.name, {
-                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250,
-                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, players.length)) - settings.halfTokenSize + 250
+                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, players.length)) - settings.halfTokenSize + (settings.grimWidth / 2),
+                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, players.length)) - settings.halfTokenSize + (settings.grimHeight / 2)
             });
             setCurrentPlayer("none");
         })
     }
 
-    return <Stage width={500} height={500}>
+    return <Stage width={settings.grimWidth} height={settings.grimHeight}>
         <Layer id="background">
-            <Rect width={500} height={500} fill={settings.backgroundColour} cornerRadius={10} />
+            <Rect width={settings.grimWidth} height={settings.grimHeight} fill={settings.backgroundColour} cornerRadius={10} />
         </Layer>
         <Layer id="player-tokens">{playerTokens}</Layer>
         <Layer id="reminder-tokens">{reminderTokens}</Layer>

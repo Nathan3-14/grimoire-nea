@@ -46,23 +46,24 @@ export const Reminder = (
         const position = reminderc.getAbsolutePosition();
         setReminder(owner, reminderc.id(), {x: position.x, y: position.y});
     };
+    const diameter = settings.reminderSize;
+    const radius = settings.halfReminderSize;
 
     return <Group
         ref={reminder}
         id={reminderID}
         x={x} y={y} 
-        width={settings.reminderSize} 
-        height={settings.reminderSize} 
+        width={diameter} 
+        height={diameter} 
         onDragMove={handleDrag}
         onDragEnd={handleEndOfDrag}
         {...rest}>
         <Circle
-            x={30} y={30}
-            radius={settings.halfReminderSize}
+            x={radius} y={radius}
+            radius={radius}
             fill={settings.tokenBackgroundColour}
         />
-        <Image width={60} height={60} image={useImage(reminderImageURL)[0]} />
-        {/* <Text text={`${x} ${y}`} fill={settings.textColour} width={60} align="center"/> //DEBUG */}
-        <Text text={reminderID.split(".")[1] + `${x} ${y}`} fill={settings.textColour} width={60} align="center"/>
+        <Image width={diameter} height={diameter} image={useImage(reminderImageURL)[0]} />
+        <Text text={reminderID.split(".")[1]} fill={settings.textColour} width={diameter} align="center"/>
     </Group>
 }
