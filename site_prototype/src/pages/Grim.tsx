@@ -44,7 +44,6 @@ export default function Grim({settings}: {settings: Settings}) {
                     addReminderToPlayer(currentPlayer, `${characterID}.${reminderText}`);
 
                     //TODO Make settings persistant across pages
-                    //TODO Add death shrouds (same placement as reminders)
                 }}
             />);
             index++;
