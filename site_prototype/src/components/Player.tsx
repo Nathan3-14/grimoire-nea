@@ -201,12 +201,13 @@ export const Player = (
             </Group>
 
             {/* //* Toggleable Death Shroud */}
-            <Rect
-                fill="#000000"
+            <Image
+                image={useImage("/src/assets/images/shroud.png")[0]}
+                x={(settings.tokenSize-((settings.tokenSize/250) * 150))/2} //? Adjust for top left positioning
                 height={settings.tokenSize}
-                width={40}
-                x={(settings.tokenSize-40)/2}
+                width={(settings.tokenSize/250) * 150}
                 visible={isDead}
+                opacity={0.8}
             />
         </Group>
     };
