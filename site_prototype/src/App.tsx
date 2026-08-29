@@ -75,7 +75,7 @@ export default function App() {
     return <div className="main" style={{backgroundColor: settings.backgroundColour, color: settings.textColour}}>
         <BrowserRouter>
             <Routes>
-                <Route path="*">
+                <Route path="/*">
                     <Route index element={<Home settings={settings} />} />
                     <Route path="settings" element={<Settings settings={settings} />} />
                     <Route path="credits" element={<Credits settings={settings} />} />

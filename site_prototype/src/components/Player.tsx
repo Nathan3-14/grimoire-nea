@@ -6,6 +6,7 @@ import type { Settings } from "../App";
 import { Circle, Group, Image, Rect, Text, TextPath } from "react-konva";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
 import type { ReminderProperties } from "./Reminder";
+import shroud from "../assets/images/shroud.png"
 
 export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[], isDead: boolean};
 export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[], isDead?: boolean};
@@ -202,7 +203,7 @@ export const Player = (
 
             {/* //* Toggleable Death Shroud */}
             <Image
-                image={useImage("/src/assets/images/shroud.png")[0]}
+                image={useImage(shroud)[0]}
                 x={(settings.tokenSize-((settings.tokenSize/250) * 150))/2} //? Adjust for top left positioning
                 height={settings.tokenSize}
                 width={(settings.tokenSize/250) * 150}
