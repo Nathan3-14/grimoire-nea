@@ -7,10 +7,14 @@ on:
 
 defaults:
   run:
+    shell: bash
     working-directory: ./site_electron
 
 jobs:
   upload:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      
       - run: echo "test"
