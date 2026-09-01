@@ -9,6 +9,7 @@ on:
 defaults:
   run:
     shell: bash
+    #Always run in a development branch
     working-directory: ./site_electron
 
 jobs:
@@ -54,4 +55,5 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           branch: dev
+          base: main
           #temp, will be tag instead
