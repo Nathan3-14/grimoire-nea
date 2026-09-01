@@ -7,6 +7,9 @@ export const angleFromIndex = (index: number, max: number) => {
 }
 
 export const goto = (address: string) => {
+    console.log(window.location);
+    console.log(window.location.href);
+    console.log(address);
     window.location.href = address;
 }
 

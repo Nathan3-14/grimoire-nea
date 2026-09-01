@@ -1,5 +1,6 @@
 {
-  "name": "Grimoire NEA",
+  "name": "Grimoire-NEA",
+  "author": {"name": "Nathan"},
   "private": true,
   "version": "0.0.0",
   "type": "module",
