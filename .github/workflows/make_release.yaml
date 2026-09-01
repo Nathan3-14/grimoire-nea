@@ -1,7 +1,9 @@
 name: "Make Release"
 
 on:
-  - push
+  push:
+    paths:
+      - "site_electron/release/*"
 
 defaults:
   run:
