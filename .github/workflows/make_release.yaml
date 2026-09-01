@@ -27,18 +27,18 @@ jobs:
       - run: bun i -D vite-plugin-electron-renderer
       - run: bun run build
 
-      - run: echo {{ github.ref_name }}
+      - run: echo ${{ github.ref_name }}
 
       - name: Archive Windows Installer
         uses: actions/upload-artifact@v4
         with:
           name: windows-installer
           path: |
-            release/{{ github.ref_name }}/grimoire-nea-Windows-{{ github.ref_name }}-Setup.exe
+            release/${{ github.ref_name }}/grimoire-nea-Windows-${{ github.ref_name }}-Setup.exe
       
       - name: Archive Windows Unpacked
         uses: actions/upload-artifact@v4
         with:
           name: windows-unpacked
           path: |
-            release/{{ github.ref_name }}/win-unpacked/*
+            release/${{ github.ref_name }}/win-unpacked/*
