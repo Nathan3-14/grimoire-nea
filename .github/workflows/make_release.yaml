@@ -5,10 +5,6 @@ on:
     tags:
     #temporarily 0., will be [1-9].
       - "v0.*.*"
-    branches:
-      - dev
-    #temporarily 0., will be [1-9].
-      - "0.*.*"
 
 defaults:
   run:
@@ -26,15 +22,19 @@ jobs:
         uses: actions/checkout@v7
       - name: Get bun
         uses: oven-sh/setup-bun@v2 
-      
-      - run: bun i
-      - run: bun i -D vite-plugin-electron-renderer
-      - run: bun run build
 
-      # - run: echo ${{ github.ref_type }}
+      - run: echo ${{ github.ref_type }}
       - run: echo ${{ github.ref_name }}
+      
+      - name: Prepare and run Bun
+        if: startswith(${{ github.ref_name }}, "v")
+        run: |
+          bun i
+          bun i -D vite-plugin-electron-renderer
+          bun run build
 
       - name: Archive Windows Installer
+        if: startswith(${{ github.ref_name }}, "v")
         uses: actions/upload-artifact@v4
         with:
           name: windows-installer
@@ -42,6 +42,7 @@ jobs:
             release/${{ github.ref_name }}/grimoire-nea-Windows-${{ github.ref_name }}-Setup.exe
       
       - name: Archive Windows Unpacked
+        if: startswith(${{ github.ref_name }}, "v")
         uses: actions/upload-artifact@v4
         with:
           name: windows-unpacked
@@ -49,6 +50,7 @@ jobs:
             release/${{ github.ref_name }}/win-unpacked/*
       
       - name: Create Pull Request
+        if: startswith(${{ github.ref_name }}, "v")
         uses: peter-evans/create-pull-request@v8
         with:
           branch: dev
