@@ -12,9 +12,14 @@ defaults:
 
 jobs:
   upload:
+    name: "Upload"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Get bun
+        uses: oven-sh/setup-bun@v2 
       
       - run: echo "test"
+      - run: ls
+      - run: bun --version
