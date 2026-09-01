@@ -1,0 +1,16 @@
+name: "Make Release"
+
+on:
+  - push
+
+defaults:
+  run:
+    working-directory: ./site_electron
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test"
+  
+  
