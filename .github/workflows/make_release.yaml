@@ -5,6 +5,10 @@ on:
     tags:
     #temporarily 0., will be [1-9].
       - "v0.*.*"
+    branches:
+      - dev
+    #temporarily 0., will be [1-9].
+      - "0.*.*"
 
 defaults:
   run:
