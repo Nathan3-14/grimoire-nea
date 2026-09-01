@@ -24,8 +24,9 @@ jobs:
         uses: oven-sh/setup-bun@v2 
       
       - run: bun i
+      - run: bun i -D vite-plugin-electron-renderer
       - run: bun run build
-      
+
       - run: echo {{ github.ref_name }}
 
       - name: Archive Windows Installer
