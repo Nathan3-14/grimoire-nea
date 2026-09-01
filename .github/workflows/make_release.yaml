@@ -2,8 +2,8 @@ name: "Make Release"
 
 on:
   push:
-    paths:
-      - "site_electron/release/*"
+    branches:
+      - "main"
 
 defaults:
   run:
@@ -14,5 +14,3 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "test"
-  
-  
