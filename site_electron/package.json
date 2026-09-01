@@ -2,7 +2,7 @@
   "name": "Grimoire-NEA",
   "author": {"name": "Nathan"},
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.7",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -18,8 +18,7 @@
     "react-konva": "^19.2.5",
     "react-router-dom": "^7.18.2",
     "ts-md5": "^2.0.1",
-    "use-image": "^1.1.4",
-    "vite-plugin-electron-renderer": "^0.14.7"
+    "use-image": "^1.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -36,7 +35,8 @@
     "vite": "^8.2.0",
     "electron": "^30.5.1",
     "electron-builder": "^24.13.3",
-    "vite-plugin-electron": "^0.28.8"
+    "vite-plugin-electron": "^0.28.8",
+    "vite-plugin-electron-renderer": "^0.14.7"
   },
   "main": "dist-electron/main.js"
 }
