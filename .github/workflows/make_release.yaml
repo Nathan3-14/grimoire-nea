@@ -15,29 +15,37 @@ jobs:
   upload:
     name: "Upload"
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7
       - name: Get bun
         uses: oven-sh/setup-bun@v2 
       
-      # - run: bun i
-      # - run: bun i -D vite-plugin-electron-renderer
-      # - run: bun run build
+      - run: bun i
+      - run: bun i -D vite-plugin-electron-renderer
+      - run: bun run build
 
-      - run: echo ${{ github.ref_type }}
+      # - run: echo ${{ github.ref_type }}
       - run: echo ${{ github.ref_name }}
 
-      # - name: Archive Windows Installer
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: windows-installer
-      #     path: |
-      #       release/${{ github.ref_name }}/grimoire-nea-Windows-${{ github.ref_name }}-Setup.exe
+      - name: Archive Windows Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: |
+            release/${{ github.ref_name }}/grimoire-nea-Windows-${{ github.ref_name }}-Setup.exe
       
-      # - name: Archive Windows Unpacked
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: windows-unpacked
-      #     path: |
-            # release/${{ github.ref_name }}/win-unpacked/*
+      - name: Archive Windows Unpacked
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-unpacked
+          path: |
+            release/${{ github.ref_name }}/win-unpacked/*
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: dev
+          #temp, will be tag instead
