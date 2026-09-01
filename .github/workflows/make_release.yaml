@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - "main"
+    tags:
+    #temporarily 0., will be [1-9].
+      - "0.*.*"
 
 defaults:
   run:
@@ -20,21 +23,19 @@ jobs:
       - name: Get bun
         uses: oven-sh/setup-bun@v2 
       
-      - run: |
-          VERSION=$(git describe --tags --abbrev=0)
-          echo "version=${VERSION#v}" > "$GITHUB_OUTPUT"
       - run: bun run build
+      - run: echo {{ github.ref_name }}
 
       - name: Archive Windows Installer
         uses: actions/upload-artifact@v4
         with:
           name: windows-installer
           path: |
-            release/${{steps.ver.outputs.version}}/grimoire-nea-Windows-{{steps.ver.outputs.version}}-Setup.exe
+            release/{{ github.ref_name }}/grimoire-nea-Windows-{{ github.ref_name }}-Setup.exe
       
       - name: Archive Windows Unpacked
         uses: actions/upload-artifact@v4
         with:
           name: windows-unpacked
           path: |
-            release/${{steps.ver.outputs.version}}/win-unpacked/*
+            release/{{ github.ref_name }}/win-unpacked/*
