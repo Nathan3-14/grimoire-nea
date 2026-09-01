@@ -25,7 +25,7 @@ jobs:
         uses: oven-sh/setup-bun@v2 
 
       - run: echo ${{ github.ref_type }}
-      - run: echo ${{ github.ref_name }}
+      - run: echo ${{ github.ref_name#v }}
       
       - name: Prepare and run Bun
         if: startswith(${{ github.ref_name }}, "v")
@@ -34,21 +34,21 @@ jobs:
           bun i -D vite-plugin-electron-renderer
           bun run build
 
-      - name: Archive Windows Installer
-        if: startswith(${{ github.ref_name }}, "v")
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-installer
-          path: |
-            release/${{ github.ref_name }}/grimoire-nea-Windows-${{ github.ref_name }}-Setup.exe
+      # - name: Archive Windows Installer
+      #   if: startswith(${{ github.ref_name }}, "v")
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: windows-installer
+      #     path: |
+      #       release/${{ github.ref_name }}/grimoire-nea-Windows-${{ github.ref_name }}-Setup.exe
       
-      - name: Archive Windows Unpacked
-        if: startswith(${{ github.ref_name }}, "v")
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-unpacked
-          path: |
-            release/${{ github.ref_name }}/win-unpacked/*
+      # - name: Archive Windows Unpacked
+      #   if: startswith(${{ github.ref_name }}, "v")
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: windows-unpacked
+      #     path: |
+      #       release/${{ github.ref_name }}/win-unpacked/*
       
       - name: Create Pull Request
         if: startswith(${{ github.ref_name }}, "v")
