@@ -31,6 +31,12 @@ jobs:
           tag="${{ github.ref_name }}"
           echo "version=${tag//v/}" >> $GITHUB_OUTPUT
       
+      - name: Get Branch Name
+        id: remove
+        run: |
+          tag="${{ github.ref_name }}"
+          echo "version=${tag%'.'*}" >> $GITHUB_OUTPUT
+      
       - name: Prepare and run Bun
         if: ${{ startswith(github.ref_name, 'v') }}
         run: |
