@@ -72,7 +72,6 @@ jobs:
       - name: Check for git repo
         run: |
           ls
-          ll
           ls .git
       - name: Create Pull Request
         if: startswith(${{ github.ref_name }}, "v")
