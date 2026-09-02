@@ -31,7 +31,7 @@ jobs:
         id: remove
         run: |
           tag="${{ github.ref_name }}"
-          echo "version=${tag//v/ }" >> $GITHUB_OUTPUT
+          echo "version=${tag//v/}" >> $GITHUB_OUTPUT
 
       - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
