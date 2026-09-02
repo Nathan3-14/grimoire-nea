@@ -29,26 +29,26 @@ jobs:
 
       - name: Remove v from Tag
         id: remove
-        run: echo "version=$("${{ github.ref_name }}" -replace '^v', '')" >> $env:GITHUB_OUTPUT
+        run: echo "version=$('${{ github.ref_name }}'.Replace('v', ''))" >> $env:GITHUB_OUTPUT
 
       - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
-      - name: Prepare and run Bun
-        if: startswith(${{ github.ref_name }}, "v")
-        run: |
-          bun i
-          bun i -D vite-plugin-electron-renderer
-          bun run build
+      # - name: Prepare and run Bun
+      #   if: startswith(${{ github.ref_name }}, "v")
+      #   run: |
+      #     bun i
+      #     bun i -D vite-plugin-electron-renderer
+      #     bun run build
 
-      - name: Archive Windows Installer
-        if: startswith(${{ github.ref_name }}, "v")
-        uses: actions/upload-artifact@v4
-        env:
-          VERSION: "a${{ steps.remove.outputs.version }}"
-        with:
-          name: windows-installer
-          path: |
-            release/${{ steps.remove.outputs.version }}/grimoire-nea-Windows-${{ steps.remove.outputs.version }}-Setup.exe
+      # - name: Archive Windows Installer
+      #   if: startswith(${{ github.ref_name }}, "v")
+      #   uses: actions/upload-artifact@v4
+      #   env:
+      #     VERSION: "a${{ steps.remove.outputs.version }}"
+      #   with:
+      #     name: windows-installer
+      #     path: |
+      #       release/${{ steps.remove.outputs.version }}/grimoire-nea-Windows-${{ steps.remove.outputs.version }}-Setup.exe
       
       # - name: Archive Windows Unpacked
       #   if: startswith(${{ github.ref_name }}, "v")
