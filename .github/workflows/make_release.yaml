@@ -30,11 +30,13 @@ jobs:
       - name: Remove v from Tag
         id: remove
         run: |
-          $test = 'Hello World' -replace 'World', 'PowerShell'
-          echo "test $test"
-          $newversion = '${{ github.ref_name }}'.Replace('v', '')
-          echo "newv is $newversion"
-          echo "version=$newversion" >> $env:GITHUB_OUTPUT
+          echo "1.1.1" >> $GITHUB_OUTPUT
+
+      # $test 'Hello World' -replace 'World', 'PowerShell'
+      # echo "test $test"
+      # $newversion = '${{ github.ref_name }}'.Replace('v', '')
+      # echo "newv is $newversion"
+      # echo "version=$newversion" >> $env:GITHUB_OUTPUT
 
       - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
