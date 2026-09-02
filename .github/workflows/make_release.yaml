@@ -67,6 +67,7 @@ jobs:
     name: Create Pull Request
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       pull-requests: write
     steps:
       - name: Checkout
@@ -80,11 +81,11 @@ jobs:
         if: startswith(${{ github.ref_name }}, "v")
         uses: peter-evans/create-pull-request@v8
         with:
+          #temp, dev will be {tag} instead
           branch: dev
           delete-branch: false
           base: main
-          title: Merging of ${{ github.ref_name }} to main
-          #temp, dev will be {tag} instead
+          title: Merging of ${{ github.ref_name }} to main #TODO find out why set permissions dont work
   
   # create-release:
   #   name: Create Release
