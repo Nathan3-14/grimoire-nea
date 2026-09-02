@@ -66,7 +66,7 @@ jobs:
         if: ${{ startswith(github.ref_name, 'v') }}
         run: |
           cd site_electron/release/${{ steps.remove.outputs.version }}
-          zip -r win-unpacked.zip win-unpacked/
+          tar -cvf win-unpacked.tar win-unpacked
 
       - name: Archive Windows Unpacked
         if: ${{ startswith(github.ref_name, 'v') }}
@@ -74,7 +74,7 @@ jobs:
         with:
           name: windows-unpacked
           path: |
-            site_electron/release/${{ steps.remove.outputs.version }}/win-unpacked.zip
+            site_electron/release/${{ steps.remove.outputs.version }}/win-unpacked.tar
 
   create-pull-request:
     name: Create Pull Request
