@@ -119,5 +119,6 @@ jobs:
           gh release create \
           ${{ github.ref_name }} \
           -d \
-          -t "Test Release" \
+          -t "Release ${{ github.ref_name }}" \
+          -F site_electron/changes.md \
           artifacts/*
