@@ -12,7 +12,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: site_electron
     name: Build
     runs-on: windows-latest
     permissions:
@@ -39,11 +38,15 @@ jobs:
         uses: oven-sh/setup-bun@v2 
       
       - run: ls
+      - run: |
+          cd site_electron
+          ls
 
       
   #     - name: Prepare and run Bun
   #       if: ${{ startswith(github.ref_name, 'v') }}
   #       run: |
+  #         cd site_electron
   #         bun i
   #         bun i -D vite-plugin-electron-renderer
   #         bun run build
@@ -65,7 +68,7 @@ jobs:
   #       with:
   #         name: windows-unpacked
   #         path: |
-  #           release/${{ steps.remove.outputs.version }}/win-unpacked/*
+  #           site_electron/release/${{ steps.remove.outputs.version }}/win-unpacked/*
 
   # create-pull-request:
   #   name: Create Pull Request
