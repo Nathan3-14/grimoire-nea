@@ -11,7 +11,7 @@ jobs:
   build:
     defaults:
       run:
-        working-directory: ./site_electron
+        working-directory: site_electron
         shell: bash
     name: Build
     runs-on: windows-latest
