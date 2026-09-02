@@ -1,7 +1,6 @@
 node_modules
 dist
 dist-electron
+release
 
-release/*.*.*/*
-!release/[1-9].*.*/*-Setup.exe
 .vscode/*
