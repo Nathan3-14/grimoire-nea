@@ -21,8 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      # - name: Get bun
-      #   uses: oven-sh/setup-bun@v2 
+      - name: Get bun
+        uses: oven-sh/setup-bun@v2 
 
       - run: echo ${{ github.ref_type }}
       - run: echo ${{ github.ref_name }}
@@ -33,30 +33,24 @@ jobs:
           tag="${{ github.ref_name }}"
           echo "version=${tag//v/ }" >> $GITHUB_OUTPUT
 
-      # $test 'Hello World' -replace 'World', 'PowerShell'
-      # echo "test $test"
-      # $newversion = '${{ github.ref_name }}'.Replace('v', '')
-      # echo "newv is $newversion"
-      # echo "version=$newversion" >> $env:GITHUB_OUTPUT
-
       - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
-      # - name: Prepare and run Bun
-      #   if: startswith(${{ github.ref_name }}, "v")
-      #   run: |
-      #     bun i
-      #     bun i -D vite-plugin-electron-renderer
-      #     bun run build
+      - name: Prepare and run Bun
+        if: startswith(${{ github.ref_name }}, "v")
+        run: |
+          bun i
+          bun i -D vite-plugin-electron-renderer
+          bun run build
 
-      # - name: Archive Windows Installer
-      #   if: startswith(${{ github.ref_name }}, "v")
-      #   uses: actions/upload-artifact@v4
-      #   env:
-      #     VERSION: "a${{ steps.remove.outputs.version }}"
-      #   with:
-      #     name: windows-installer
-      #     path: |
-      #       release/${{ steps.remove.outputs.version }}/grimoire-nea-Windows-${{ steps.remove.outputs.version }}-Setup.exe
+      - name: Archive Windows Installer
+        if: startswith(${{ github.ref_name }}, "v")
+        uses: actions/upload-artifact@v4
+        env:
+          VERSION: "a${{ steps.remove.outputs.version }}"
+        with:
+          name: windows-installer
+          path: |
+            release/${{ steps.remove.outputs.version }}/grimoire-nea-Windows-${{ steps.remove.outputs.version }}-Setup.exe
       
       # - name: Archive Windows Unpacked
       #   if: startswith(${{ github.ref_name }}, "v")
