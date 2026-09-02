@@ -65,22 +65,57 @@ jobs:
           path: |
             release/${{ steps.remove.outputs.version }}/win-unpacked/*
 
-  create-pull-request:
-    name: Create Pull Request
-    runs-on: ubuntu-latest      
-    env:
-      GH_TOKEN: ${{ github.token }}
+  # create-pull-request:
+  #   name: Create Pull Request
+  #   runs-on: ubuntu-latest      
+  #   env:
+  #     GH_TOKEN: ${{ github.token }}
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v7
+  #       with:
+  #         ref: dev
+      
+  #     - name: Create Pull Request
+  #     # dev will need to be changed to current tag
+  #       run: |
+  #         gh pr create \
+  #         -B main \
+  #         -H dev \
+  #         -t "Merging of ${{ github.ref_name }} to main" \
+  #         -b "Automatically merging ${{ github.ref_name }} to main"
+
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-        with:
-          ref: dev
       
-      - name: Create Pull Request
-      # dev will need to be changed to current tag
-        run: |
-          gh pr create -B main -H dev -t "Merging of ${{ github.ref_name }} to main" -b "Automatically merging ${{ github.ref_name }} to main"
+      - name: Download Windows Installer
+        uses: actions/download-artifact@v5
+        with:
+          name: windows-installer
+          path: artifacts
+          
+      - name: Download Windows Unpacked
+        uses: actions/download-artifact@v5
+        with:
+          name: windows-unpacked
+          path: artifacts
+      
+      - run: ls artifacts
 
+      # - name: Create Release
+      #   run: |
+      #     gh release create \
+      #     -d \
+      #     -t "Test Release" \
+      #     artifacts/windows-unpacked artifacts/windows-installer
