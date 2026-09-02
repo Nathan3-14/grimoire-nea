@@ -16,6 +16,8 @@ jobs:
   upload:
     name: "Upload"
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -71,3 +73,4 @@ jobs:
           branch: dev
           #temp, dev will be {tag} instead
           base: main
+          close: ""
