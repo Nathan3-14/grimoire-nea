@@ -14,7 +14,7 @@ jobs:
       run:
         working-directory: ./site_electron
         shell: bash
-    name: Upload
+    name: Build
     runs-on: windows-latest
     permissions:
       contents: write
@@ -99,12 +99,14 @@ jobs:
         uses: actions/checkout@v7
       
       - name: Download Windows Installer
+        continue-on-error: true
         uses: actions/download-artifact@v5
         with:
           name: windows-installer
           path: artifacts
           
       - name: Download Windows Unpacked
+        continue-on-error: true
         uses: actions/download-artifact@v5
         with:
           name: windows-unpacked
