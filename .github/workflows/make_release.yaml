@@ -23,6 +23,8 @@ jobs:
   #   steps:
   #     - name: Checkout
   #       uses: actions/checkout@v7
+          # with:
+          #   ref: dev
   #     - name: Get bun
   #       uses: oven-sh/setup-bun@v2 
 
@@ -72,6 +74,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: dev
 
       - name: Check for git repo
         run: |
@@ -95,6 +99,8 @@ jobs:
   #   steps:
   #     - name: Checkout
   #       uses: actions/checkout@v7
+          # with:
+          #   ref: dev
       
   #     - name: Create Release
   #       uses: ncipollo/release-action@v1
