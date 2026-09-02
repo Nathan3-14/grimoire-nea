@@ -65,6 +65,32 @@ jobs:
   #         path: |
   #           release/${{ steps.remove.outputs.version }}/win-unpacked/*
   
+  # create-pull-request:
+  #   name: Create Pull Request
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v7
+  #       with:
+  #         ref: dev
+
+  #     - name: Check for git repo
+  #       run: |
+  #         ls
+  #         ls .git
+  #     - name: Create Pull Request
+  #       if: startswith(${{ github.ref_name }}, "v")
+  #       uses: peter-evans/create-pull-request@v8
+  #       with:
+  #         #temp, dev will be {tag} instead
+  #         branch: temp_dev
+  #         delete-branch: false
+  #         base: main
+  #         title: Merging of ${{ github.ref_name }} to main #TODO find out why set permissions dont work
+
   create-pull-request:
     name: Create Pull Request
     runs-on: ubuntu-latest
@@ -76,20 +102,11 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: dev
-
-      - name: Check for git repo
-        run: |
-          ls
-          ls .git
+      
       - name: Create Pull Request
-        if: startswith(${{ github.ref_name }}, "v")
-        uses: peter-evans/create-pull-request@v8
-        with:
-          #temp, dev will be {tag} instead
-          branch: temp_dev
-          delete-branch: false
-          base: main
-          title: Merging of ${{ github.ref_name }} to main #TODO find out why set permissions dont work
+      # dev will need to be changed to current tag
+        run: |
+          gh pr create -B main -H dev -T "Merging of ${{ github.ref_name }} to main"
   
   # create-release:
   #   name: Create Release
