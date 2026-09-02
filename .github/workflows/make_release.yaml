@@ -30,6 +30,8 @@ jobs:
       - name: Remove v from Tag
         id: remove
         run: |
+          $test = 'Hello World'.Replace('World', 'PowerShell')
+          echo "test $test"
           $newversion = '${{ github.ref_name }}'.Replace('v', '')
           echo "newv is $newversion"
           echo "version=$newversion" >> $env:GITHUB_OUTPUT
