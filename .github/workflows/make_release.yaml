@@ -16,8 +16,8 @@ jobs:
   upload:
     name: "Upload"
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+    env:
+      TAG: ${{ github.ref_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -25,17 +25,23 @@ jobs:
         uses: oven-sh/setup-bun@v2 
 
       - run: echo ${{ github.ref_type }}
-      - run: echo ${{ github.ref_name#v }}
+      - run: echo ${{ github.ref_name }}
+      
+      - name: Remove v from Tag
+        id: remove
+        run: echo "version=${TAG##v}" >> $GITHUB_OUTPUT
+
+      - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
       - name: Prepare and run Bun
-        if: startswith(${{ github.ref_name }}, "v")
+        if: startswith($TAG, "v")
         run: |
           bun i
           bun i -D vite-plugin-electron-renderer
           bun run build
 
       # - name: Archive Windows Installer
-      #   if: startswith(${{ github.ref_name }}, "v")
+      #   if: startswith($TAG, "v")
       #   uses: actions/upload-artifact@v4
       #   with:
       #     name: windows-installer
@@ -43,17 +49,23 @@ jobs:
       #       release/${{ github.ref_name }}/grimoire-nea-Windows-${{ github.ref_name }}-Setup.exe
       
       # - name: Archive Windows Unpacked
-      #   if: startswith(${{ github.ref_name }}, "v")
+      #   if: startswith($TAG, "v")
       #   uses: actions/upload-artifact@v4
       #   with:
       #     name: windows-unpacked
       #     path: |
       #       release/${{ github.ref_name }}/win-unpacked/*
-      
+  
+  create-pull-request:
+    name: abs
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
       - name: Create Pull Request
         if: startswith(${{ github.ref_name }}, "v")
         uses: peter-evans/create-pull-request@v8
         with:
           branch: dev
+          #temp, dev will be {tag} instead
           base: main
-          #temp, will be tag instead
