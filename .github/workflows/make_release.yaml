@@ -47,13 +47,12 @@ jobs:
 
       - name: Archive Windows Installer
         if: startswith(${{ github.ref_name }}, "v")
-        uses: actions/upload-artifact@v4
-        env:
-          VERSION: "a${{ steps.remove.outputs.version }}"
-        with:
-          name: windows-installer
-          path: |
-            release/${{ steps.remove.outputs.version }}/grimoire-nea-Windows-${{ steps.remove.outputs.version }}-Setup.exe
+        run: ls .
+        # uses: actions/upload-artifact@v4
+        # with:
+        #   name: windows-installer
+        #   path: |
+        #     release/${{ steps.remove.outputs.version }}/grimoire-nea-Windows-${{ steps.remove.outputs.version }}-Setup.exe
       
       # - name: Archive Windows Unpacked
       #   if: startswith(${{ github.ref_name }}, "v")
