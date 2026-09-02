@@ -2,8 +2,7 @@ name: "Create Pull Request"
 on:
   push:
     tags:
-    #temporarily 0., will be [1-9].
-      - "v0.*.*"
+      - "v[1-9].*.*"
 defaults:
   run:
     shell: bash
@@ -22,20 +21,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          ref: dev
+          ref: ${{ github.token }}
       - name: Get bun
         uses: oven-sh/setup-bun@v2 
-
-      - run: echo ${{ github.ref_type }}
-      - run: echo ${{ github.ref_name }}
 
       - name: Remove v from Tag
         id: remove
         run: |
           tag="${{ github.ref_name }}"
           echo "version=${tag//v/}" >> $GITHUB_OUTPUT
-
-      - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
       - name: Prepare and run Bun
         if: ${{ startswith(github.ref_name, 'v') }}
@@ -75,14 +69,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          ref: dev
+          ref: ${{ github.token }}
       
       - name: Create Pull Request
-      # dev will need to be changed to current tag
         run: |
           gh pr create \
           -B main \
-          -H dev \
+          -H ${{ github.token }} \
           -t "Merging of ${{ github.ref_name }} to main" \
           -b "Automatically merging ${{ github.ref_name }} to main"
 
