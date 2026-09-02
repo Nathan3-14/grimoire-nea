@@ -30,7 +30,7 @@ jobs:
       - name: Remove v from Tag
         id: remove
         run: |
-          echo "1.1.1" >> $GITHUB_OUTPUT
+          echo "version=${TAG##v}" >> $GITHUB_OUTPUT
 
       # $test 'Hello World' -replace 'World', 'PowerShell'
       # echo "test $test"
