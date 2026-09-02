@@ -26,7 +26,7 @@ jobs:
 
       - run: echo ${{ github.ref_type }}
       - run: echo ${{ github.ref_name }}
-      
+
       - name: Remove v from Tag
         id: remove
         run: echo "version=${TAG##v}" >> $GITHUB_OUTPUT
@@ -34,7 +34,7 @@ jobs:
       - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
       - name: Prepare and run Bun
-        if: startswith($TAG, "v")
+        if: startswith(${TAG}, "v")
         run: |
           bun i
           bun i -D vite-plugin-electron-renderer
