@@ -38,7 +38,7 @@ jobs:
       - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
       - name: Prepare and run Bun
-        if: ${{startswith(github.ref_name, 'v')}}
+        if: ${{ startswith(github.ref_name, 'v') }}
         run: |
           bun i
           bun i -D vite-plugin-electron-renderer
@@ -48,7 +48,7 @@ jobs:
       - run: ls release/${{ steps.remove.outputs.version }}
 
       - name: Archive Windows Installer
-        if: ${{startswith(github.ref_name, 'v')}}
+        if: ${{ startswith(github.ref_name, 'v') }}
         uses: actions/upload-artifact@v4
         with:
           name: windows-installer
@@ -56,7 +56,7 @@ jobs:
             site_electron/release/${{ steps.remove.outputs.version }}/grimoire-nea-Windows-${{ steps.remove.outputs.version }}-Setup.exe
       
       - name: Archive Windows Unpacked
-        if: ${{startswith(github.ref_name, 'v')
+        if: ${{ startswith(github.ref_name, 'v') }}
         uses: actions/upload-artifact@v4
         with:
           name: windows-unpacked
