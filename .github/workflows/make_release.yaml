@@ -15,7 +15,7 @@ defaults:
 jobs:
   upload:
     name: "Upload"
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       contents: write
     steps:
@@ -31,7 +31,7 @@ jobs:
         id: remove
         env:
           TAG: ${{ github.ref_name }}
-        run: echo "version=${TAG##v}" >> $GITHUB_OUTPUT
+        run: echo "version=$($env:TAG -replace '^v', '')" >> $env:GITHUB_OUTPUT
 
       - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
