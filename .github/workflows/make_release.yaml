@@ -72,7 +72,7 @@ jobs:
       - name: Check for git repo
         run: |
           ls
-          ls .git
+          # ls .git
       - name: Create Pull Request
         if: startswith(${{ github.ref_name }}, "v")
         uses: peter-evans/create-pull-request@v8
