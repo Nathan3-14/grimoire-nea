@@ -30,7 +30,7 @@ jobs:
       - name: Remove v from Tag
         id: remove
         run: |
-          echo "version=${TAG##v}" >> $GITHUB_OUTPUT
+          echo "version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
 
       # $test 'Hello World' -replace 'World', 'PowerShell'
       # echo "test $test"
