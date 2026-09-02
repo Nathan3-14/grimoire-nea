@@ -16,8 +16,6 @@ jobs:
   upload:
     name: "Upload"
     runs-on: ubuntu-latest
-    env:
-      TAG: ${{ github.ref_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -29,19 +27,21 @@ jobs:
 
       - name: Remove v from Tag
         id: remove
+        env:
+          TAG: ${{ github.ref_name }}
         run: echo "version=${TAG##v}" >> $GITHUB_OUTPUT
 
       - run: echo ${{ steps.remove.outputs.version }} #TODO FIX THIS
       
       - name: Prepare and run Bun
-        if: startswith(${TAG}, "v")
+        if: startswith(${{ github.ref_name }}, "v")
         run: |
           bun i
           bun i -D vite-plugin-electron-renderer
           bun run build
 
       # - name: Archive Windows Installer
-      #   if: startswith($TAG, "v")
+      #   if: startswith(${{ github.ref_name }}, "v")
       #   uses: actions/upload-artifact@v4
       #   with:
       #     name: windows-installer
@@ -49,7 +49,7 @@ jobs:
       #       release/${{ github.ref_name }}/grimoire-nea-Windows-${{ github.ref_name }}-Setup.exe
       
       # - name: Archive Windows Unpacked
-      #   if: startswith($TAG, "v")
+      #   if: startswith(${{ github.ref_name }}, "v")
       #   uses: actions/upload-artifact@v4
       #   with:
       #     name: windows-unpacked
