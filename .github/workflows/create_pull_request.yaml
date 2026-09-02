@@ -63,28 +63,28 @@ jobs:
           path: |
             release/${{ steps.remove.outputs.version }}/win-unpacked/*
 
-  # create-pull-request:
-  #   name: Create Pull Request
-  #   runs-on: ubuntu-latest      
-  #   env:
-  #     GH_TOKEN: ${{ github.token }}
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v7
-  #       with:
-  #         ref: dev
+  create-pull-request:
+    name: Create Pull Request
+    runs-on: ubuntu-latest      
+    env:
+      GH_TOKEN: ${{ github.token }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: dev
       
-  #     - name: Create Pull Request
-  #     # dev will need to be changed to current tag
-  #       run: |
-  #         gh pr create \
-  #         -B main \
-  #         -H dev \
-  #         -t "Merging of ${{ github.ref_name }} to main" \
-  #         -b "Automatically merging ${{ github.ref_name }} to main"
+      - name: Create Pull Request
+      # dev will need to be changed to current tag
+        run: |
+          gh pr create \
+          -B main \
+          -H dev \
+          -t "Merging of ${{ github.ref_name }} to main" \
+          -b "Automatically merging ${{ github.ref_name }} to main"
 
   create-release:
     name: Create Release
