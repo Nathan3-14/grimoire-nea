@@ -82,9 +82,9 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           #temp, dev will be {tag} instead
-          branch: dev
+          branch: main
           delete-branch: false
-          base: main
+          base: dev
           title: Merging of ${{ github.ref_name }} to main #TODO find out why set permissions dont work
   
   # create-release:
