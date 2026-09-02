@@ -12,6 +12,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: site_electron
     name: Build
     runs-on: windows-latest
     permissions:
@@ -37,8 +38,6 @@ jobs:
       - name: Get bun
         uses: oven-sh/setup-bun@v2 
       
-      - run: ls
-      - run: cd site_electron
       - run: ls
 
       
