@@ -21,8 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Get bun
-        uses: oven-sh/setup-bun@v2 
+      # - name: Get bun
+      #   uses: oven-sh/setup-bun@v2 
 
       - run: echo ${{ github.ref_type }}
       - run: echo ${{ github.ref_name }}
@@ -30,7 +30,7 @@ jobs:
       - name: Remove v from Tag
         id: remove
         run: |
-          $test = 'Hello World'.Replace('World', 'PowerShell')
+          $test = 'Hello World' -replace 'World', 'PowerShell'
           echo "test $test"
           $newversion = '${{ github.ref_name }}'.Replace('v', '')
           echo "newv is $newversion"
@@ -63,17 +63,17 @@ jobs:
       #     path: |
       #       release/${{ steps.remove.outputs.version }}/win-unpacked/*
   
-  create-pull-request:
-    name: abs
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      - name: Create Pull Request
-        if: startswith(${{ github.ref_name }}, "v")
-        uses: peter-evans/create-pull-request@v8
-        with:
-          branch: dev
-          #temp, dev will be {tag} instead
-          base: main
-          close: ""
+  # create-pull-request:
+  #   name: abs
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     pull-requests: write
+  #   steps:
+  #     - name: Create Pull Request
+  #       if: startswith(${{ github.ref_name }}, "v")
+  #       uses: peter-evans/create-pull-request@v8
+  #       with:
+  #         branch: dev
+  #         #temp, dev will be {tag} instead
+  #         base: main
+  #         close: ""
