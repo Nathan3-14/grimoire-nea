@@ -108,7 +108,7 @@ jobs:
       - name: Create Pull Request
       # dev will need to be changed to current tag
         run: |
-          gh pr create -B main -H dev -T "Merging of ${{ github.ref_name }} to main" -b "Automatically merging ${{ github.ref_name }} to main"
+          gh pr create -B main -H dev -t "Merging of ${{ github.ref_name }} to main" -b "Automatically merging ${{ github.ref_name }} to main"
   
   # create-release:
   #   name: Create Release
