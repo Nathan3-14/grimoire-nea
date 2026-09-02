@@ -42,6 +42,9 @@ jobs:
           bun i -D vite-plugin-electron-renderer
           bun run build
 
+      - run: ls release
+      - run: ls release/${{ steps.remove.outputs.version }}
+
       - name: Archive Windows Installer
         if: startswith(${{ github.ref_name }}, "v")
         uses: actions/upload-artifact@v4
