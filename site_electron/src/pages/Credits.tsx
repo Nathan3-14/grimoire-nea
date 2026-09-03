@@ -1,12 +1,11 @@
 import type { Settings } from "../App";
-import Button from "../components/Button";
-import { goto } from "../funcs";
+import GoToButton from "../components/GoToButton";
 import "./Credits.css"
 
 export default function Credits({settings}: {settings: Settings}) {
     return <>
         <h1>Credits</h1>
-        <Button onClick={() => goto("/")} settings={settings}>Home</Button>
+        <GoToButton to="/" settings={settings}>Home</GoToButton>
     
         <br />
         <div className="credits-list">

@@ -6,13 +6,6 @@ export const angleFromIndex = (index: number, max: number) => {
     return (index / max) * TAU + Math.PI;
 }
 
-export const goto = (address: string) => {
-    console.log(window.location);
-    console.log(window.location.href);
-    console.log(address);
-    window.location.href = address;
-}
-
 export const checkCircleInsideGrim = (
     position: {x: number, y: number},
     diameter: number,

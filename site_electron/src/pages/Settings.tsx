@@ -1,9 +1,9 @@
 import type { Settings } from "../App"
-import { angleFromIndex, hsl, goto } from "../funcs";
+import { angleFromIndex, hsl } from "../funcs";
 import { useState } from "react";
 import { Stage, Layer, Rect, Circle } from "react-konva";
-import Button from "../components/Button";
 import "./Settings.css"
+import GoToButton from "../components/GoToButton";
 
 
 export default function Settings({settings}: {settings: Settings}) {
@@ -22,7 +22,7 @@ export default function Settings({settings}: {settings: Settings}) {
 
     return <>
         <h1>Settings</h1>
-        <Button onClick={() => goto("/")} settings={settings}>Home</Button>
+        <GoToButton to="/" settings={settings}>Home</GoToButton>
 
         <br />
 
