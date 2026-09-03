@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
 import Settings from './pages/Settings';
@@ -73,7 +73,7 @@ export default function App() {
     };
 
     return <div className="main" style={{backgroundColor: settings.backgroundColour, color: settings.textColour}}>
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
                 <Route path="/*">
                     <Route index element={<Home settings={settings} />} />
@@ -85,6 +85,6 @@ export default function App() {
                     </Route>
                 </Route>
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     </div>
 }
