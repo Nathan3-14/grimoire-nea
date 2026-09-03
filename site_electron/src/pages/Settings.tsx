@@ -36,6 +36,13 @@ export default function Settings({settings}: {settings: Settings}) {
 
         <br />
 
+        <label htmlFor="secondary-colour">Secondary Colour: </label>
+        <input type="color" name="secondary-colour" value={settings.secondaryColour} onChange={(e) => {
+            settings.setSecondaryColour(e.target.value);
+        }} />
+
+        <br />
+
         <label htmlFor="token-size">Token Size: </label>
         <input type="number" name="token-size" value={settings.tokenSize} onChange={(e) => {
             settings.setTokenSize(e.target.value);

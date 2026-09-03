@@ -135,6 +135,8 @@ export const Player = (
                 text={character}
                 fill="black"
                 align="center"
+                fontFamily="Papyrus"
+                fontSize={15}
             />
 
             {/* //* Name Tag */}
@@ -146,7 +148,7 @@ export const Player = (
                     stroke={settings.textColour}
                     strokeWidth={1}
                 />
-                <Text x={3} y={1} text={name} fontFamily="Fredoka" fontSize={14} fill={settings.textColour} />
+                <Text x={3} y={4} text={name} fontFamily="Papyrus" fontSize={14} fill={settings.textColour} />
             </Group>
 
             {/* //* Toggleable Menu */}
