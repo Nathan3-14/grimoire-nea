@@ -3,7 +3,7 @@ import { type Settings } from "../App"
 import { hsl } from "../funcs";
 import styles from "./Button.module.css"
 
-interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
+export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
     settings: Settings;
 }
 
@@ -16,7 +16,7 @@ export default function Button({children, settings, ...rest}: ButtonProps) {
 
     return <button
         className={styles.button}
-        style={{border: `2px solid ${borderColour}`}}
+        style={{border: `2px solid ${borderColour}`, color: borderColour}}
         onMouseEnter={() => setBorderColour(hsl(borderColour)[2] > 40 ? "#cccccc" : "#808080")}
         onMouseLeave={() => setBorderColour(settings.textColour)}
         {...rest}>
