@@ -60,7 +60,7 @@ jobs:
         with:
           name: windows-installer
           path: |
-            site_electron/release/${{ steps.remove.outputs.version }}/grimoire-nea-Windows-${{ steps.remove.outputs.version }}-Setup.exe
+            site_electron/release/${{ steps.remove.outputs.version }}/grimoire-nea-Windows-${{ steps.remove.outputs.version }}-Installer.exe
       
       - name: Compress Windows Unpacked
         if: ${{ startswith(github.ref_name, 'v') }}

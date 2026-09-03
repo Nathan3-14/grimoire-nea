@@ -27,7 +27,7 @@
         ]
       }
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+    "artifactName": "${productName}-Windows-${version}-Installer.${ext}"
   },
   "nsis": {
     "oneClick": false,
