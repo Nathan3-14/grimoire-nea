@@ -66,6 +66,7 @@ export default function Settings({settings}: {settings: Settings}) {
 
         <br /><br />
         
+        {/* //TODO Add preview for secondary colour! */}
         <label htmlFor="player-count">Preview (half scale):<br />Player Count: </label>
         <input type="number" name="player-count" value={previewPlayerCount} onChange={(e) => {
             const playerCount = e.target.value;
