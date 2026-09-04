@@ -20,7 +20,7 @@ export default function Settings({settings}: {settings: Settings}) {
         />
     });
 
-    return <>
+    return <div className="page">
         <h1>Settings</h1>
         <GoToButton to="/" settings={settings}>Home</GoToButton>
 
@@ -33,6 +33,13 @@ export default function Settings({settings}: {settings: Settings}) {
             settings.setTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000"); //? changes font colour if the background is too dark
             settings.setLinkColour(hsl(colour)[2] < 50 ? "#88efe9" : "#42928e")
         }} /> {/* sets "backgroundColour" whenever its value changes */}
+
+        <br />
+
+        <label htmlFor="secondary-colour">Secondary Colour: </label>
+        <input type="color" name="secondary-colour" value={settings.secondaryColour} onChange={(e) => {
+            settings.setSecondaryColour(e.target.value);
+        }} />
 
         <br />
 
@@ -59,6 +66,7 @@ export default function Settings({settings}: {settings: Settings}) {
 
         <br /><br />
         
+        {/* //TODO Add preview for secondary colour! */}
         <label htmlFor="player-count">Preview (half scale):<br />Player Count: </label>
         <input type="number" name="player-count" value={previewPlayerCount} onChange={(e) => {
             const playerCount = e.target.value;
@@ -75,5 +83,5 @@ export default function Settings({settings}: {settings: Settings}) {
                 {examplePlayers}
             </Layer>
         </Stage>
-    </>
+    </div>
 }

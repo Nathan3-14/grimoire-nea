@@ -1,4 +1,6 @@
-## Features
-- Automatic Building of Project
-- Automatic Pull Request Creation
-- Automatic Release Generation
+## New Features
+- Added a nav bar to grim and new grim pages
+
+## Bugfixes
+- Fixed papayrus font not working
+- Fixed name tags being misplaced
