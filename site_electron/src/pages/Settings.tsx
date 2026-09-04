@@ -20,7 +20,7 @@ export default function Settings({settings}: {settings: Settings}) {
         />
     });
 
-    return <>
+    return <div className="page">
         <h1>Settings</h1>
         <GoToButton to="/" settings={settings}>Home</GoToButton>
 
@@ -82,5 +82,5 @@ export default function Settings({settings}: {settings: Settings}) {
                 {examplePlayers}
             </Layer>
         </Stage>
-    </>
+    </div>
 }

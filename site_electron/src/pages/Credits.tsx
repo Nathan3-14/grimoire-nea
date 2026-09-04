@@ -3,7 +3,7 @@ import GoToButton from "../components/GoToButton";
 import "./Credits.css"
 
 export default function Credits({settings}: {settings: Settings}) {
-    return <>
+    return <div className="page">
         <h1>Credits</h1>
         <GoToButton to="/" settings={settings}>Home</GoToButton>
     
@@ -14,5 +14,5 @@ export default function Credits({settings}: {settings: Settings}) {
             <p>Papyrus and Old English Text MT fonts as provided by <a href="https://www.online-fonts.com">online-fonts.com</a></p>
             <p>Fredoka font provided by <a href="https://fonts.google.com/">Google Fonts</a></p>
         </div>
-    </>
+    </div>
 }

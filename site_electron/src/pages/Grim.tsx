@@ -6,6 +6,7 @@ import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/N
 import { Player, type NewPlayerProperties, type PlayerProperties } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
 import { Group, Layer, Rect, Stage, Text } from "react-konva";
+import "./Grim.css"
 
 
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
@@ -189,24 +190,29 @@ export default function Grim({settings}: {settings: Settings}) {
         })
     }
 
-    return <Stage width={settings.grimWidth} height={settings.grimHeight}>
-        <Layer id="background">
-            <Rect width={settings.grimWidth} height={settings.grimHeight} fill={settings.backgroundColour} cornerRadius={10} />
-        </Layer>
-        <Layer id="player-tokens">{playerTokens}</Layer>
-        <Layer id="reminder-tokens">{reminderTokens}</Layer>
-        <Layer id="menus">
-            {/* //* Add Reminder Menu */}
-            <Group
-            id="add-reminder"
-            visible={isAddReminderVisible}
-            onDblClick={() => setIsAddReminderVisible(false)} onDblTap={() => setIsAddReminderVisible(false)}
-            x={100} y={100}
-            >
-                <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
-                <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
-                {reminderButtonElements}
-            </Group>
-        </Layer>
-    </Stage>
+    return <div className="page">
+        <br />
+        <div id="stage-container">
+            <Stage width={settings.grimWidth} height={settings.grimHeight}>
+                <Layer id="background">
+                    <Rect width={settings.grimWidth} height={settings.grimHeight} fill={settings.backgroundColour} cornerRadius={10} />
+                </Layer>
+                <Layer id="player-tokens">{playerTokens}</Layer>
+                <Layer id="reminder-tokens">{reminderTokens}</Layer>
+                <Layer id="menus">
+                    {/* //* Add Reminder Menu */}
+                    <Group
+                    id="add-reminder"
+                    visible={isAddReminderVisible}
+                    onDblClick={() => setIsAddReminderVisible(false)} onDblTap={() => setIsAddReminderVisible(false)}
+                    x={100} y={100}
+                    >
+                        <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
+                        <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
+                        {reminderButtonElements}
+                    </Group>
+                </Layer>
+            </Stage>
+        </div>
+    </div>
 }
