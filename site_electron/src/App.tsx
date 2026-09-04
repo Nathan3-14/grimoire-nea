@@ -83,7 +83,8 @@ export default function App() {
                     <Route path="credits" element={<Credits settings={settings} />} />
                     <Route path="grim/*" element={<NavBar settings={settings} />}>
                         <Route index element={<Grim settings={settings} />} />
-                        <Route path="create" element={<NewGrim settings={settings} />} />
+                        {/* <Route path="create" element={<NewGrim settings={settings} />} /> */}
+                        <Route path="create" element={<NewGrim />} />
                     </Route>
                 </Route>
             </Routes>
