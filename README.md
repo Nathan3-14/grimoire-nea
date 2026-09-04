@@ -1,7 +1,6 @@
 # grimoire-nea
 A web-based Blood on the Clocktower Grimoire for my Computer Science A-Level NEA
-Most recent badge
-[![Build New Version](https://github.com/Nathan3-14/grimoire-nea/actions/workflows/create_pull_request.yaml/badge.svg)](https://github.com/Nathan3-14/grimoire-nea/actions/workflows/create_pull_request.yaml)
+<br><br>[![Build New Version](https://github.com/Nathan3-14/grimoire-nea/actions/workflows/create_pull_request.yaml/badge.svg)](https://github.com/Nathan3-14/grimoire-nea/actions/workflows/create_pull_request.yaml)
 
 ![BotC Community Created Content](ccc-sleeve.png)  
 
