@@ -6,6 +6,7 @@ import Settings from './pages/Settings';
 import Credits from './pages/Credits';
 import Grim from './pages/Grim';
 import NavBar from './templates/NavBar';
+import NewGrim from './pages/NewGrim';
 
 export interface Settings {
     backgroundColour: string,
@@ -82,7 +83,7 @@ export default function App() {
                     <Route path="credits" element={<Credits settings={settings} />} />
                     <Route path="grim/*" element={<NavBar settings={settings} />}>
                         <Route index element={<Grim settings={settings} />} />
-                        <Route path="create" element={<h1>New Grimoire Page</h1>} />
+                        <Route path="create" element={<NewGrim settings={settings} />} />
                     </Route>
                 </Route>
             </Routes>
