@@ -44,7 +44,7 @@ export default function App() {
     const [tokenSize, setTokenSize] = useState(100);
     const [tokenBackgroundColour, setTokenBackgroundColour] = useState("#3a7e7e");
     const [tokenTextColour, setTokenTextColour] = useState("#ffffff");
-    const [initialTokenCircleRadius, setinitialTokenCircleRadius] = useState(200);
+    const [initialTokenCircleRadius, setinitialTokenCircleRadius] = useState(190);
     const settings: Settings = {
         backgroundColour: backgroundColour,
         setBackgroundColour: setBackgroundColour,
@@ -83,7 +83,7 @@ export default function App() {
                     <Route path="credits" element={<Credits settings={settings} />} />
                     <Route path="grim/*" element={<NavBar settings={settings} />}>
                         <Route index element={<Grim settings={settings} />} />
-                        <Route path="create" element={<NewGrim />} />
+                        <Route path="create" element={<NewGrim settings={settings} />} />
                     </Route>
                 </Route>
             </Routes>
