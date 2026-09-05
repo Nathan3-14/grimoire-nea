@@ -1,24 +1,13 @@
 import type { Settings } from "../App"
-import { angleFromIndex, hsl } from "../funcs";
+import { hsl } from "../funcs";
 import { useState } from "react";
-import { Stage, Layer, Rect, Circle } from "react-konva";
 import "./Settings.css"
 import GoToButton from "../components/GoToButton";
+import SettingsPreview from "../components/SettingsPreview";
 
 
 export default function Settings({settings}: {settings: Settings}) {
     const [previewPlayerCount, setPreviewPlayerCount] = useState(7);
-    
-    const examplePlayers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((_item, index) => {
-        const halfTokenCircleRadius = settings.initialTokenCircleRadius / 2;
-        const quarterTokenSize = settings.halfTokenSize / 2;
-        return <Circle
-            radius={quarterTokenSize}
-            fill={settings.tokenBackgroundColour}
-            x={halfTokenCircleRadius * Math.sin(angleFromIndex(index, previewPlayerCount)) + 125}
-            y={halfTokenCircleRadius * Math.cos(angleFromIndex(index, previewPlayerCount)) + 125}
-        />
-    });
 
     return <div className="page">
         <h1>Settings</h1>
@@ -66,7 +55,7 @@ export default function Settings({settings}: {settings: Settings}) {
 
         <br /><br />
         
-        {/* //TODO Add preview for secondary colour! */}
+
         <label htmlFor="player-count">Preview (half scale):<br />Player Count: </label>
         <input type="number" name="player-count" value={previewPlayerCount} onChange={(e) => {
             const playerCount = e.target.value;
@@ -76,12 +65,6 @@ export default function Settings({settings}: {settings: Settings}) {
 
             setPreviewPlayerCount(+e.target.value);
         }}/>
-        <br />
-        <Stage width={250} height={250}>
-            <Layer id="background"><Rect fill={settings.backgroundColour} width={250} height={250} stroke={settings.textColour} strokeWidth={2.5} /></Layer>
-            <Layer id="tokens">
-                {examplePlayers}
-            </Layer>
-        </Stage>
+        <SettingsPreview settings={settings} previewPlayerCount={previewPlayerCount} />
     </div>
 }
