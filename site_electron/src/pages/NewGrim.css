@@ -1,0 +1,47 @@
+label {
+    padding: 5px;
+    font-family: "Papyrus";
+}
+
+#choices {
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    grid-template-rows: 50px 50px 50px;
+    gap: 5px;
+}
+
+
+#script-wrapper {
+    border-radius: 10px 0 0 0;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+#script-select {
+    border: 0;
+    outline: none;
+    background-color: inherit;
+    width: 100%;
+    opacity: 0.9;
+    font-family: "Papyrus";
+}
+
+
+#playercount-wrapper {
+    border-radius: 0;
+    grid-row: 1;
+    grid-column: 2;
+}
+
+#playercount-input {
+    box-sizing: border-box;
+    background-color: inherit;
+    font-family: "Papyrus";
+    width: 100%;
+    padding: 0 0 0 10px;
+}
+
+
+#submit {
+    border-radius: 0 10px 0 0;
+}
