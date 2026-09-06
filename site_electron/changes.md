@@ -1,6 +1,9 @@
 ## New Features
-- Added a nav bar to grim and new grim pages
+- New Grim Page
+    - Script Selection
+    - Player Count Selection
+    - [ ] Change Layout Settings from what is set
+        - [ ] Preview
+- Made Settings Preview a Component
 
 ## Bugfixes
-- Fixed papayrus font not working
-- Fixed name tags being misplaced
