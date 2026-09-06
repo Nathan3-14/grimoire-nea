@@ -39,6 +39,7 @@ export default function Grim({settings}: {settings: Settings}) {
             reminderButtonElements.push(<Reminder
                 settings={settings}
                 reminderID={`${characterID}.${reminderText}`}
+                key={`${characterID}.${reminderText}`}
                 x={(index % 5) * 60} y={Math.floor(index / 5) * 70 + 30}
                 onClick={() => {
                     setIsAddReminderVisible(false);
@@ -154,6 +155,7 @@ export default function Grim({settings}: {settings: Settings}) {
         return <Player
             character={player.character}
             name={player.name}
+            key={player.name}
             x={player.x}
             y={player.y}
             isMenuOpen={player.isMenuOpen}
@@ -172,6 +174,7 @@ export default function Grim({settings}: {settings: Settings}) {
                 settings={settings}
                 setReminder={setReminder}
                 reminderID={reminder.id}
+                key={`${player.name}:${reminder.id}`}
                 owner={player.name}
                 x={reminder.x}
                 y={reminder.y}
