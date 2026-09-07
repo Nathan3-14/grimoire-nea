@@ -42,10 +42,27 @@ label {
 }
 
 
+#layout-wrapper {
+    grid-row: 1;
+    grid-column: 3;
+    border-radius: 0 10px 0 0;
+}
+
+#layout-select {
+    border: 0;
+    outline: none;
+    background-color: inherit;
+    width: 100%;
+    opacity: 0.9;
+    font-family: "Papyrus";
+}
+
+
 #customscript-wrapper {
     grid-row: 2;
     grid-column: 1;
     padding: 4px 10px 4px 10px;
+    border-radius: 0 0 0 10px;
 }
 
 #customscript-url {
@@ -58,5 +75,7 @@ label {
 
 
 #submit {
-    border-radius: 0 10px 0 0;
+    grid-row: 2;
+    grid-column: 3;
+    border-radius: 0 0 10px 0;
 }
