@@ -140,6 +140,7 @@ export default function Grim({settings}: {settings: Settings}) {
     
     const [currentPlayer, setCurrentPlayer] = useState("initial"); //* Player Element's ID
     const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
+    const [isChangeNameVisible, setIsChangeNameVisible] = useState(false);
     const changeCursor = (e: KonvaEvent, cursor: string) => {
         const stage = e.target.getStage();
         if (!stage) {return}
@@ -148,6 +149,7 @@ export default function Grim({settings}: {settings: Settings}) {
     const functions = {
         setCurrentPlayer: setCurrentPlayer,
         setIsAddReminderVisible: setIsAddReminderVisible,
+        setIsChangeNameVisible: setIsChangeNameVisible,
         changeCursor: changeCursor
     };
 
@@ -205,14 +207,25 @@ export default function Grim({settings}: {settings: Settings}) {
                 <Layer id="menus">
                     {/* //* Add Reminder Menu */}
                     <Group
-                    id="add-reminder"
-                    visible={isAddReminderVisible}
-                    onDblClick={() => setIsAddReminderVisible(false)} onDblTap={() => setIsAddReminderVisible(false)}
-                    x={100} y={100}
+                        id="add-reminder"
+                        visible={isAddReminderVisible}
+                        onDblClick={() => setIsAddReminderVisible(false)} onDblTap={() => setIsAddReminderVisible(false)}
+                        x={100} y={100}
                     >
                         <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
                         {reminderButtonElements}
+                    </Group>
+
+                    {/* //* Change Name Menu */}
+                    <Group
+                        id="change-name"
+                        visible={isChangeNameVisible}
+                        onDblClick={() => setIsChangeNameVisible(false)} onDblTap={() => setIsChangeNameVisible(false)}
+                        x={50} y={50}
+                    >
+                        <Rect width={200} height={100} fill={settings.secondaryColour} cornerRadius={10} />
+                        <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
                     </Group>
                 </Layer>
             </Stage>

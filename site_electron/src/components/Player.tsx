@@ -25,6 +25,7 @@ export const Player = (
             functions: {
                 setCurrentPlayer: (name: string) => void,
                 setIsAddReminderVisible: (newState: boolean) => void,
+                setIsChangeNameVisible: (newState: boolean) => void,
                 changeCursor: (e: KonvaEvent, newCursor: string) => void
             };
         }
@@ -165,6 +166,8 @@ export const Player = (
                     fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
                 />
+
+                {/* //* Add Reminder Button */}
                 <Text
                     y={17}
                     onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
@@ -184,6 +187,8 @@ export const Player = (
                     fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
                     />
+
+                {/* //* Toggle Death Shroud */}
                 <Text
                     y={34}
                     onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
@@ -196,6 +201,27 @@ export const Player = (
                     }}
                     onTap = {() => {
                         setPlayer(name, {isDead: !isDead});
+                        setIsMenuOpen(false);
+                    }}
+                    fill={settings.linkColour}
+                    fontSize={11} fontStyle="bold"
+                    />
+
+                {/* //* Change Name Button */}
+                <Text
+                    y={51}
+                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                    text="Change Name"
+                    onClick = {(e) => {
+                        functions.changeCursor(e, "default");
+                        functions.setCurrentPlayer(name);
+                        functions.setIsChangeNameVisible(true);
+                        setIsMenuOpen(false);
+                    }}
+                    onTap = {() => {
+                        functions.setCurrentPlayer(name);
+                        functions.setIsChangeNameVisible(true);
                         setIsMenuOpen(false);
                     }}
                     fill={settings.linkColour}
