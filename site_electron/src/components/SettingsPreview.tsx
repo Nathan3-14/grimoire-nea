@@ -1,4 +1,4 @@
-import { Circle, Layer, Rect, Stage } from "react-konva";
+import { Circle, Layer, Rect, Stage, Text } from "react-konva";
 import { Settings } from "../App";
 import { angleFromIndex } from "../funcs";
 
@@ -22,6 +22,11 @@ export default function SettingsPreview({settings, previewPlayerCount}: {setting
             </Layer>
             <Layer id="tokens">
                 {examplePlayers}
+            </Layer>
+            <Layer id="menu">
+                <Rect fill={settings.secondaryColour} width={80} height={80} cornerRadius={5} x={85} y={85} />
+                <Text text="Preview" fill={settings.textColour} x={90} y={90} />
+                <Text text="Preview" fill={settings.tokenTextColour} x={30} y={40} />
             </Layer>
         </Stage>
     </>

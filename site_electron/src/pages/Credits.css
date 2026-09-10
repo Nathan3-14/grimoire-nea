@@ -3,6 +3,7 @@
     align-items: center;
 }
 
-a {
+Credits > a {
     color: wheat;
+    text-decoration: underline;
 }

@@ -22,3 +22,7 @@ h1 {
 .page {
     margin: 10px;
 }
+
+a {
+    text-decoration: none;
+}

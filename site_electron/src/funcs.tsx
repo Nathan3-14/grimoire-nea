@@ -1,5 +1,7 @@
 import convert from 'color-convert';
 import type { Settings } from './App';
+import { GrimData } from './pages/NewGrim';
+import { NewPlayerProperties, PlayerProperties } from './components/Player';
 
 const TAU = 2 * Math.PI;
 export const angleFromIndex = (index: number, max: number) => {
@@ -30,3 +32,25 @@ export const getCharacterIcon = (name: string) => {
     const url = `https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/${filename}`;
     return url
 }
+
+//! Update when new properties are added
+export const setPlayer = (grimData: GrimData, name: string|undefined, properties: NewPlayerProperties) => {
+    if (!name) {return}
+
+    const newPlayers: PlayerProperties[] = []; 
+    grimData.players.forEach((player) => {
+        const tempPlayer = player;
+        if (player.name == name) {
+            console.log(`Settings ${properties} for ${name}`);
+            if (properties.character) {tempPlayer.character = properties.character}
+            if (properties.name) {tempPlayer.name = properties.name}
+            if (properties.x) {tempPlayer.x = properties.x}
+            if (properties.y) {tempPlayer.y = properties.y}
+            if (properties.isMenuOpen !== undefined) {tempPlayer.isMenuOpen = properties.isMenuOpen}
+            if (properties.reminders) {tempPlayer.reminders = properties.reminders}
+            if (properties.isDead !== undefined)  {tempPlayer.isDead = properties.isDead}
+        }
+        newPlayers.push(tempPlayer);
+    });
+    grimData.setPlayers(newPlayers);
+};

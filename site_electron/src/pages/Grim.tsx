@@ -1,15 +1,21 @@
 import type { Settings } from "../App";
 import { useState, type ReactElement } from "react";
-import { angleFromIndex } from "../funcs";
-import roleData from "../botc_roles.json";
+import { setPlayer } from "../funcs";
+import roleData from "../data/botc_roles.json";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
-import { Player, type NewPlayerProperties, type PlayerProperties } from "../components/Player";
+import { Player } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
 import { Group, Layer, Rect, Stage, Text } from "react-konva";
 import "./Grim.css"
+import { GrimData } from "./NewGrim";
 
 
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
+export type ScriptItem = {
+    id: string,
+    name?: string,
+    author?: string
+}
 
 const getCharacterData = (characterID: string) => {
     let output = roleData[0];
@@ -19,8 +25,9 @@ const getCharacterData = (characterID: string) => {
     return output;
 }
 
-export default function Grim({settings}: {settings: Settings}) {
-    const script = ["imp", "scarletwoman", "baron", "spy", "poisoner", "drunk", "saint", "butler", "recluse", "washerwoman", "librarian", "investigator", "chef", "empath", "fortuneteller", "soldier", "monk", "mayor", "slayer", "virgin", "ravenkeeper", "undertaker"]
+export default function Grim({settings, grimData}: {settings: Settings, grimData: GrimData}) {
+
+    const script = grimData.scriptCharacters;
     const reminderButtonElements: ReactElement[] = [];
 
     //* Iterate through all characters and their reminders (supplied from https://release.botc.app/resources/data/roles.json (https://release.botc.app/resources))
@@ -44,24 +51,14 @@ export default function Grim({settings}: {settings: Settings}) {
                 onClick={() => {
                     setIsAddReminderVisible(false);
                     addReminderToPlayer(currentPlayer, `${characterID}.${reminderText}`);
-
-                    //TODO Make settings persistant across pages
                 }}
             />);
             index++;
         });
     });
 
-    const [players, setPlayers] = useState<PlayerProperties[]>([
-        {character: "washerwoman", name: "Alice", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "librarian", name: "Bob", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "investigator", name: "Carol", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "poisoner", name: "David", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "imp", name: "Edith", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "ravenkeeper", name: "Freya", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "monk", name: "Gary", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "fortuneteller", name: "Hannah", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-    ]);
+    const players = grimData.players;
+    // const setPlayers = grimData.setPlayers;
     const getPlayer = (name: string) => {
         let playerIndex = 0;
         players.forEach((value, index) => {
@@ -72,26 +69,7 @@ export default function Grim({settings}: {settings: Settings}) {
         return players[playerIndex]
     }
 
-    //! Update when new properties are added
-    const setPlayer = (name: string|undefined, properties: NewPlayerProperties) => {
-        if (!name) {return}
 
-        const newPlayers: PlayerProperties[] = []; 
-        players.forEach((player) => {
-            const tempPlayer = player;
-            if (player.name == name) {
-                if (properties.character) {tempPlayer.character = properties.character}
-                if (properties.name) {tempPlayer.name = properties.name}
-                if (properties.x) {tempPlayer.x = properties.x}
-                if (properties.y) {tempPlayer.y = properties.y}
-                if (properties.isMenuOpen !== undefined) {tempPlayer.isMenuOpen = properties.isMenuOpen}
-                if (properties.reminders) {tempPlayer.reminders = properties.reminders}
-                if (properties.isDead !== undefined)  {tempPlayer.isDead = properties.isDead}
-            }
-            newPlayers.push(tempPlayer);
-        });
-        setPlayers(newPlayers);
-    };
     const addReminderToPlayer = (playerName: string, reminderID: string) => {
         //* Check if reminder already exists on this player
         let reminderAlreadyExists = false;
@@ -113,7 +91,7 @@ export default function Grim({settings}: {settings: Settings}) {
         const theta = Math.atan(modifiedPosition.x/modifiedPosition.y) + (modifiedPosition.y <= 0 ? Math.PI : 0);
         const newReminderX = reminderDistance * Math.sin(theta) + (settings.grimWidth / 2);
         const newReminderY = reminderDistance * Math.cos(theta) + (settings.grimHeight / 2);
-        setPlayer(playerName, {reminders: [
+        setPlayer(grimData, playerName, {reminders: [
             //? adds the item '{id: reminderId...}' to all other reminders the player has
             ...getPlayer(playerName).reminders,
             {
@@ -135,10 +113,10 @@ export default function Grim({settings}: {settings: Settings}) {
             };
             newReminders.push(tempReminder);
         });
-        setPlayer(playerName, {reminders: newReminders})
+        setPlayer(grimData, playerName, {reminders: newReminders})
     };
     
-    const [currentPlayer, setCurrentPlayer] = useState("initial"); //* Player Element's ID
+    const [currentPlayer, setCurrentPlayer] = useState("none"); //* Player Element's ID
     const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
     const [isChangeNameVisible, setIsChangeNameVisible] = useState(false);
     const changeCursor = (e: KonvaEvent, cursor: string) => {
@@ -163,6 +141,7 @@ export default function Grim({settings}: {settings: Settings}) {
             isMenuOpen={player.isMenuOpen}
             isDead={player.isDead}
             settings={settings}
+            grimData={grimData}
             setPlayer={setPlayer}
             functions={functions}
         />
@@ -183,17 +162,6 @@ export default function Grim({settings}: {settings: Settings}) {
             />);
         });
     });
-
-
-    if (currentPlayer == "initial") {
-        players.forEach((player, index) => {
-            setPlayer(player.name, {
-                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, players.length)) - settings.halfTokenSize + (settings.grimWidth / 2),
-                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, players.length)) - settings.halfTokenSize + (settings.grimHeight / 2)
-            });
-            setCurrentPlayer("none");
-        })
-    }
 
     return <div className="page">
         <br />

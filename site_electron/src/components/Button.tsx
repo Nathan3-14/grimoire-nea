@@ -7,7 +7,7 @@ export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
     settings: Settings;
 }
 
-export default function Button({children, settings, ...rest}: ButtonProps) {
+export default function Button({children, settings, style, ...rest}: ButtonProps) {
     const [borderColour, setBorderColour] = useState(settings.textColour);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export default function Button({children, settings, ...rest}: ButtonProps) {
 
     return <button
         className={styles.button}
-        style={{border: `2px solid ${borderColour}`, color: borderColour}}
+        style={{border: `2px solid ${borderColour}`, color: borderColour, ...style}}
         onMouseEnter={() => setBorderColour(hsl(borderColour)[2] > 40 ? "#cccccc" : "#808080")}
         onMouseLeave={() => setBorderColour(settings.textColour)}
         {...rest}>
