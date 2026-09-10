@@ -1,4 +1,4 @@
-name: "Create Pull Request"
+name: "Handle New Version"
 on:
   push:
     tags:
@@ -78,6 +78,7 @@ jobs:
 
   create-pull-request:
     name: Create Pull Request
+    needs: build
     runs-on: ubuntu-latest      
     env:
       GH_TOKEN: ${{ github.token }}
