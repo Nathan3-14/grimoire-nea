@@ -1,5 +1,8 @@
 h1 {
     font-family: "Old English MT", sans-serif;
+    font-size: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .main {
@@ -18,4 +21,8 @@ h1 {
 
 .page {
     margin: 10px;
+}
+
+a {
+    text-decoration: none;
 }

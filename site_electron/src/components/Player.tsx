@@ -7,24 +7,27 @@ import { Circle, Group, Image, Rect, Text, TextPath } from "react-konva";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
 import type { ReminderProperties } from "./Reminder";
 import shroud from "../assets/images/shroud.png"
+import { GrimData } from "../pages/NewGrim";
 
 export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[], isDead: boolean};
 export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[], isDead?: boolean};
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
 
 export const Player = (
-        {settings, character, name, x, y, isMenuOpen, isDead, setPlayer, functions, ...rest}: {
+        {settings, grimData, character, name, x, y, isMenuOpen, isDead, setPlayer, functions, ...rest}: {
             settings: Settings,
+            grimData: GrimData,
             character: string,
             name: string,
             x: number,
             y: number,
             isMenuOpen: boolean,
             isDead: boolean,
-            setPlayer: (name: string|undefined, properties: NewPlayerProperties) => void,
+            setPlayer: (grimData: GrimData, name: string|undefined, properties: NewPlayerProperties) => void,
             functions: {
                 setCurrentPlayer: (name: string) => void,
                 setIsAddReminderVisible: (newState: boolean) => void,
+                setIsChangeNameVisible: (newState: boolean) => void,
                 changeCursor: (e: KonvaEvent, newCursor: string) => void
             };
         }
@@ -33,15 +36,15 @@ export const Player = (
         const [characterImage] = useImage(getCharacterIcon(character));
 
         //* Setup useful functions
-        const setX = (newX: number) => setPlayer(player.current?.id(), {x: newX});
-        const setY = (newY: number) => setPlayer(player.current?.id(), {y: newY});
+        const setX = (newX: number) => setPlayer(grimData, player.current?.id(), {x: newX});
+        const setY = (newY: number) => setPlayer(grimData, player.current?.id(), {y: newY});
         const setPosition = (newPosition: {x: number, y: number}) => {
             setX(newPosition.x);
             setY(newPosition.y);
         }
         const setIsMenuOpen = (newMenu: boolean) => {
             console.log(`setting ${player.current?.id()} to ${newMenu}`);
-            setPlayer(player.current?.id(), {isMenuOpen: newMenu});
+            setPlayer(grimData, player.current?.id(), {isMenuOpen: newMenu});
         }
         const toggleIsMenuOpen = () => setIsMenuOpen(!isMenuOpen);
         
@@ -133,7 +136,7 @@ export const Player = (
             <TextPath
                 data={svg}
                 text={character}
-                fill="black"
+                fill={settings.tokenTextColour}
                 align="center"
                 fontFamily="Papyrus"
                 fontSize={15}
@@ -165,6 +168,8 @@ export const Player = (
                     fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
                 />
+
+                {/* //* Add Reminder Button */}
                 <Text
                     y={17}
                     onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
@@ -184,6 +189,8 @@ export const Player = (
                     fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
                     />
+
+                {/* //* Toggle Death Shroud */}
                 <Text
                     y={34}
                     onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
@@ -191,11 +198,32 @@ export const Player = (
                     text="Toggle Dead"
                     onClick = {(e) => {
                         functions.changeCursor(e, "default");
-                        setPlayer(name, {isDead: !isDead});
+                        setPlayer(grimData, name, {isDead: !isDead});
                         setIsMenuOpen(false);
                     }}
                     onTap = {() => {
-                        setPlayer(name, {isDead: !isDead});
+                        setPlayer(grimData, name, {isDead: !isDead});
+                        setIsMenuOpen(false);
+                    }}
+                    fill={settings.linkColour}
+                    fontSize={11} fontStyle="bold"
+                    />
+
+                {/* //* Change Name Button */}
+                <Text
+                    y={51}
+                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                    text="Change Name"
+                    onClick = {(e) => {
+                        functions.changeCursor(e, "default");
+                        functions.setCurrentPlayer(name);
+                        functions.setIsChangeNameVisible(true);
+                        setIsMenuOpen(false);
+                    }}
+                    onTap = {() => {
+                        functions.setCurrentPlayer(name);
+                        functions.setIsChangeNameVisible(true);
                         setIsMenuOpen(false);
                     }}
                     fill={settings.linkColour}
