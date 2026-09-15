@@ -15,3 +15,6 @@
 ## Known Bugs
 - Text preview misaligned
 - Links on Credits page no longer styled
+
+## Bugfixes
+- Fixed window height not being large enough
