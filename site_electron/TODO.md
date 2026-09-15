@@ -1,5 +1,6 @@
 # To Do
-- Make merge sort and use to sort recently used names
+- Make merge sort and use to sort recently used name
+    - save user data, i.e. recently used names
 - Read json from custom address
 - Make add reminders page full-screen
 - Dynamic name tag size
