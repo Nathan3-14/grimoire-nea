@@ -1,7 +1,10 @@
 # To Do
+- Add document releases with different tags or something
+
 - Make merge sort and use to sort recently used name
     - save user data, i.e. recently used names
 - Read json from custom address
+- Add option to download icons / use custom set in Settings
 - Make add reminders page full-screen
 - Dynamic name tag size
 - Make all styles module
