@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="69Uu1vim04aXzrvz3QoY">
-    <mxGraphModel dx="1414" dy="787" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="987" dy="632" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -31,16 +30,16 @@
         <mxCell id="WCvjGo8b8W-mNI6L-mIF-24" edge="1" parent="1" source="WCvjGo8b8W-mNI6L-mIF-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="WCvjGo8b8W-mNI6L-mIF-22" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="WCvjGo8b8W-mNI6L-mIF-13" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="&lt;div&gt;Create Grimoire&lt;/div&gt;" vertex="1">
+        <mxCell id="WCvjGo8b8W-mNI6L-mIF-13" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="" vertex="1">
           <mxGeometry height="40" width="120" x="440" y="40" as="geometry" />
         </mxCell>
         <mxCell id="WCvjGo8b8W-mNI6L-mIF-40" edge="1" parent="1" source="WCvjGo8b8W-mNI6L-mIF-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="WCvjGo8b8W-mNI6L-mIF-20" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="WCvjGo8b8W-mNI6L-mIF-14" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="Create Grimoire" vertex="1">
+        <mxCell id="WCvjGo8b8W-mNI6L-mIF-14" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="" vertex="1">
           <mxGeometry height="40" width="120" x="240" y="440" as="geometry" />
         </mxCell>
-        <mxCell id="WCvjGo8b8W-mNI6L-mIF-16" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="Setup" vertex="1">
+        <mxCell id="WCvjGo8b8W-mNI6L-mIF-16" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="" vertex="1">
           <mxGeometry height="40" width="120" x="240" y="40" as="geometry" />
         </mxCell>
         <mxCell id="WCvjGo8b8W-mNI6L-mIF-20" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" value="End" vertex="1">
@@ -58,7 +57,7 @@
         <mxCell id="WCvjGo8b8W-mNI6L-mIF-32" edge="1" parent="1" source="WCvjGo8b8W-mNI6L-mIF-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="WCvjGo8b8W-mNI6L-mIF-29" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="WCvjGo8b8W-mNI6L-mIF-28" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="Main Loop" vertex="1">
+        <mxCell id="WCvjGo8b8W-mNI6L-mIF-28" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="" vertex="1">
           <mxGeometry height="40" width="120" x="600" y="40" as="geometry" />
         </mxCell>
         <mxCell id="WCvjGo8b8W-mNI6L-mIF-31" edge="1" parent="1" source="WCvjGo8b8W-mNI6L-mIF-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="WCvjGo8b8W-mNI6L-mIF-30" value="">
@@ -91,17 +90,35 @@
         <mxCell id="WCvjGo8b8W-mNI6L-mIF-42" edge="1" parent="1" source="WCvjGo8b8W-mNI6L-mIF-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="WCvjGo8b8W-mNI6L-mIF-39" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="WCvjGo8b8W-mNI6L-mIF-38" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="Setup" vertex="1">
+        <mxCell id="WCvjGo8b8W-mNI6L-mIF-38" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="" vertex="1">
           <mxGeometry height="40" width="120" x="40" y="120" as="geometry" />
         </mxCell>
         <mxCell id="WCvjGo8b8W-mNI6L-mIF-44" edge="1" parent="1" source="WCvjGo8b8W-mNI6L-mIF-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="WCvjGo8b8W-mNI6L-mIF-43" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="WCvjGo8b8W-mNI6L-mIF-39" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="Main Loop" vertex="1">
+        <mxCell id="WCvjGo8b8W-mNI6L-mIF-39" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=process;whiteSpace=wrap;rounded=1;size=0.14;arcSize=6;" value="" vertex="1">
           <mxGeometry height="40" width="120" x="40" y="200" as="geometry" />
         </mxCell>
         <mxCell id="WCvjGo8b8W-mNI6L-mIF-43" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" value="End" vertex="1">
           <mxGeometry height="40" width="120" x="40" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="jhoxmHA6Q9akHJXYDMTM-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div&gt;Setup&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="70" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="jhoxmHA6Q9akHJXYDMTM-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Main Loop" vertex="1">
+          <mxGeometry height="30" width="60" x="70" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="jhoxmHA6Q9akHJXYDMTM-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div&gt;Setup&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="270" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="jhoxmHA6Q9akHJXYDMTM-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Main Loop" vertex="1">
+          <mxGeometry height="30" width="60" x="630" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="jhoxmHA6Q9akHJXYDMTM-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Create Grimoire" vertex="1">
+          <mxGeometry height="30" width="60" x="270" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="jhoxmHA6Q9akHJXYDMTM-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Create Grimoire" vertex="1">
+          <mxGeometry height="30" width="60" x="470" y="45" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
