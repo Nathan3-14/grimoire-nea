@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Settings } from "../App";
-import "./NewGrim.css"
 import { ScriptItem } from "./Grim";
 import { PlayerProperties } from "../components/Player";
 import { angleFromIndex, setPlayer } from "../funcs";
+import { useNavigate } from "react-router-dom";
 import troubleBrewing from "../data/trouble_brewing.json"
 import badMoonRising from "../data/bad_moon_rising.json"
 import sectsAndViolets from "../data/sects_and_violets.json"
-import { useNavigate } from "react-router-dom";
+import "./NewGrim.css"
 
 export type GrimData = {
     scriptData: ScriptItem[],
@@ -66,7 +66,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
     }
     const navigate = useNavigate();
 
-    return <div className="page">
+    return <div className="page new-grim">
         <h1>New Grim</h1>
         <form id="choices" action={handleSubmit} onSubmit={() => navigate("/grim")}>
             <div id="script-wrapper" style={{backgroundColor: settings.secondaryColour}}>

@@ -1,11 +1,12 @@
+## New Features
+- Reworked css stylesheets so each page is individually styled
+- Added dynamic name tag sizing
+
 ## Will be Features
-- Make all styles module
 - Add pre-set themes
-- Dynamic name tag size
 
 ## Known Bugs
-- Text preview misaligned
-- Links on Credits page no longer styled
+- Text colour preview misaligned
 
 ## Bugfixes
-- Fixed window height not being large enough
+- Links on Credits page now styled

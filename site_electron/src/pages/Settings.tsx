@@ -9,7 +9,7 @@ import SettingsPreview from "../components/SettingsPreview";
 export default function Settings({settings}: {settings: Settings}) {
     const [previewPlayerCount, setPreviewPlayerCount] = useState(7);
 
-    return <div className="page">
+    return <div className="page settings">
         <h1>Settings</h1>
         <GoToButton to="/" settings={settings}>Home</GoToButton>
 
