@@ -11,6 +11,11 @@
     src: url("/src/assets/fonts/fredoka.ttf");
 }
 
+@font-face {
+    font-family: "Monaspace Radon";
+    src: url("/src/assets/fonts/monaspaceradon.otf")
+}
+
 * {
     color: inherit;
 }
