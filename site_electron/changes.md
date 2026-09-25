@@ -5,6 +5,7 @@
 
 ## Known Bugs
 - Text colour preview misaligned
+- Incorrect "default" theme shown
 
 ## Bugfixes
 - Links on Credits page now match link colour
