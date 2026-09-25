@@ -1,11 +1,8 @@
 ## New Features
-- Reworked css stylesheets so each page is individually styled
-- Added dynamic name tag sizing
-- Add pre-set themes
-
-## Known Bugs
-- Text colour preview misaligned
-- Incorrect "default" theme shown
+- Tweaked link colours of some themes
+- Re-arranged Settings page
+- Added more token text colour previews
 
 ## Bugfixes
-- Links on Credits page now match link colour
+- Correct "default" theme now shown
+- Correctly positioned token text colour preview
