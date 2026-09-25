@@ -33,79 +33,82 @@ export default function Settings({settings}: {settings: Settings}) {
     const [previewPlayerCount, setPreviewPlayerCount] = useState(7);
 
     return <div className="page settings">
-        <h1>Settings</h1>
-        <GoToButton to="/" settings={settings}>Home</GoToButton>
-
-        <br />
-
-        <div id="theme-wrapper" style={{backgroundColor: settings.secondaryColour}}>
-            <label htmlFor="theme">THEME</label>
-            <select name="theme" id="theme-select" value={settings.colourTheme} style={{color: settings.textColour}} onChange={(e) => {
-                setTheme(settings, e.target.value);
-            }}>
-                <option id="pine" value="pine">Pine (default)</option>
-                <option id="lightblue" value="lightblue">Light Blue</option>
-                <option id="darkred" value="darkred">Dark Red</option>
-                <option id="purple" value="purple">Purple</option>
-                <option id="custom" value="custom">Custom</option>
-            </select>
+        <div id="header-wrapper">
+            <h1>Settings</h1>
+            <GoToButton to="/" settings={settings}>Home</GoToButton>
         </div>
 
-        <br />
+        <div id="settings-wrapper">
+            <div id="theme-wrapper" style={{backgroundColor: settings.secondaryColour}}>
+                <label htmlFor="theme">THEME</label>
+                <select name="theme" id="theme-select" value={settings.colourTheme} style={{color: settings.textColour}} onChange={(e) => {
+                    setTheme(settings, e.target.value);
+                }}>
+                    <option id="darkred" value="darkred">Dark Red (default)</option>
+                    <option id="pine" value="pine">Pine</option>
+                    <option id="lightblue" value="lightblue">Light Blue</option>
+                    <option id="purple" value="purple">Purple</option>
+                    <option id="custom" value="custom">Custom</option>
+                </select>
+            </div>
 
-        <label htmlFor="background-colour">Background Colour: </label>
-        <input disabled={settings.colourTheme != "custom"} type="color" name="background-colour" value={settings.backgroundColour} onChange={(e) => {
-            settings.setBackgroundColour(e.target.value);
-        }} /> {/* sets "backgroundColour" whenever its value changes */}
+            <br />
 
-        <br />
+            <label htmlFor="background-colour">Background Colour: </label>
+            <input disabled={settings.colourTheme != "custom"} type="color" name="background-colour" value={settings.backgroundColour} onChange={(e) => {
+                settings.setBackgroundColour(e.target.value);
+            }} /> {/* sets "backgroundColour" whenever its value changes */}
 
-        <label htmlFor="text-colour">Text Colour: </label>
-        <input disabled={settings.colourTheme != "custom"} type="color" name="text-colour" value={settings.textColour} onChange={(e) => {
-            settings.setTextColour(e.target.value);
-        }} />
+            <br />
 
-        <br />
+            <label htmlFor="text-colour">Text Colour: </label>
+            <input disabled={settings.colourTheme != "custom"} type="color" name="text-colour" value={settings.textColour} onChange={(e) => {
+                settings.setTextColour(e.target.value);
+            }} />
 
-        <label htmlFor="secondary-colour">Secondary Colour: </label>
-        <input disabled={settings.colourTheme != "custom"} type="color" name="secondary-colour" value={settings.secondaryColour} onChange={(e) => {
-            settings.setSecondaryColour(e.target.value);
-        }} />
+            <br />
+
+            <label htmlFor="secondary-colour">Secondary Colour: </label>
+            <input disabled={settings.colourTheme != "custom"} type="color" name="secondary-colour" value={settings.secondaryColour} onChange={(e) => {
+                settings.setSecondaryColour(e.target.value);
+            }} />
 
 
-        <br />
+            <br />
 
-        <label htmlFor="token-size">Token Size: </label>
-        <input type="number" name="token-size" value={settings.tokenSize} onChange={(e) => {
-            settings.setTokenSize(e.target.value);
-        }} />
+            <label htmlFor="token-size">Token Size: </label>
+            <input type="number" name="token-size" value={settings.tokenSize} onChange={(e) => {
+                settings.setTokenSize(e.target.value);
+            }} />
 
-        <br />
+            <br />
 
-        <label htmlFor="token-circle-radius">Token Circle Radius: </label>
-        <input type="number" name="token-circle-radius" value={settings.initialTokenCircleRadius} onChange={(e) => {
-            settings.setinitialTokenCircleRadius(e.target.value);
-        }} />
+            <label htmlFor="token-circle-radius">Token Circle Radius: </label>
+            <input type="number" name="token-circle-radius" value={settings.initialTokenCircleRadius} onChange={(e) => {
+                settings.setinitialTokenCircleRadius(e.target.value);
+            }} />
 
-        <br />
+            <br />
 
-        <label htmlFor="token-background-colour">Token Background Colour: </label>
-        <input disabled={settings.colourTheme != "custom"} type="color" name="token-background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
-            settings.setTokenBackgroundColour(e.target.value);
-        }} />
+            <label htmlFor="token-background-colour">Token Background Colour: </label>
+            <input disabled={settings.colourTheme != "custom"} type="color" name="token-background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
+                settings.setTokenBackgroundColour(e.target.value);
+            }} />
+        </div>
 
-        <br /><br />
-        
+        <div id="preview-wrapper">
+            <br />
+            <label htmlFor="player-count"><br />Preview (half scale):<br />Player Count: </label> {/* Extra <br /> is needed to align text */}
+            <input type="number" name="player-count" value={previewPlayerCount} onChange={(e) => {
+                const playerCount = e.target.value;
+                // +variable converts it to a number
+                if (+playerCount < 5) {e.target.value = "5"}
+                else if (+playerCount > 20) {e.target.value = "20"}
 
-        <label htmlFor="player-count">Preview (half scale):<br />Player Count: </label>
-        <input type="number" name="player-count" value={previewPlayerCount} onChange={(e) => {
-            const playerCount = e.target.value;
-            // +variable converts it to a number
-            if (+playerCount < 5) {e.target.value = "5"}
-            else if (+playerCount > 20) {e.target.value = "20"}
+                setPreviewPlayerCount(+e.target.value);
+            }}/>
+            <SettingsPreview settings={settings} previewPlayerCount={previewPlayerCount} />
+        </div>
 
-            setPreviewPlayerCount(+e.target.value);
-        }}/>
-        <SettingsPreview settings={settings} previewPlayerCount={previewPlayerCount} />
     </div>
 }

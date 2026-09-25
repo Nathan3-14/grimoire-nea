@@ -3,6 +3,28 @@
     border: none;
 }
 
+.settings {
+    display: grid;
+    grid-template-rows: 100px auto;
+    grid-template-columns: auto auto;
+    gap: 20px;
+}
+
+.settings #header-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.settings #settings-wrapper {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.settings #preview-wrapper {
+    grid-column: 2;
+    grid-row: 1 span 2;
+}
+
 .settings label {
     padding: 5px;
     font-family: "Papyrus";
