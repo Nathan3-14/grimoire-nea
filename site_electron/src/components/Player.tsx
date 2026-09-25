@@ -146,12 +146,12 @@ export const Player = (
             <Group>
                 <Rect
                     fill={settings.secondaryColour}
-                    width={50} height={20}
+                    width={10 * name.length} height={20}
                     cornerRadius={5}
                     stroke={settings.textColour}
                     strokeWidth={1}
                 />
-                <Text x={3} y={4} text={name} fontFamily="Papyrus" fontSize={14} fill={settings.textColour} />
+                <Text x={3} y={4} text={name} fontFamily="Monaspace Radon" fontSize={14} fill={settings.textColour} />
             </Group>
 
             {/* //* Toggleable Menu */}

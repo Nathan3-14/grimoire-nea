@@ -1,23 +1,23 @@
-label {
+.new-grim label {
     padding: 5px;
     font-family: "Papyrus";
 }
+    
+.new-grim #choices {
+        display: grid;
+        grid-template-columns: 200px 200px 200px;
+        grid-template-rows: 50px 50px 50px;
+        gap: 10px;
+    }
 
-#choices {
-    display: grid;
-    grid-template-columns: 200px 200px 200px;
-    grid-template-rows: 50px 50px 50px;
-    gap: 10px;
-}
 
-
-#script-wrapper {
+.new-grim #script-wrapper {
     border-radius: 10px 0 0 0;
     grid-row: 1;
     grid-column: 1;
 }
 
-#script-select {
+.new-grim #script-select {
     border: 0;
     outline: none;
     background-color: inherit;
@@ -27,13 +27,13 @@ label {
 }
 
 
-#playercount-wrapper {
+.new-grim #playercount-wrapper {
     border-radius: 0;
     grid-row: 1;
     grid-column: 2;
 }
 
-#playercount-input {
+.new-grim #playercount-input {
     box-sizing: border-box;
     background-color: inherit;
     font-family: "Papyrus";
@@ -42,13 +42,13 @@ label {
 }
 
 
-#layout-wrapper {
+.new-grim #layout-wrapper {
     grid-row: 1;
     grid-column: 3;
     border-radius: 0 10px 0 0;
 }
 
-#layout-select {
+.new-grim #layout-select {
     border: 0;
     outline: none;
     background-color: inherit;
@@ -58,23 +58,23 @@ label {
 }
 
 
-#customscript-wrapper {
+.new-grim #customscript-wrapper {
     grid-row: 2;
     grid-column: 1;
     padding: 4px 10px 4px 10px;
     border-radius: 0 0 0 10px;
 }
 
-#customscript-url {
+.new-grim #customscript-url {
     max-width: 180px;
 }
 
-#customscript-file {
+.new-grim #customscript-file {
     width: 180px;
 }
 
 
-#submit {
+.new-grim #submit {
     grid-row: 2;
     grid-column: 3;
     border-radius: 0 0 10px 0;

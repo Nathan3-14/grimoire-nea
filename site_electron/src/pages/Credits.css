@@ -1,9 +1,9 @@
-.credits-list {
+.credits .credits-list {
     width: 100%;
-    align-items: center;
 }
 
-Credits > a {
+.credits-list a {
     color: wheat;
     text-decoration: underline;
 }
+

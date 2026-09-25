@@ -1,4 +1,45 @@
-input[type="color"] {
+.settings input[type="color"] {
     height: 20px;
     border: none;
+}
+
+.settings {
+    display: grid;
+    grid-template-rows: 100px auto;
+    grid-template-columns: auto auto;
+    gap: 20px;
+}
+
+.settings #header-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.settings #settings-wrapper {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.settings #preview-wrapper {
+    grid-column: 2;
+    grid-row: 1 span 2;
+}
+
+.settings label {
+    padding: 5px;
+    font-family: "Papyrus";
+}
+.settings #theme-wrapper {
+    border-radius: 10px;
+    width: 200px;
+    height: 50px;
+}
+
+.settings #theme-select {
+    width: 100%;
+    border: 0;
+    outline: none;
+    background-color: inherit;
+    opacity: 0.9;
+    font-family: "Papyrus";
 }
