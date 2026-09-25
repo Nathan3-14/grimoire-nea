@@ -9,41 +9,41 @@ export type Theme = {
 }
 
 export const Pine: Theme = {
-    backgroundColour: "#2F4F4F",
+    backgroundColour: "#2f4f4f",
     textColour: "#ffffff",
-    linkColour: "#Addfdf",
-    secondaryColour: "#1F4040",
+    linkColour: "#addfdf",
+    secondaryColour: "#1f4040",
     secondaryTextColour: "#ffffff",
-    tokenBackgroundColour: "#3A7E7E",
+    tokenBackgroundColour: "#3a7e7e",
     tokenTextColour: "#ffffff"
 }
 
 export const LightBlue: Theme = {
-    backgroundColour: "#82B4E3",
+    backgroundColour: "#82b4e3",
     textColour: "#ffffff",
-    linkColour: "#Addfdf",
-    secondaryColour: "#91C0D8",
+    linkColour: "#2a5a5a",
+    secondaryColour: "#91c0d8",
     secondaryTextColour: "#ffffff",
-    tokenBackgroundColour: "#67AACB",
+    tokenBackgroundColour: "#67aacb",
     tokenTextColour: "#ffffff"
 }
 
 export const Purple: Theme = {
-    backgroundColour: "#3D2258",
+    backgroundColour: "#3d2258",
     textColour: "#ffffff",
-    linkColour: "#Addfdf",
+    linkColour: "#addfdf",
     secondaryColour: "#654276",
     secondaryTextColour: "#ffffff",
-    tokenBackgroundColour: "#AD75B8",
+    tokenBackgroundColour: "#ad75b8",
     tokenTextColour: "#ffffff"
 }
 
 export const DarkRed: Theme = {
-    backgroundColour: "#510B0B",
+    backgroundColour: "#510b0b",
     textColour: "#ffffff",
-    linkColour: "#Addfdf",
-    secondaryColour: "#7E2525",
+    linkColour: "#b3918a",
+    secondaryColour: "#7e2525",
     secondaryTextColour: "#ffffff",
-    tokenBackgroundColour: "#892A2A",
+    tokenBackgroundColour: "#892a2a",
     tokenTextColour: "#ffffff"
 }
