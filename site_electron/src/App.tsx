@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
-import Settings from './pages/Settings';
+import Settings, { setTheme } from './pages/Settings';
 import Credits from './pages/Credits';
 import Grim, { ScriptItem } from './pages/Grim';
 import NewGrim, { GrimData } from './pages/NewGrim';
@@ -11,14 +11,20 @@ import NavBar from './templates/NavBar';
 import { PlayerProperties } from './components/Player';
 
 export type Settings = {
+    colourTheme: string,
+    setColourTheme: CallableFunction,
+
     backgroundColour: string,
     setBackgroundColour: CallableFunction,
-    secondaryColour: string,
-    setSecondaryColour: CallableFunction
     textColour: string,
     setTextColour: CallableFunction,
     linkColour: string,
     setLinkColour: CallableFunction,
+
+    secondaryColour: string,
+    setSecondaryColour: CallableFunction
+    secondaryTextColour: string,
+    setSecondaryTextColour: CallableFunction,
 
     tokenSize: number,
     halfTokenSize: number,
@@ -39,23 +45,30 @@ export type Settings = {
 };
 
 export default function App() {
-    const [backgroundColour, setBackgroundColour] = useState("#2f4f4f");
-    const [secondaryColour, setSecondaryColour] = useState("#1f4040");
-    const [textColour, setTextColour] = useState("#ffffff");
-    const [linkColour, setLinkColour] = useState("#88efe9")
+    const [colourTheme, setColourTheme] = useState("-1");
+    const [backgroundColour, setBackgroundColour] = useState("-1");
+    const [textColour, setTextColour] = useState("-1");
+    const [linkColour, setLinkColour] = useState("-1")
+    const [secondaryColour, setSecondaryColour] = useState("-1");
+    const [secondaryTextColour, setSecondaryTextColour] = useState("-1");
     const [tokenSize, setTokenSize] = useState(100);
-    const [tokenBackgroundColour, setTokenBackgroundColour] = useState("#3a7e7e");
-    const [tokenTextColour, setTokenTextColour] = useState("#ffffff");
+    const [tokenBackgroundColour, setTokenBackgroundColour] = useState("-1");
+    const [tokenTextColour, setTokenTextColour] = useState("-1");
     const [initialTokenCircleRadius, setinitialTokenCircleRadius] = useState(190);
     const settings: Settings = {
+        colourTheme: colourTheme,
+        setColourTheme: setColourTheme,
+
         backgroundColour: backgroundColour,
         setBackgroundColour: setBackgroundColour,
-        secondaryColour: secondaryColour,
-        setSecondaryColour: setSecondaryColour,
         textColour: textColour,
         setTextColour: setTextColour,
         linkColour: linkColour,
         setLinkColour: setLinkColour,
+        secondaryColour: secondaryColour,
+        setSecondaryColour: setSecondaryColour,
+        secondaryTextColour: secondaryTextColour,
+        setSecondaryTextColour: setSecondaryTextColour,
 
 
         tokenSize: tokenSize,
@@ -75,6 +88,12 @@ export default function App() {
         grimWidth: 500,
         grimHeight: 500
     };
+
+    if (settings.colourTheme == "-1") {
+        const newTheme = "darkred";
+        setColourTheme(newTheme);
+        setTheme(settings, newTheme);
+    }
 
 
     const [scriptData, setScriptData] = useState<ScriptItem[]>([]);

@@ -1,10 +1,33 @@
 import type { Settings } from "../App"
-import { hsl } from "../funcs";
 import { useState } from "react";
 import "./Settings.css"
 import GoToButton from "../components/GoToButton";
 import SettingsPreview from "../components/SettingsPreview";
+import { DarkRed, LightBlue, Pine, Purple, Theme } from "../data/Themes";
 
+const themes: {[name: string]: Theme} = {
+    "pine": Pine,
+    "lightblue": LightBlue,
+    "darkred": DarkRed,
+    "purple": Purple
+}
+
+export const setTheme = (settings: Settings, theme: string) => {
+    settings.setColourTheme(theme);
+    if (theme == "custom") return
+
+    const currentTheme = themes[theme];
+
+    settings.setBackgroundColour(currentTheme.backgroundColour);
+    settings.setTextColour(currentTheme.textColour);
+    settings.setLinkColour(currentTheme.linkColour);
+
+    settings.setSecondaryColour(currentTheme.secondaryColour);
+    settings.setSecondaryTextColour(currentTheme.secondaryTextColour);
+
+    settings.setTokenBackgroundColour(currentTheme.tokenBackgroundColour);
+    settings.setTokenTextColour(currentTheme.tokenTextColour);
+}
 
 export default function Settings({settings}: {settings: Settings}) {
     const [previewPlayerCount, setPreviewPlayerCount] = useState(7);
@@ -15,20 +38,40 @@ export default function Settings({settings}: {settings: Settings}) {
 
         <br />
 
+        <div id="theme-wrapper" style={{backgroundColor: settings.secondaryColour}}>
+            <label htmlFor="theme">THEME</label>
+            <select name="theme" id="theme-select" value={settings.colourTheme} style={{color: settings.textColour}} onChange={(e) => {
+                setTheme(settings, e.target.value);
+            }}>
+                <option id="pine" value="pine">Pine (default)</option>
+                <option id="lightblue" value="lightblue">Light Blue</option>
+                <option id="darkred" value="darkred">Dark Red</option>
+                <option id="purple" value="purple">Purple</option>
+                <option id="custom" value="custom">Custom</option>
+            </select>
+        </div>
+
+        <br />
+
         <label htmlFor="background-colour">Background Colour: </label>
-        <input type="color" name="background-colour" value={settings.backgroundColour} onChange={(e) => {
-            const colour = e.target.value;
-            settings.setBackgroundColour(colour);
-            settings.setTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000"); //? changes font colour if the background is too dark
-            settings.setLinkColour(hsl(colour)[2] < 50 ? "#88efe9" : "#42928e")
+        <input disabled={settings.colourTheme != "custom"} type="color" name="background-colour" value={settings.backgroundColour} onChange={(e) => {
+            settings.setBackgroundColour(e.target.value);
         }} /> {/* sets "backgroundColour" whenever its value changes */}
 
         <br />
 
+        <label htmlFor="text-colour">Text Colour: </label>
+        <input disabled={settings.colourTheme != "custom"} type="color" name="text-colour" value={settings.textColour} onChange={(e) => {
+            settings.setTextColour(e.target.value);
+        }} />
+
+        <br />
+
         <label htmlFor="secondary-colour">Secondary Colour: </label>
-        <input type="color" name="secondary-colour" value={settings.secondaryColour} onChange={(e) => {
+        <input disabled={settings.colourTheme != "custom"} type="color" name="secondary-colour" value={settings.secondaryColour} onChange={(e) => {
             settings.setSecondaryColour(e.target.value);
         }} />
+
 
         <br />
 
@@ -47,10 +90,8 @@ export default function Settings({settings}: {settings: Settings}) {
         <br />
 
         <label htmlFor="token-background-colour">Token Background Colour: </label>
-        <input type="color" name="token-background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
-            const colour = e.target.value;
-            settings.setTokenBackgroundColour(colour);
-            settings.setTokenTextColour(hsl(colour)[2] < 40 ? "#ffffff" : "#000000"); //? changes font colour if the background is too dark
+        <input disabled={settings.colourTheme != "custom"} type="color" name="token-background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
+            settings.setTokenBackgroundColour(e.target.value);
         }} />
 
         <br /><br />
