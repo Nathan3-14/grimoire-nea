@@ -54,3 +54,12 @@ export const setPlayer = (grimData: GrimData, name: string|undefined, properties
     });
     grimData.setPlayers(newPlayers);
 };
+
+export const setLocalStorage = (key: string, inputObject: any) => {
+    localStorage.setItem(key, JSON.stringify(inputObject));
+}
+
+export const getFromLocalStorage = (key: string, defaultValue?: any) => {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : defaultValue;
+}

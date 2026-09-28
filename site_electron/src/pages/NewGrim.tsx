@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Settings } from "../App";
 import { ScriptItem } from "./Grim";
 import { PlayerProperties } from "../components/Player";
-import { angleFromIndex, setPlayer } from "../funcs";
+import { angleFromIndex, getFromLocalStorage, setLocalStorage, setPlayer } from "../funcs";
 import { useNavigate } from "react-router-dom";
 import troubleBrewing from "../data/trouble_brewing.json"
 import badMoonRising from "../data/bad_moon_rising.json"
@@ -52,6 +52,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
         
         grimData.setScriptData(scriptData);
         grimData.setPlayercount(+playercount);
+        setLocalStorage("lastPlayerCount", playercount);
         grimData.setLayout(layout.toString());
 
         grimData.players.forEach((player, index) => {
@@ -81,7 +82,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
 
             <div id="playercount-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="playercount">PLAYER COUNT</label>
-                <input required type="number" name="playercount" id="playercount-input" style={{color: settings.textColour, border: `1px solid ${settings.textColour}`}} placeholder="10" onChange={(e) => {
+                <input required type="number" name="playercount" id="playercount-input" style={{color: settings.textColour, border: `1px solid ${settings.textColour}`}} defaultValue={(getFromLocalStorage("lastPlayerCount", 10))} onChange={(e) => {
                     const field = e.target;
                     if (!/^\d+$/.test(field.value)) {field.setCustomValidity("Please enter a number")} //? RegEx (/.../) to check if the entire (^...$) string is 1 or more (+) digits (\d)
                     else if (+field.value > 20 || +field.value < 5) {field.setCustomValidity("Please enter a valid player count")}
