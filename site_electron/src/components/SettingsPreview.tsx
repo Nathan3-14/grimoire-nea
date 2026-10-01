@@ -8,6 +8,7 @@ export default function SettingsPreview({settings, previewPlayerCount}: {setting
         const halfTokenCircleRadius = settings.initialTokenCircleRadius / 2;
         const quarterTokenSize = settings.halfTokenSize / 2;
         return <Group
+                key={index}
                 x={halfTokenCircleRadius * Math.sin(angleFromIndex(index, previewPlayerCount)) + 125}
                 y={halfTokenCircleRadius * Math.cos(angleFromIndex(index, previewPlayerCount)) + 125}
             >
