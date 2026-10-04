@@ -93,3 +93,71 @@ export const loadSettings = (settings: Settings) => {
 export const saveSetting = (settingID: string, value: any) => {
     setLocalStorage(settingID, value);
 }
+
+function sortLoop(currentList: any[], reverse?: boolean): any[] {
+    let workingList: any[] = [];
+
+    let currentIndex = 0;
+
+    while (currentIndex < currentList.length) {
+        const value = currentList[currentIndex];
+        let newItem: any[] = [];
+
+        if (currentIndex+1 >= currentList.length) {
+            newItem = value;
+        } else {
+
+            const a = value;
+            const b = currentList[currentIndex+1]
+            
+            let aIndex = 0;
+            let bIndex = 0;
+            while (aIndex < a.length || bIndex < b.length) {
+                const aValue = a[aIndex];
+                const bValue = b[bIndex];
+                console.info(`a: ${aIndex} => ${aValue}`);
+                console.info(`b: ${bIndex} => ${bValue}`);
+    
+                if (aIndex == a.length) {
+                    newItem = [...newItem, bValue];
+                    bIndex++;
+                    continue;
+                }
+                if (bIndex == b.length) {
+                    newItem = [...newItem, aValue];
+                    aIndex++;
+                    continue;
+                }
+    
+                if (aValue > bValue) {
+                    newItem = [...newItem, bValue];
+                    bIndex++;
+                } else {
+                    newItem = [...newItem, aValue];
+                    aIndex++;
+                }
+            };
+        }
+
+        workingList = [...workingList, newItem];
+        console.log(newItem);
+        console.log(JSON.stringify(workingList));
+        currentIndex += 2;
+        console.info(`currentIndex: ${currentIndex} currentLenght: ${currentList.length}`);
+    }
+    return workingList;
+}
+
+export function sort(list: number[], reverese?: boolean): number[];
+export function sort(list: string[], reverse?: boolean): string[];
+export function sort(list: any[], reverse?: boolean) {
+    let currentList = list.map((value) => {return [value]});
+    while (currentList.length > 1) {
+        currentList = sortLoop(currentList, reverse);
+        console.info(`New loop from ${JSON.stringify(currentList)}`);
+        console.log(currentList.length);
+    }
+    console.log("quit");
+
+    return currentList[0]
+}

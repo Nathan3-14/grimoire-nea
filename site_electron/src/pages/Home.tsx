@@ -10,5 +10,7 @@ export default function Home({settings, grimData}: {settings: Settings, grimData
         <GoToButton settings={settings} to="/grim/create">New Grimoire</GoToButton>
         <GoToButton settings={settings} to="/settings">Settings</GoToButton>
         <GoToButton settings={settings} to="/credits">Credits</GoToButton>
+        <br />
+        <GoToButton settings={settings} to="/test">Test</GoToButton>
     </div>
 }
