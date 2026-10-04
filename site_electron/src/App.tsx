@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
-import Settings, { setTheme } from './pages/Settings';
+import Settings from './pages/Settings';
 import Credits from './pages/Credits';
 import Grim, { ScriptItem } from './pages/Grim';
 import NewGrim, { GrimData } from './pages/NewGrim';
 import CharacterSelect from './pages/CharacterSelect';
 import NavBar from './templates/NavBar';
 import { PlayerProperties } from './components/Player';
+import { loadSettings } from './funcs';
 
 export type Settings = {
     colourTheme: string,
@@ -88,13 +89,10 @@ export default function App() {
         grimWidth: 500,
         grimHeight: 500
     };
-
+    
     if (settings.colourTheme == "-1") {
-        const newTheme = "darkred";
-        setColourTheme(newTheme);
-        setTheme(settings, newTheme);
+        loadSettings(settings);
     }
-
 
     const [scriptData, setScriptData] = useState<ScriptItem[]>([]);
     const scriptCharacters: string[] = scriptData.filter((scriptItem) => {

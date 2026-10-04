@@ -2,6 +2,7 @@ import convert from 'color-convert';
 import type { Settings } from './App';
 import { GrimData } from './pages/NewGrim';
 import { NewPlayerProperties, PlayerProperties } from './components/Player';
+import { setTheme } from './pages/Settings';
 
 const TAU = 2 * Math.PI;
 export const angleFromIndex = (index: number, max: number) => {
@@ -62,4 +63,33 @@ export const setLocalStorage = (key: string, inputObject: any) => {
 export const getFromLocalStorage = (key: string, defaultValue?: any) => {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : defaultValue;
+}
+
+export const loadSettings = (settings: Settings) => {
+    const colourTheme = getFromLocalStorage("colour-theme", "-1");
+    console.info(colourTheme);
+    if (colourTheme == "-1") {
+        setTheme(settings, "darkred");
+    } else if (colourTheme != "custom") {
+        console.info(`Setting to ${colourTheme}`)
+        setTheme(settings, colourTheme);
+    } else {
+        setTheme(settings, "custom")
+
+        settings.setBackgroundColour(getFromLocalStorage("background-colour", "-1"));
+        settings.setTextColour(getFromLocalStorage("text-colour", "-1"));
+        settings.setLinkColour(getFromLocalStorage("link-colour", "-1"));
+        settings.setSecondaryColour(getFromLocalStorage("secondary-colour", "-1"));
+        settings.setSecondaryTextColour(getFromLocalStorage("secondary-text-colour", "-1"));
+
+        settings.setTokenBackgroundColour(getFromLocalStorage("token-background-colour", "-1"));
+        settings.setTokenTextColour(getFromLocalStorage("token-text-colour", "-1"));
+    }
+
+    settings.setTokenSize(getFromLocalStorage("token-size", 100));
+    settings.setinitialTokenCircleRadius(getFromLocalStorage("token-circle-radius", 190));
+}
+
+export const saveSetting = (settingID: string, value: any) => {
+    setLocalStorage(settingID, value);
 }

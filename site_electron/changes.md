@@ -1,4 +1,2 @@
-## Upcoming Features
-- Json save settings
-- Json save names
-- Sort names
+## Features
+- Settings are now saved between sessions

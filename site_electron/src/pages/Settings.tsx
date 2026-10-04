@@ -4,6 +4,7 @@ import "./Settings.css"
 import GoToButton from "../components/GoToButton";
 import SettingsPreview from "../components/SettingsPreview";
 import { DarkRed, LightBlue, Pine, Purple, Theme } from "../data/Themes";
+import { saveSetting } from "../funcs";
 
 const themes: {[name: string]: Theme} = {
     "pine": Pine,
@@ -43,6 +44,7 @@ export default function Settings({settings}: {settings: Settings}) {
                 <label htmlFor="theme">THEME</label>
                 <select name="theme" id="theme-select" value={settings.colourTheme} style={{color: settings.textColour}} onChange={(e) => {
                     setTheme(settings, e.target.value);
+                    saveSetting("colour-theme", e.target.value);
                 }}>
                     <option id="darkred" value="darkred">Dark Red (default)</option>
                     <option id="pine" value="pine">Pine</option>
@@ -57,6 +59,7 @@ export default function Settings({settings}: {settings: Settings}) {
             <label htmlFor="background-colour">Background Colour: </label>
             <input disabled={settings.colourTheme != "custom"} type="color" name="background-colour" value={settings.backgroundColour} onChange={(e) => {
                 settings.setBackgroundColour(e.target.value);
+                saveSetting("background-colour", e.target.value);
             }} /> {/* sets "backgroundColour" whenever its value changes */}
 
             <br />
@@ -64,6 +67,7 @@ export default function Settings({settings}: {settings: Settings}) {
             <label htmlFor="text-colour">Text Colour: </label>
             <input disabled={settings.colourTheme != "custom"} type="color" name="text-colour" value={settings.textColour} onChange={(e) => {
                 settings.setTextColour(e.target.value);
+                saveSetting("text-colour", e.target.value);
             }} />
 
             <br />
@@ -71,6 +75,7 @@ export default function Settings({settings}: {settings: Settings}) {
             <label htmlFor="secondary-colour">Secondary Colour: </label>
             <input disabled={settings.colourTheme != "custom"} type="color" name="secondary-colour" value={settings.secondaryColour} onChange={(e) => {
                 settings.setSecondaryColour(e.target.value);
+                saveSetting("secondary-colour", e.target.value);
             }} />
 
 
@@ -79,6 +84,7 @@ export default function Settings({settings}: {settings: Settings}) {
             <label htmlFor="token-size">Token Size: </label>
             <input type="number" name="token-size" value={settings.tokenSize} onChange={(e) => {
                 settings.setTokenSize(e.target.value);
+                saveSetting("token-size", e.target.value);
             }} />
 
             <br />
@@ -86,6 +92,7 @@ export default function Settings({settings}: {settings: Settings}) {
             <label htmlFor="token-circle-radius">Token Circle Radius: </label>
             <input type="number" name="token-circle-radius" value={settings.initialTokenCircleRadius} onChange={(e) => {
                 settings.setinitialTokenCircleRadius(e.target.value);
+                saveSetting("token-circle-radius", e.target.value);
             }} />
 
             <br />
@@ -93,6 +100,7 @@ export default function Settings({settings}: {settings: Settings}) {
             <label htmlFor="token-background-colour">Token Background Colour: </label>
             <input disabled={settings.colourTheme != "custom"} type="color" name="token-background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
                 settings.setTokenBackgroundColour(e.target.value);
+                saveSetting("token-background-colour", e.target.value);
             }} />
         </div>
 
