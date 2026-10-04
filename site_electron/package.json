@@ -2,7 +2,7 @@
   "name": "Grimoire-NEA",
   "author": {"name": "Nathan"},
   "private": true,
-  "version": "1.2.1",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

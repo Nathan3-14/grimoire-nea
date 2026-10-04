@@ -1,8 +1,5 @@
-## New Features
-- Tweaked link colours of some themes
-- Re-arranged Settings page
-- Added more token text colour previews
+## Features
+- Settings are now saved between sessions
 
-## Bugfixes
-- Correct "default" theme now shown
-- Correctly positioned token text colour preview
+## Known Bugs
+- Text does not wrap to differently sized tokens
