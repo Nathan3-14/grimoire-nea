@@ -130,11 +130,21 @@ function sortLoop(currentList: any[], reverse?: boolean): any[] {
                 }
     
                 if (aValue > bValue) {
-                    newItem = [...newItem, bValue];
-                    bIndex++;
+                    if (reverse) {
+                        newItem = [...newItem, aValue];
+                        aIndex++
+                    } else {
+                        newItem = [...newItem, bValue];
+                        bIndex++;
+                    }
                 } else {
-                    newItem = [...newItem, aValue];
-                    aIndex++;
+                    if (reverse) {
+                        newItem = [...newItem, bValue]
+                        bIndex++;
+                    } else {
+                        newItem = [...newItem, aValue];
+                        aIndex++;
+                    }
                 }
             };
         }
