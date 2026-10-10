@@ -6,6 +6,7 @@ import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/N
 import { Player } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
 import { Group, Layer, Rect, Stage, Text } from "react-konva";
+import { Html } from "react-konva-utils"
 import { GrimData } from "./NewGrim";
 import "./Grim.css"
 
@@ -163,6 +164,8 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
         });
     });
 
+    let currentNewName = "";
+
     return <div className="page grim">
         <br />
         <div id="stage-container">
@@ -181,19 +184,40 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                         x={100} y={100}
                     >
                         <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
-                        <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
+                        <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={16} fontFamily="Monaspace Radon" />
                         {reminderButtonElements}
                     </Group>
 
                     {/* //* Change Name Menu */}
                     <Group
+                        draggable
                         id="change-name"
                         visible={isChangeNameVisible}
                         onDblClick={() => setIsChangeNameVisible(false)} onDblTap={() => setIsChangeNameVisible(false)}
                         x={50} y={50}
                     >
-                        <Rect width={200} height={100} fill={settings.secondaryColour} cornerRadius={10} />
-                        <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
+                        <Rect width={240} height={150} fill={settings.secondaryColour} cornerRadius={10} />
+                        <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.textColour} fontSize={16} fontFamily="Monaspace Radon" />
+                        <Html deriveVisibility><input type="text" placeholder="John" style={{position: "relative", top:"25px", left: "5px"}} onChange={(e) => {currentNewName = e.target.value}} /></Html>
+                        <Group
+                            x={4} y={50}
+                            onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
+                            onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                            onClick={(e) => console.log(currentNewName)}
+                        >
+                            <Rect
+                                width={100}
+                                height={20}
+                                fill={settings.backgroundColour}
+                            />
+                            <Text
+                                y={1}
+                                text="Change Name"
+                                fill={settings.textColour}
+                                fontFamily="Monaspace Radon"
+                                fontSize={14}
+                            />
+                        </Group>
                     </Group>
                 </Layer>
             </Stage>

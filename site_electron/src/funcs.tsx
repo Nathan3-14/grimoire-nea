@@ -86,8 +86,8 @@ export const loadSettings = (settings: Settings) => {
         settings.setTokenTextColour(getFromLocalStorage("token-text-colour", "-1"));
     }
 
-    settings.setTokenSize(getFromLocalStorage("token-size", 100));
-    settings.setinitialTokenCircleRadius(getFromLocalStorage("token-circle-radius", 190));
+    settings.setTokenSize(+getFromLocalStorage("token-size", 100));
+    settings.setinitialTokenCircleRadius(+getFromLocalStorage("token-circle-radius", 190));
 }
 
 export const saveSetting = (settingID: string, value: any) => {
