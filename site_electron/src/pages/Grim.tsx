@@ -1,5 +1,5 @@
 import type { Settings } from "../App";
-import { useState, type ReactElement } from "react";
+import { useRef, useState, type ReactElement } from "react";
 import { setPlayer } from "../funcs";
 import roleData from "../data/botc_roles.json";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
@@ -166,6 +166,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
     });
 
     let currentNewName = "";
+    const newNameInput = useRef(null);
 
     return <div className="page grim">
         <br />
@@ -199,7 +200,8 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                     >
                         <Rect width={240} height={150} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.textColour} fontSize={16} fontFamily="Monaspace Radon" />
-                        <Html deriveVisibility><input type="text" placeholder="John" style={{position: "relative", top:"25px", left: "5px"}} onChange={(e) => {currentNewName = e.target.value}} /></Html>
+                        <Html deriveVisibility><input pattern={players.map((value) => {return value.name}).join("|")} ref={newNameInput} type="text" placeholder="John" style={{position: "relative", top:"25px", left: "5px"}} onChange={(e) => {currentNewName = e.target.value}} /></Html>
+                        {/* //TODO Make above pattern work to reject all existing names */}
                         <Group
                             x={4} y={50}
                             onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
