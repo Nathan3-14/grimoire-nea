@@ -49,6 +49,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                 reminderID={`${characterID}.${reminderText}`}
                 key={`${characterID}.${reminderText}`}
                 x={(index % 5) * 60} y={Math.floor(index / 5) * 70 + 30}
+                inRadius={settings.halfReminderSize / 1.5}
                 onClick={() => {
                     setIsAddReminderVisible(false);
                     addReminderToPlayer(currentPlayer, `${characterID}.${reminderText}`);
@@ -203,7 +204,10 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                             x={4} y={50}
                             onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
                             onMouseLeave={(e) => functions.changeCursor(e, "default")}
-                            onClick={(e) => console.log(currentNewName)}
+                            onClick={() => {
+                                setPlayer(grimData, currentPlayer, {name: currentNewName});
+                                setIsChangeNameVisible(false);
+                            }}
                         >
                             <Rect
                                 width={100}
