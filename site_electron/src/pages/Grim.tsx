@@ -200,30 +200,27 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                     >
                         <Rect width={240} height={150} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.textColour} fontSize={16} fontFamily="Monaspace Radon" />
-                        <Html deriveVisibility><input pattern={players.map((value) => {return value.name}).join("|")} ref={newNameInput} type="text" placeholder="John" style={{position: "relative", top:"25px", left: "5px"}} onChange={(e) => {currentNewName = e.target.value}} /></Html>
-                        {/* //TODO Make above pattern work to reject all existing names */}
-                        <Group
-                            x={4} y={50}
-                            onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
-                            onMouseLeave={(e) => functions.changeCursor(e, "default")}
-                            onClick={() => {
-                                setPlayer(grimData, currentPlayer, {name: currentNewName});
-                                setIsChangeNameVisible(false);
-                            }}
-                        >
-                            <Rect
-                                width={100}
-                                height={20}
-                                fill={settings.backgroundColour}
-                            />
-                            <Text
-                                y={1}
-                                text="Change Name"
-                                fill={settings.textColour}
-                                fontFamily="Monaspace Radon"
-                                fontSize={14}
-                            />
-                        </Group>
+                        <Html deriveVisibility>
+                            <form action={(e: FormData) => {console.info(`changename-input ${e.get("changename-input")?.toString()}`)}}>
+                                <input
+                                    id="changename-input"
+                                    name="changename-input"
+                                    type="text" placeholder="John"
+                                    onChange={(e) => {
+                                        if (new RegExp(`^${players.map((value) => {return value.name}).join("|")}$`).test(e.target.value)) { {/* //TODO explain regex in word */}
+                                            e.target.setCustomValidity("Name already in use");
+                                        }
+                                        currentNewName = e.target.value;
+                                    }}
+                                />
+                                <br />
+                                <input
+                                    type="submit"
+                                    value="Change Name"
+                                    id="changename-submit"
+                                />
+                            </form>
+                        </Html>
                     </Group>
                 </Layer>
             </Stage>
