@@ -165,9 +165,6 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
         });
     });
 
-    let currentNewName = "";
-    const newNameInput = useRef(null);
-
     return <div className="page grim">
         <br />
         <div id="stage-container">
@@ -201,16 +198,24 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                         <Rect width={240} height={150} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.textColour} fontSize={16} fontFamily="Monaspace Radon" />
                         <Html deriveVisibility>
-                            <form action={(e: FormData) => {console.info(`changename-input ${e.get("changename-input")?.toString()}`)}}>
+                            <form action={(e: FormData) => {
+                                const newName = e.get("changename-input")?.toString();
+                                if (newName) {
+                                    setPlayer(grimData, currentPlayer, {name: newName});
+                                    setIsChangeNameVisible(false);
+                                    setCurrentPlayer("none");
+                                }
+                            }}>
                                 <input
                                     id="changename-input"
                                     name="changename-input"
                                     type="text" placeholder="John"
                                     onChange={(e) => {
-                                        if (new RegExp(`^${players.map((value) => {return value.name}).join("|")}$`).test(e.target.value)) { {/* //TODO explain regex in word */}
+                                        if (new RegExp(`^(${players.map((value) => {return value.name}).join("|")})$`).test(e.target.value)) { {/* //TODO explain regex in word */}
                                             e.target.setCustomValidity("Name already in use");
+                                        } else {
+                                            e.target.setCustomValidity("");
                                         }
-                                        currentNewName = e.target.value;
                                     }}
                                 />
                                 <br />
