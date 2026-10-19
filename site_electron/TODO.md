@@ -1,6 +1,7 @@
 # To Do
 - ADD CHARACTER SELECTION
-#
+
+- Recently used names saved
 - Make merge sort and use to sort recently used name
     - save user data, i.e. recently used names
 

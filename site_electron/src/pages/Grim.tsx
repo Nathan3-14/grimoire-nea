@@ -1,5 +1,5 @@
 import type { Settings } from "../App";
-import { useRef, useState, type ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import { setPlayer } from "../funcs";
 import roleData from "../data/botc_roles.json";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
