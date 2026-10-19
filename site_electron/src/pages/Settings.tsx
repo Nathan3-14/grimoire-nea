@@ -83,24 +83,24 @@ export default function Settings({settings}: {settings: Settings}) {
 
             <label htmlFor="token-size">Token Size: </label>
             <input type="number" name="token-size" value={settings.tokenSize} onChange={(e) => {
-                settings.setTokenSize(e.target.value);
-                saveSetting("token-size", e.target.value);
+                settings.setTokenSize(+e.target.value);
+                saveSetting("token-size", +e.target.value);
             }} />
 
             <br />
 
             <label htmlFor="token-circle-radius">Token Circle Radius: </label>
             <input type="number" name="token-circle-radius" value={settings.initialTokenCircleRadius} onChange={(e) => {
-                settings.setinitialTokenCircleRadius(e.target.value);
-                saveSetting("token-circle-radius", e.target.value);
+                settings.setinitialTokenCircleRadius(+e.target.value);
+                saveSetting("token-circle-radius", +e.target.value);
             }} />
 
             <br />
 
             <label htmlFor="token-background-colour">Token Background Colour: </label>
             <input disabled={settings.colourTheme != "custom"} type="color" name="token-background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
-                settings.setTokenBackgroundColour(e.target.value);
-                saveSetting("token-background-colour", e.target.value);
+                settings.setTokenBackgroundColour(+e.target.value);
+                saveSetting("token-background-colour", +e.target.value);
             }} />
         </div>
 
