@@ -12,6 +12,7 @@ import { PlayerProperties } from './components/Player';
 import { loadSettings } from './funcs';
 // import Test from './pages/Test';
 
+
 export type Settings = {
     colourTheme: string,
     setColourTheme: CallableFunction,
