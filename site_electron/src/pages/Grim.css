@@ -1,3 +1,15 @@
 .grim #stage-container {
     margin-left: 10px;
 }
+
+.grim #changename-submit {
+    position: relative;
+    top: 30px;
+    left: 5px;
+}
+
+.grim #changename-input {
+    position: relative;
+    top: 25px;
+    left: 5px;
+}

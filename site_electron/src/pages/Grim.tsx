@@ -6,6 +6,7 @@ import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/N
 import { Player } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
 import { Group, Layer, Rect, Stage, Text } from "react-konva";
+import { Html } from "react-konva-utils"
 import { GrimData } from "./NewGrim";
 import "./Grim.css"
 
@@ -48,6 +49,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                 reminderID={`${characterID}.${reminderText}`}
                 key={`${characterID}.${reminderText}`}
                 x={(index % 5) * 60} y={Math.floor(index / 5) * 70 + 30}
+                inRadius={settings.halfReminderSize / 1.5}
                 onClick={() => {
                     setIsAddReminderVisible(false);
                     addReminderToPlayer(currentPlayer, `${characterID}.${reminderText}`);
@@ -181,19 +183,49 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                         x={100} y={100}
                     >
                         <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
-                        <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
+                        <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={16} fontFamily="Monaspace Radon" />
                         {reminderButtonElements}
                     </Group>
 
                     {/* //* Change Name Menu */}
                     <Group
+                        draggable
                         id="change-name"
                         visible={isChangeNameVisible}
                         onDblClick={() => setIsChangeNameVisible(false)} onDblTap={() => setIsChangeNameVisible(false)}
                         x={50} y={50}
                     >
-                        <Rect width={200} height={100} fill={settings.secondaryColour} cornerRadius={10} />
-                        <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.textColour} fontSize={20} />
+                        <Rect width={240} height={150} fill={settings.secondaryColour} cornerRadius={10} />
+                        <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.textColour} fontSize={16} fontFamily="Monaspace Radon" />
+                        <Html deriveVisibility>
+                            <form action={(e: FormData) => {
+                                const newName = e.get("changename-input")?.toString();
+                                if (newName) {
+                                    setPlayer(grimData, currentPlayer, {name: newName});
+                                    setIsChangeNameVisible(false);
+                                    setCurrentPlayer("none");
+                                }
+                            }}>
+                                <input
+                                    id="changename-input"
+                                    name="changename-input"
+                                    type="text" placeholder="John"
+                                    onChange={(e) => {
+                                        if (new RegExp(`^(${players.map((value) => {return value.name}).join("|")})$`).test(e.target.value)) { {/* //TODO explain regex in word */}
+                                            e.target.setCustomValidity("Name already in use");
+                                        } else {
+                                            e.target.setCustomValidity("");
+                                        }
+                                    }}
+                                />
+                                <br />
+                                <input
+                                    type="submit"
+                                    value="Change Name"
+                                    id="changename-submit"
+                                />
+                            </form>
+                        </Html>
                     </Group>
                 </Layer>
             </Stage>

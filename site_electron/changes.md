@@ -1,5 +1,5 @@
 ## Features
-- Settings are now saved between sessions
+- Added functional name change menu
 
-## Known Bugs
-- Text does not wrap to differently sized tokens
+## Bugfixes
+- Text now wraps correctly for different sized tokens

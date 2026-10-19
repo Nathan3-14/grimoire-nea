@@ -98,7 +98,7 @@ export const Player = (
         const tokenRadius = settings.halfTokenSize;
         
         //? Used to create the path for the character name to follow
-        const scaleFactor = Math.floor(tokenSize / 50);
+        const scaleFactor = tokenSize / 50;
         const start = `${15*scaleFactor},${5*scaleFactor}`;
         const radii = `${22*scaleFactor},${22*scaleFactor}`;
         const end = `${35*scaleFactor},${5*scaleFactor}`;
