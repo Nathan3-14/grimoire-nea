@@ -1,2 +1,3 @@
-## Bugfixes
-- Tokens no longer have broken movement
+## New Features
+- Made all settings changeable
+- Added link preview
