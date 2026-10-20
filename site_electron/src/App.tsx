@@ -143,8 +143,10 @@ export default function App() {
                     <Route path="credits" element={<Credits settings={settings} />} />
                     <Route path="grim/*" element={<NavBar settings={settings} />}>
                         <Route index element={<Grim settings={settings} grimData={grimData} />} />
-                        <Route path="create" element={<NewGrim settings={settings} grimData={grimData} />} />
-                        <Route path="characterselect" element={<CharacterSelect settings={settings} grimData={grimData} />} />
+                        <Route path="create/*">
+                            <Route index element={<NewGrim settings={settings} grimData={grimData} />} />
+                            <Route path="characterselect" element={<CharacterSelect settings={settings} grimData={grimData} />} />
+                        </Route>
                     </Route>
                     {/* <Route path="test" element={<Test settings={settings} />} /> */}
                 </Route>
