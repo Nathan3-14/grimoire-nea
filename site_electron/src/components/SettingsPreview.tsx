@@ -36,7 +36,8 @@ export default function SettingsPreview({settings, previewPlayerCount}: {setting
             </Layer>
             <Layer id="menu">
                 <Rect fill={settings.secondaryColour} width={80} height={80} cornerRadius={5} x={85} y={85} />
-                <Text text="Preview" fill={settings.textColour} x={90} y={90} fontFamily="Monaspace Radon" />
+                <Text text="Preview" fill={settings.secondaryTextColour} x={90} y={90} fontFamily="Monaspace Radon" />
+                <Text text="Long Link Preview" fill={settings.linkColour} textDecoration="underline" x={90} y={110} fontFamily="Monaspace Radon" />
             </Layer>
         </Stage>
     </>

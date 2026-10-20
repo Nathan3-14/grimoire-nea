@@ -60,7 +60,7 @@ export default function Settings({settings}: {settings: Settings}) {
             <input disabled={settings.colourTheme != "custom"} type="color" name="background-colour" value={settings.backgroundColour} onChange={(e) => {
                 settings.setBackgroundColour(e.target.value);
                 saveSetting("background-colour", e.target.value);
-            }} /> {/* sets "backgroundColour" whenever its value changes */}
+            }} />
 
             <br />
 
@@ -72,12 +72,27 @@ export default function Settings({settings}: {settings: Settings}) {
 
             <br />
 
+            <label htmlFor="link-colour">Link Colour: </label>
+            <input disabled={settings.colourTheme != "custom"} type="color" name="link" value={settings.linkColour} onChange={(e) => {
+                settings.setLinkColour(e.target.value);
+                saveSetting("link-colour", e.target.value);
+            }} />
+
+            <br />
+
             <label htmlFor="secondary-colour">Secondary Colour: </label>
             <input disabled={settings.colourTheme != "custom"} type="color" name="secondary-colour" value={settings.secondaryColour} onChange={(e) => {
                 settings.setSecondaryColour(e.target.value);
                 saveSetting("secondary-colour", e.target.value);
             }} />
 
+            <br />
+
+            <label htmlFor="secondary-text-colour">Secondary Text Colour: </label>
+            <input disabled={settings.colourTheme != "custom"} type="color" name="secondary-text-colour" value={settings.secondaryTextColour} onChange={(e) => {
+                settings.setSecondaryTextColour(e.target.value);
+                saveSetting("secondary-text-colour", e.target.value);
+            }} />
 
             <br />
 
@@ -99,8 +114,16 @@ export default function Settings({settings}: {settings: Settings}) {
 
             <label htmlFor="token-background-colour">Token Background Colour: </label>
             <input disabled={settings.colourTheme != "custom"} type="color" name="token-background-colour" value={settings.tokenBackgroundColour} onChange={(e) => {
-                settings.setTokenBackgroundColour(+e.target.value);
-                saveSetting("token-background-colour", +e.target.value);
+                settings.setTokenBackgroundColour(e.target.value);
+                saveSetting("token-background-colour", e.target.value);
+            }} />
+
+            <br />
+
+            <label htmlFor="token-text-colour">Token Text Colour: </label>
+            <input disabled={settings.colourTheme != "custom"} type="color" name="token-text-colour" value={settings.tokenTextColour} onChange={(e) => {
+                settings.setTokenTextColour(e.target.value);
+                saveSetting("token-text-colour", e.target.value);
             }} />
         </div>
 

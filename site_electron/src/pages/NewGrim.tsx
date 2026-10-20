@@ -69,7 +69,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
 
     return <div className="page new-grim">
         <h1>New Grim</h1>
-        <form id="choices" action={handleSubmit} onSubmit={() => navigate("/grim")}>
+        <form id="choices" action={handleSubmit} onSubmit={() => navigate("/grim/create/characterselect")}>
             <div id="script-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="script">SCRIPT</label>
                 <select required name="script" id="script-select" style={{color: settings.textColour}} onChange={(e) => {setIsCustomScriptSelected(e.target.value == "cus" )}}> {/* //? allows a custom script url / file if corresponding option is selected */}
