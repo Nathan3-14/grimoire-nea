@@ -1,0 +1,36 @@
+0:00:00.000,0:00:02.000
+Home Page
+
+0:00:04.186,0:00:06.186
+Credits
+
+0:00:09.000,0:00:11.265
+Settings Page
+
+0:00:11.265,0:00:14.928
+Demonstrating changing preview player count
+
+0:00:16.076,0:00:20.353
+Preset Themes
+
+0:00:21.620,0:00:22.887
+The "custom" option allows for changing of all colours
+
+0:00:27.603,0:00:30.838
+Changing initial token dimensions
+
+0:00:39.528,0:00:42.198
+Only "script" option functions as of now
+
+0:00:46.142,0:00:50.000
+Positions generated from selected settings
+
+0:00:54.152,0:00:57.785
+Name change functionality is new
+
+0:01:03.596,0:01:05.596
+The window is moveable
+
+0:01:10.791,0:01:14.553
+Due to using "id" on html elements,
+duplicate names are not allowed

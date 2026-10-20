@@ -1,4 +1,6 @@
 # To Do
+- ADD ALL SETTINGS
+
 - ADD CHARACTER SELECTION
 
 - Recently used names saved
