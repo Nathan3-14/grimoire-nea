@@ -2,11 +2,10 @@
     border-radius: 37.5px;
     width: 75px;
     height: 75px;
-    background-color: red;
-    position: relative;
+    position: absolute;
 }
 
-.character-select .character > p {
+.character-select .character > svg {
     position: absolute;
-    top: 20px;
+    top: 0px;
 }
