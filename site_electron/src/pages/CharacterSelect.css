@@ -1,0 +1,12 @@
+.character-select .character {
+    border-radius: 37.5px;
+    width: 75px;
+    height: 75px;
+    background-color: red;
+    position: relative;
+}
+
+.character-select .character > p {
+    position: absolute;
+    top: 20px;
+}

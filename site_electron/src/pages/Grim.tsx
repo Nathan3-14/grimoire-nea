@@ -1,7 +1,6 @@
 import type { Settings } from "../App";
 import { useState, type ReactElement } from "react";
-import { setPlayer } from "../funcs";
-import roleData from "../data/botc_roles.json";
+import { getCharacterData, setPlayer } from "../funcs";
 import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
 import { Player } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
@@ -18,13 +17,7 @@ export type ScriptItem = {
     author?: string
 }
 
-const getCharacterData = (characterID: string) => {
-    let output = roleData[0];
-    roleData.forEach((value) => {
-        if (value.id == characterID) {output = value}
-    })
-    return output;
-}
+
 
 export default function Grim({settings, grimData}: {settings: Settings, grimData: GrimData}) {
 

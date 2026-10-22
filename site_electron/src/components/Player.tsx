@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import useImage from "use-image";
-import { checkCircleInsideGrim, getCharacterIcon } from "../funcs";
+import { checkCircleInsideGrim, getCharacterIconURL } from "../funcs";
 import { Group as GroupType} from "konva/lib/Group";
 import type { Settings } from "../App";
 import { Circle, Group, Image, Rect, Text, TextPath } from "react-konva";
@@ -33,7 +33,7 @@ export const Player = (
         }
     ) => {
         const player = useRef<GroupType>(null);
-        const [characterImage] = useImage(getCharacterIcon(character));
+        const [characterImage] = useImage(getCharacterIconURL(character));
 
         //* Setup useful functions
         const setX = (newX: number) => setPlayer(grimData, player.current?.id(), {x: newX});
