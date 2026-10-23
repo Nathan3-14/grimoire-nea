@@ -3,19 +3,31 @@ import { useState } from "react";
 import "./Settings.css"
 import GoToButton from "../components/GoToButton";
 import SettingsPreview from "../components/SettingsPreview";
-import { DarkRed, LightBlue, Pine, Purple, Theme } from "../data/Themes";
-import { saveSetting } from "../funcs";
+import { DarkRed, LightBlue, Midnight, Pine, Purple, Theme } from "../data/Themes";
+import { getFromLocalStorage, saveSetting } from "../funcs";
 
 const themes: {[name: string]: Theme} = {
     "pine": Pine,
     "lightblue": LightBlue,
     "darkred": DarkRed,
-    "purple": Purple
+    "purple": Purple,
+    "midnight": Midnight
 }
 
 export const setTheme = (settings: Settings, theme: string) => {
     settings.setColourTheme(theme);
-    if (theme == "custom") return
+    if (theme == "custom") {
+        settings.setBackgroundColour(getFromLocalStorage("background-colour"));
+        settings.setTextColour(getFromLocalStorage("text-colour"));
+        settings.setLinkColour(getFromLocalStorage("link-colour"));
+
+        settings.setSecondaryColour(getFromLocalStorage("secondary-colour"));
+        settings.setSecondaryTextColour(getFromLocalStorage("secondary-text-colour"));
+
+        settings.setTokenBackgroundColour(getFromLocalStorage("token-background-colour"));
+        settings.setTokenTextColour(getFromLocalStorage("token-text-colour"));
+        return
+    }
 
     const currentTheme = themes[theme];
 
@@ -40,19 +52,21 @@ export default function Settings({settings}: {settings: Settings}) {
         </div>
 
         <div id="settings-wrapper">
-            <div id="theme-wrapper" style={{backgroundColor: settings.secondaryColour}}>
+            <div id="theme-wrapper" style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour}}>
                 <label htmlFor="theme">THEME</label>
-                <select name="theme" id="theme-select" value={settings.colourTheme} style={{color: settings.textColour}} onChange={(e) => {
+                <select name="theme" id="theme-select" value={settings.colourTheme} onChange={(e) => {
                     setTheme(settings, e.target.value);
                     saveSetting("colour-theme", e.target.value);
                 }}>
                     <option id="darkred" value="darkred">Dark Red (default)</option>
+                    <option id="midnight" value="midnight">Midnight</option>
                     <option id="pine" value="pine">Pine</option>
                     <option id="lightblue" value="lightblue">Light Blue</option>
                     <option id="purple" value="purple">Purple</option>
                     <option id="custom" value="custom">Custom</option>
                 </select>
             </div>
+            {/* //TODO Add button to "take from theme" when custom is selected */}
 
             <br />
 

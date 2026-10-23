@@ -47,3 +47,13 @@ export const DarkRed: Theme = {
     tokenBackgroundColour: "#892a2a",
     tokenTextColour: "#ffffff"
 }
+
+export const Midnight: Theme = {
+    backgroundColour: "#0d151c",
+    textColour: "#7c2727",
+    linkColour: "#cda2a2",
+    secondaryColour: "#7f3434",
+    secondaryTextColour: "#ffffff",
+    tokenBackgroundColour: "#502b2b",
+    tokenTextColour: "#ffffff"
+}

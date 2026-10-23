@@ -64,10 +64,10 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
 
     return <div className="page new-grim">
         <h1>New Grim</h1>
-        <form id="choices" action={handleSubmit} onSubmit={() => navigate("/grim/create/scriptselect")}>
+        <form id="choices" style={{color: settings.secondaryTextColour}} action={handleSubmit} onSubmit={() => navigate("/grim/create/scriptselect")}>
             <div id="script-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="script">SCRIPT</label>
-                <select required name="script" id="script-select" style={{color: settings.textColour}}> 
+                <select required name="script" id="script-select"> 
                     <option id="tb" value="tb">Trouble Brewing</option>
                     <option id="bmr" value="bmr">Bad Moon Rising</option>
                     <option id="snv" value="snv">Sects and Violets</option>
@@ -77,7 +77,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
 
             <div id="playercount-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="playercount">PLAYER COUNT</label>
-                <input required type="number" name="playercount" id="playercount-input" style={{color: settings.textColour, border: `1px solid ${settings.textColour}`}} defaultValue={(getFromLocalStorage("lastPlayerCount", 10))} onChange={(e) => {
+                <input required type="number" name="playercount" id="playercount-input" style={{color: settings.secondaryTextColour, border: `1px solid ${settings.secondaryTextColour}`}} defaultValue={(getFromLocalStorage("lastPlayerCount", 10))} onChange={(e) => {
                     const field = e.target;
                     if (!/^\d+$/.test(field.value)) {field.setCustomValidity("Please enter a number")} //? RegEx (/.../) to check if the entire (^...$) string is 1 or more (+) digits (\d)
                     else if (+field.value > 20 || +field.value < 5) {field.setCustomValidity("Please enter a valid player count")}
@@ -88,7 +88,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
 
             <div id="layout-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="layout">LAYOUT</label>
-                <select required name="layout" id="layout-select" style={{color: settings.textColour}}>
+                <select required name="layout" id="layout-select">
                     <option id="circle">Circle</option>
                     <option id="none">None</option>
                 </select>
@@ -98,7 +98,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
                 type="submit"
                 id="submit"
                 value="Create Grim"
-                style={{backgroundColor: settings.secondaryColour, color: settings.textColour, border: `1px solid ${settings.textColour}`}}
+                style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour, border: `1px solid ${settings.secondaryTextColour}`}}
             />
         </form>
     </div>
