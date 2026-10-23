@@ -73,7 +73,8 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                 name: `Player ${i}`,
                 character: character,
                 reminders: [],
-                x: -1, y: -1,
+                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(i, grimData.playercount)) - settings.halfTokenSize + (settings.grimHeight / 2),
+                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(i, grimData.playercount)) - settings.halfTokenSize + (settings.grimHeight / 2),
                 isDead: false, isMenuOpen: false
             });
         }
@@ -84,24 +85,9 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
 
         // grimData.players.forEach((player, index) => {
         //     setPlayer(grimData, player.name, {
-        //         x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimWidth / 2),
-        //         y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimHeight / 2)
         //     });
         // });
     };
-
-    // type DivRef = RefObject<React.JSX.IntrinsicElements["div"]>
-    // const divs: {
-    //     "townsfolk": DivRef,
-    //     "outsider": DivRef,
-    //     "minion": DivRef,
-    //     "demon": DivRef
-    // } = {
-    //     "townsfolk": useRef(<div />),
-    //     "outsider": useRef(<div />),
-    //     "minion": useRef(<div />),
-    //     "demon": useRef(<div />)
-    // }
 
     return <div className="page character-select">
         <h1>Select Characters</h1>
