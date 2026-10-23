@@ -5,6 +5,27 @@
     position: absolute;
 }
 
+.character-select .character .overlay {
+    border-radius: 37.5px;
+    width: 75px;
+    height: 75px;
+    background-color: #ffffff50;
+    position: absolute;
+    top: 0px;
+}
+
+.character-select .character:hover {
+    scale: 1.4;
+}
+
+.character-select .selected {
+    scale: 1.2;
+}
+
+.character-select .selected .overlay {
+    background-color: #ffffff00;
+}
+
 .character-select .character > svg {
     position: absolute;
     top: 0px;
@@ -13,3 +34,4 @@
 .character-select .character-choices {
     position: absolute;
 }
+

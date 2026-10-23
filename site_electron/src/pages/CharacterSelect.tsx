@@ -13,7 +13,7 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
     }
     const characterTypes = ["townsfolk", "outsider", "minion", "demon", "traveller"];
 
-    let nextOffset = 90;
+    let nextOffset = 120; //* First Offset
     characterTypes.forEach((characterType) => {
         const charactersOfType = grimData.scriptCharacters.filter((characterID) => {return getCharacterData(characterID).team == characterType})
 
@@ -24,8 +24,19 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                 const characterType = characterData.team;
                 const characterIcon = getCharacterIconURL(characterID);
 
-                return <div key={characterID} className={`character ${characterType}`} style={{backgroundColor: settings.tokenBackgroundColour, left: (index % 8) * 90, top: Math.floor(index / 8) * 90}}>
-        
+                return <div
+                    key={characterID}
+                    className={`character ${characterType}`}
+                    style={{backgroundColor: settings.tokenBackgroundColour, left: (index % 8) * 90, top: Math.floor(index / 8) * 90}}
+                    onClick={(e) => {
+                        if (e.currentTarget.classList.contains("selected")) {
+                            e.currentTarget.classList.remove("selected");
+                        } else {
+                            e.currentTarget.classList.add("selected");
+                        }
+                    }}
+                >
+                    <div className="overlay" />
                     <svg xmlns="http://www.w3.org/2000/svg" width={75} height={75}>
                         <path id="name-path" fill="none" d="M22.5,7.5 A33,33 0 1 0 52.5,7.5" />
                         <text><textPath startOffset="50%" textAnchor="middle" href="#name-path" fill={settings.tokenTextColour}>{characterName}</textPath></text>
