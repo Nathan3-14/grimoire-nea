@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { Settings } from "../App";
 import { GrimData } from "./NewGrim";
 import { useEffect, useState } from "react";
-import { ScriptItem } from "./Grim";
 
 export default function ScriptSelect({settings, grimData}: {settings: Settings, grimData: GrimData}) {
     const navigate = useNavigate();
