@@ -195,3 +195,20 @@ export type Character = {
     special?: string,
     flavor:  string, //? Additional flavour text
 }
+
+export const getRandomItemFromList = <T,>(list: T[]): T => {
+    const randomIndex = Math.floor(Math.random()*list.length);
+    return list[randomIndex];
+}
+
+export const shuffleList = <T,>(list: T[]): T[] => {
+    let newList: T[] = [];
+    while (list.length > 0) {
+        const pickedValue = getRandomItemFromList(list);
+        console.log(`Selected ${pickedValue}`);
+        newList.push(pickedValue);
+        list = list.filter((value) => {return value != pickedValue});
+    }
+
+    return newList
+}

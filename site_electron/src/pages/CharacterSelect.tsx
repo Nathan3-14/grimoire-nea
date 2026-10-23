@@ -1,11 +1,14 @@
 import { Settings } from "../App";
-import { angleFromIndex, getCharacterData, getCharacterIconURL, setPlayer } from "../funcs";
+import { angleFromIndex, getCharacterData, getCharacterIconURL, getRandomItemFromList, setPlayer, shuffleList } from "../funcs";
 import { GrimData } from "./NewGrim";
 import "./CharacterSelect.css"
 import Button from "../components/Button";
 import { useState } from "react";
+import { PlayerProperties } from "../components/Player";
+import { useNavigate } from "react-router-dom";
 
 export default function CharacterSelect({settings, grimData}: {settings: Settings, grimData: GrimData}) {
+    const navigate = useNavigate();
     let characterChoices: {[characterType: string]: {offset: number, elements: React.JSX.Element[]}} = {
         "townsfolk": {offset: -1, elements: []},
         "outsider": {offset: -1, elements: []},
@@ -28,6 +31,7 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                 const [isSelected, setIsSelected] = useState(false);
 
                 return <div
+                    id={characterID}
                     key={characterID}
                     className={`character ${characterType} ${isSelected ? "selected": ""}`}
                     style={{
@@ -53,19 +57,37 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
     });
 
     const handOutTokens = () => {
-        // characterTypes.forEach((characterType) => {
-        //     const currentDiv = divs[characterType].current;
-        //     console.log(currentDiv.children);
-        // });
-        // const selectedCharacters = characterChoices["townsfolk"].elements.filter((character) => {return character.props});
-        // console.log(selectedCharacters.map((character) => {return character.key}))
-        
-        grimData.players.forEach((player, index) => {
-            setPlayer(grimData, player.name, {
-                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimWidth / 2),
-                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimHeight / 2)
-            });
+        const selectedCharacterElements = document.querySelectorAll(".selected");
+        let selectedCharacterIDs: string[] = [];
+        selectedCharacterElements.forEach((element) => {
+            selectedCharacterIDs.push(element.id);
         });
+        selectedCharacterIDs = shuffleList(selectedCharacterIDs);
+        console.log(`Selected Characters: ${selectedCharacterIDs}`);
+
+        let newPlayers: PlayerProperties[] = []
+        for (let i=0; i<grimData.playercount; i++) {
+            const character = selectedCharacterIDs.pop();
+            if (character == null) continue;
+            newPlayers.push({
+                name: `Player ${i}`,
+                character: character,
+                reminders: [],
+                x: -1, y: -1,
+                isDead: false, isMenuOpen: false
+            });
+        }
+        
+        grimData.setPlayers(newPlayers);
+        grimData.setIsGrimActive(true);
+        navigate("/grim");
+
+        // grimData.players.forEach((player, index) => {
+        //     setPlayer(grimData, player.name, {
+        //         x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimWidth / 2),
+        //         y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimHeight / 2)
+        //     });
+        // });
     };
 
     // type DivRef = RefObject<React.JSX.IntrinsicElements["div"]>

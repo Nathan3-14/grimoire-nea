@@ -56,7 +56,6 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
         grimData.setLayout(layout.toString());
 
 
-        console.log(`Settings isgrimactive to ${script != "cus"}`)
         grimData.setIsReadyForCharacterSelection(script != "cus");
 
     }

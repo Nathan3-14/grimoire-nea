@@ -91,7 +91,6 @@ export const Player = (
         
         const onDoubleClick = () => {
             toggleIsMenuOpen();        
-            // checkMenuBorder();
         }
         
         const tokenSize = settings.tokenSize;
@@ -110,12 +109,12 @@ export const Player = (
         });
 
         return <Group
-        draggable
-        onDragStart={(e) => {e.currentTarget.moveToTop()}} onDragMove={handlePlayerDrag} onDragEnd={handleEndOfDrag}
-        onDblClick={onDoubleClick} onDblTap={onDoubleClick}
-        id={name} ref={player}
-        x={x} y={y}
-        {...rest}
+            draggable
+            onDragStart={(e) => {e.currentTarget.moveToTop()}} onDragMove={handlePlayerDrag} onDragEnd={handleEndOfDrag}
+            onDblClick={onDoubleClick} onDblTap={onDoubleClick}
+            id={name} ref={player}
+            x={x} y={y}
+            {...rest}
         >
             {/* //* Background */}
             <Circle
@@ -151,7 +150,7 @@ export const Player = (
                     stroke={settings.textColour}
                     strokeWidth={1}
                 />
-                <Text x={3} y={4} text={name} fontFamily="Monaspace Radon" fontSize={14} fill={settings.textColour} />
+                <Text x={3} y={4} text={name} fontFamily="Monaspace Radon" fontSize={14} fill={settings.secondaryTextColour} />
             </Group>
 
             {/* //* Toggleable Menu */}

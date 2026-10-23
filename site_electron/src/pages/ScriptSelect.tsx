@@ -19,10 +19,10 @@ export default function ScriptSelect({settings, grimData}: {settings: Settings, 
         if (isURLSelected) {
             const url = formData.get("customscript-url");
             if (!url) {return}
-            fetch(url?.toString()).then((response) => {response.json().then((scriptArray) => {grimData.setScriptData(scriptArray)})});
+            fetch(url?.toString()).then((response) => {response.json().then((scriptArray) => {grimData.setScriptData(scriptArray)})}); //TODO Break down each component in document
         } else {
             const file = formData.get("customscript-file") as File;
-            file.text().then((scriptString: string) => {JSON.parse(scriptString).then((scriptArray: ScriptItem[]) => {grimData.setScriptData(scriptArray)})}); //TODO Break down each component in document
+            file.text().then((scriptString: string) => {grimData.setScriptData(JSON.parse(scriptString))});
         }
 
         // fetch()

@@ -106,17 +106,17 @@ export default function App() {
         }
         return scriptItem.id
     });
-    // const [players, setPlayers] = useState<PlayerProperties[]>();
-    const [players, setPlayers] = useState<PlayerProperties[]>([
-        {character: "washerwoman", name: "Alice", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "librarian", name: "Bob", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "investigator", name: "Carol", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "poisoner", name: "David", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "imp", name: "Edith", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "ravenkeeper", name: "Freya", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "monk", name: "Gary", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "fortuneteller", name: "Hannah", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-    ]); //DEBUG
+    const [players, setPlayers] = useState<PlayerProperties[]>([]);
+    // const [players, setPlayers] = useState<PlayerProperties[]>([
+    //     {character: "washerwoman", name: "Alice", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "librarian", name: "Bob", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "investigator", name: "Carol", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "poisoner", name: "David", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "imp", name: "Edith", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "ravenkeeper", name: "Freya", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "monk", name: "Gary", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "fortuneteller", name: "Hannah", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    // ]); //DEBUG
     const [playercount, setPlayercount] = useState(-1);
     const [layout, setLayout] = useState("none");
     const [isGrimActive, setIsGrimActive] = useState(false);
