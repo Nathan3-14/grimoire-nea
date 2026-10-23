@@ -18,6 +18,11 @@
     scale: 1.4;
 }
 
+.character-select .character:hover .overlay {
+    scale: 1.4;
+    background-color: #ffffff00;
+}
+
 .character-select .selected {
     scale: 1.2;
 }
@@ -35,3 +40,9 @@
     position: absolute;
 }
 
+#handout-tokens-button {
+    position: absolute;
+    top: 520px;
+    left: 600px;
+    scale: 1.4;
+}

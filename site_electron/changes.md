@@ -1,3 +1,2 @@
 ## New Features
-- Made all settings changeable
-- Added link preview
+- Added back button to all grim creation pages

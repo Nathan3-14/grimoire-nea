@@ -10,6 +10,7 @@ import CharacterSelect from './pages/CharacterSelect';
 import NavBar from './templates/NavBar';
 import { PlayerProperties } from './components/Player';
 import { loadSettings } from './funcs';
+import ScriptSelect from './pages/ScriptSelect';
 // import Test from './pages/Test';
 
 
@@ -146,6 +147,7 @@ export default function App() {
                         <Route path="create/*">
                             <Route index element={<NewGrim settings={settings} grimData={grimData} />} />
                             <Route path="characterselect" element={<CharacterSelect settings={settings} grimData={grimData} />} />
+                            <Route path="scriptselect" element={<ScriptSelect settings={settings} grimData={grimData} />} />
                         </Route>
                     </Route>
                     {/* <Route path="test" element={<Test settings={settings} />} /> */}

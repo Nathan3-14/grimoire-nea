@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Settings } from "../App";
 import { ScriptItem } from "./Grim";
 import { PlayerProperties } from "../components/Player";
@@ -8,6 +8,7 @@ import troubleBrewing from "../data/trouble_brewing.json"
 import badMoonRising from "../data/bad_moon_rising.json"
 import sectsAndViolets from "../data/sects_and_violets.json"
 import "./NewGrim.css"
+import { request } from "http";
 
 export type GrimData = {
     scriptData: ScriptItem[],
@@ -24,7 +25,6 @@ export type GrimData = {
 };
 
 export default function NewGrim({settings, grimData}: {settings: Settings, grimData: GrimData}) {
-    const [isCustomScriptSelected, setIsCustomScriptSelected] = useState(false);
     const handleSubmit = (formData: FormData) => {
         const script = formData.get("script");
         let scriptData: ScriptItem[] = [];
@@ -55,6 +55,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
         setLocalStorage("lastPlayerCount", playercount);
         grimData.setLayout(layout.toString());
 
+        //TODO Move to characterselect page
         grimData.players.forEach((player, index) => {
             setPlayer(grimData, player.name, {
                 x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimWidth / 2),
@@ -62,17 +63,18 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
             });
         })
 
-        grimData.setIsGrimActive(true);
+        console.log(`Settings isgrimactive to ${script != "cus"}`)
+        grimData.setIsGrimActive(script != "cus");
 
     }
     const navigate = useNavigate();
 
     return <div className="page new-grim">
         <h1>New Grim</h1>
-        <form id="choices" action={handleSubmit} onSubmit={() => navigate("/grim/create/characterselect")}>
+        <form id="choices" action={handleSubmit} onSubmit={() => navigate("/grim/create/scriptselect")}>
             <div id="script-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="script">SCRIPT</label>
-                <select required name="script" id="script-select" style={{color: settings.textColour}} onChange={(e) => {setIsCustomScriptSelected(e.target.value == "cus" )}}> {/* //? allows a custom script url / file if corresponding option is selected */}
+                <select required name="script" id="script-select" style={{color: settings.textColour}}> 
                     <option id="tb" value="tb">Trouble Brewing</option>
                     <option id="bmr" value="bmr">Bad Moon Rising</option>
                     <option id="snv" value="snv">Sects and Violets</option>
@@ -97,11 +99,6 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
                     <option id="circle">Circle</option>
                     <option id="none">None</option>
                 </select>
-            </div>
-
-            <div id="customscript-wrapper" style={{backgroundColor: settings.secondaryColour}}>
-                <input type="url" id="customscript-url" disabled={!isCustomScriptSelected} placeholder="https://www.botcscripts.com/api/scripts/178/json/" />
-                <input type="file" id="customscript-file" disabled={!isCustomScriptSelected} style={{color: settings.textColour}} />
             </div>
 
             <input

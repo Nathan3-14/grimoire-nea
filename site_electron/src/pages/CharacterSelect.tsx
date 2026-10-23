@@ -2,6 +2,7 @@ import { Settings } from "../App";
 import { getCharacterData, getCharacterIconURL } from "../funcs";
 import { GrimData } from "./NewGrim";
 import "./CharacterSelect.css"
+import Button from "../components/Button";
 
 export default function CharacterSelect({settings, grimData}: {settings: Settings, grimData: GrimData}) {
     let characterChoices: {[characterType: string]: {offset: number, elements: React.JSX.Element[]}} = {
@@ -29,6 +30,7 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                     className={`character ${characterType}`}
                     style={{backgroundColor: settings.tokenBackgroundColour, left: (index % 8) * 90, top: Math.floor(index / 8) * 90}}
                     onClick={(e) => {
+                        //? Toggles "selected" class when clicked
                         if (e.currentTarget.classList.contains("selected")) {
                             e.currentTarget.classList.remove("selected");
                         } else {
@@ -46,6 +48,7 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                 </div>
         });
         characterChoices[characterType].offset = nextOffset;
+        //? Adds 90 (a new line) and an additional new line per row of characters
         nextOffset += 90 + 90 * Math.floor(charactersOfType.length / 8);
     });
 
@@ -56,5 +59,6 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                 return <div className="character-choices" key={characterType} id={characterType} style={{top: characterChoices[characterType].offset}}>{characterChoices[characterType].elements}</div>
             })}
         </div>
+        <Button settings={settings} id="handout-tokens-button">Hand out Tokens</Button>
     </div>
 }
