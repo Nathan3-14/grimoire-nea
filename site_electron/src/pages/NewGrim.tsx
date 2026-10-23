@@ -1,14 +1,12 @@
-import { useRef, useState } from "react";
 import { Settings } from "../App";
 import { ScriptItem } from "./Grim";
 import { PlayerProperties } from "../components/Player";
-import { angleFromIndex, getFromLocalStorage, setLocalStorage, setPlayer } from "../funcs";
+import { getFromLocalStorage, setLocalStorage } from "../funcs";
 import { useNavigate } from "react-router-dom";
 import troubleBrewing from "../data/trouble_brewing.json"
 import badMoonRising from "../data/bad_moon_rising.json"
 import sectsAndViolets from "../data/sects_and_violets.json"
 import "./NewGrim.css"
-import { request } from "http";
 
 export type GrimData = {
     scriptData: ScriptItem[],
@@ -21,7 +19,9 @@ export type GrimData = {
     layout: string,
     setLayout: (newValue: string) => void,
     isGrimActive: boolean,
-    setIsGrimActive: (newValue: boolean) => void
+    setIsGrimActive: (newValue: boolean) => void,
+    isReadyForCharacterSelection: boolean,
+    setIsReadyForCharacterSelection: (newValue: boolean) => void
 };
 
 export default function NewGrim({settings, grimData}: {settings: Settings, grimData: GrimData}) {
@@ -55,16 +55,9 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
         setLocalStorage("lastPlayerCount", playercount);
         grimData.setLayout(layout.toString());
 
-        //TODO Move to characterselect page
-        grimData.players.forEach((player, index) => {
-            setPlayer(grimData, player.name, {
-                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimWidth / 2),
-                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimHeight / 2)
-            });
-        })
 
         console.log(`Settings isgrimactive to ${script != "cus"}`)
-        grimData.setIsGrimActive(script != "cus");
+        grimData.setIsReadyForCharacterSelection(script != "cus");
 
     }
     const navigate = useNavigate();

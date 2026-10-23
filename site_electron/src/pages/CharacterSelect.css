@@ -3,6 +3,7 @@
     width: 75px;
     height: 75px;
     position: absolute;
+    transition: box-shadow .1s, scale .1s;
 }
 
 .character-select .character .overlay {
@@ -12,23 +13,16 @@
     background-color: #ffffff50;
     position: absolute;
     top: 0px;
+    transition: background-color .1s;
 }
 
 .character-select .character:hover {
-    scale: 1.4;
-}
-
-.character-select .character:hover .overlay {
-    scale: 1.4;
-    background-color: #ffffff00;
-}
-
-.character-select .selected {
     scale: 1.2;
 }
 
-.character-select .selected .overlay {
-    background-color: #ffffff00;
+
+.character-select .selected {
+    border-radius: 35.5px;
 }
 
 .character-select .character > svg {
@@ -42,7 +36,7 @@
 
 #handout-tokens-button {
     position: absolute;
-    top: 520px;
-    left: 600px;
+    bottom: 30px;
+    right: 50px;
     scale: 1.4;
 }

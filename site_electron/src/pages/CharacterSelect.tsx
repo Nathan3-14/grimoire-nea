@@ -1,8 +1,9 @@
 import { Settings } from "../App";
-import { getCharacterData, getCharacterIconURL } from "../funcs";
+import { angleFromIndex, getCharacterData, getCharacterIconURL, setPlayer } from "../funcs";
 import { GrimData } from "./NewGrim";
 import "./CharacterSelect.css"
 import Button from "../components/Button";
+import { useState } from "react";
 
 export default function CharacterSelect({settings, grimData}: {settings: Settings, grimData: GrimData}) {
     let characterChoices: {[characterType: string]: {offset: number, elements: React.JSX.Element[]}} = {
@@ -10,11 +11,10 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
         "outsider": {offset: -1, elements: []},
         "minion": {offset: -1, elements: []},
         "demon": {offset: -1, elements: []},
-        "traveller": {offset: -1, elements: []}
     }
-    const characterTypes = ["townsfolk", "outsider", "minion", "demon", "traveller"];
+    const characterTypes = ["townsfolk", "outsider", "minion", "demon"] as const; //? Means it will never change, like ever
 
-    let nextOffset = 120; //* First Offset
+    let nextOffset = 120; //* Distance of top line from top of page
     characterTypes.forEach((characterType) => {
         const charactersOfType = grimData.scriptCharacters.filter((characterID) => {return getCharacterData(characterID).team == characterType})
 
@@ -25,20 +25,20 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                 const characterType = characterData.team;
                 const characterIcon = getCharacterIconURL(characterID);
 
+                const [isSelected, setIsSelected] = useState(false);
+
                 return <div
                     key={characterID}
-                    className={`character ${characterType}`}
-                    style={{backgroundColor: settings.tokenBackgroundColour, left: (index % 8) * 90, top: Math.floor(index / 8) * 90}}
-                    onClick={(e) => {
-                        //? Toggles "selected" class when clicked
-                        if (e.currentTarget.classList.contains("selected")) {
-                            e.currentTarget.classList.remove("selected");
-                        } else {
-                            e.currentTarget.classList.add("selected");
-                        }
+                    className={`character ${characterType} ${isSelected ? "selected": ""}`}
+                    style={{
+                        backgroundColor: settings.tokenBackgroundColour,
+                        left: (index % 8) * 90,
+                        top: Math.floor(index / 8) * 90,
+                        boxShadow: isSelected ? `0 0 0 3px ${settings.textColour}` : ""
                     }}
+                    onClick={() => {setIsSelected(!isSelected)}}
                 >
-                    <div className="overlay" />
+                    <div className="overlay" style={{backgroundColor: `#ffffff${isSelected ? "00": "50"}`}} />
                     <svg xmlns="http://www.w3.org/2000/svg" width={75} height={75}>
                         <path id="name-path" fill="none" d="M22.5,7.5 A33,33 0 1 0 52.5,7.5" />
                         <text><textPath startOffset="50%" textAnchor="middle" href="#name-path" fill={settings.tokenTextColour}>{characterName}</textPath></text>
@@ -52,6 +52,35 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
         nextOffset += 90 + 90 * Math.floor(charactersOfType.length / 8);
     });
 
+    const handOutTokens = () => {
+        // characterTypes.forEach((characterType) => {
+        //     const currentDiv = divs[characterType].current;
+        //     console.log(currentDiv.children);
+        // });
+        // const selectedCharacters = characterChoices["townsfolk"].elements.filter((character) => {return character.props});
+        // console.log(selectedCharacters.map((character) => {return character.key}))
+        
+        grimData.players.forEach((player, index) => {
+            setPlayer(grimData, player.name, {
+                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimWidth / 2),
+                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimHeight / 2)
+            });
+        });
+    };
+
+    // type DivRef = RefObject<React.JSX.IntrinsicElements["div"]>
+    // const divs: {
+    //     "townsfolk": DivRef,
+    //     "outsider": DivRef,
+    //     "minion": DivRef,
+    //     "demon": DivRef
+    // } = {
+    //     "townsfolk": useRef(<div />),
+    //     "outsider": useRef(<div />),
+    //     "minion": useRef(<div />),
+    //     "demon": useRef(<div />)
+    // }
+
     return <div className="page character-select">
         <h1>Select Characters</h1>
         <div id="character-choices-wrapper">
@@ -59,6 +88,6 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                 return <div className="character-choices" key={characterType} id={characterType} style={{top: characterChoices[characterType].offset}}>{characterChoices[characterType].elements}</div>
             })}
         </div>
-        <Button settings={settings} id="handout-tokens-button">Hand out Tokens</Button>
+        <Button settings={settings} id="handout-tokens-button" onClick={() => handOutTokens()}>Hand out Tokens</Button>
     </div>
 }

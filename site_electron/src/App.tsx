@@ -101,6 +101,9 @@ export default function App() {
     const scriptCharacters: string[] = scriptData.filter((scriptItem) => {
         return scriptItem.id != "_meta" //? Only keeps actual characters, not information about the script
     }).map((scriptItem) => {
+        if (typeof scriptItem == "string") {
+            return scriptItem
+        }
         return scriptItem.id
     });
     // const [players, setPlayers] = useState<PlayerProperties[]>();
@@ -117,6 +120,7 @@ export default function App() {
     const [playercount, setPlayercount] = useState(-1);
     const [layout, setLayout] = useState("none");
     const [isGrimActive, setIsGrimActive] = useState(false);
+    const [isReadyForCharacterSelection, setIsReadyForCharacterSelection] = useState(false);
 
     const grimData: GrimData = {
         scriptData: scriptData,
@@ -132,7 +136,10 @@ export default function App() {
         setLayout: setLayout,
 
         isGrimActive: isGrimActive,
-        setIsGrimActive: setIsGrimActive
+        setIsGrimActive: setIsGrimActive,
+
+        isReadyForCharacterSelection: isReadyForCharacterSelection,
+        setIsReadyForCharacterSelection: setIsReadyForCharacterSelection
     };
 
     return <div className="main" style={{backgroundColor: settings.backgroundColour, color: settings.textColour}}>

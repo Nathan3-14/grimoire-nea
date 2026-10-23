@@ -184,7 +184,7 @@ export const getCharacterData = (characterID: string) => {
 export type Character = {
     id: string,
     name: string,
-    team: string, //? The character's type, is "townsfolk", "outsider", "minion", "demon" or "traveller"
+    team: string, //? The character's type, is "townsfolk", "outsider", "minion", "demon" or "traveller", "traveller" is not used in this application
     edition: string, //? What edition the character originally came from, is "tb", "bmr", "snv" or "carousel"
     firstNightReminder?: string, //? First night wake message
     otherNightReminder?: string, //? Other nights wake message
