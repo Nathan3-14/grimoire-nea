@@ -9,3 +9,7 @@
     position: absolute;
     top: 0px;
 }
+
+.character-select .character-choices {
+    position: absolute;
+}
