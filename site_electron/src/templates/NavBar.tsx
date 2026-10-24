@@ -6,7 +6,8 @@ import "./NavBar.css"
 export default function NavBar({settings}: {settings: Settings}) {
     return <>
         <div id="nav-bar" style={{backgroundColor: settings.secondaryColour}}>
-            <GoToButton to="/" settings={settings} >Home</GoToButton>
+            <GoToButton to="/" settings={settings} secondary>Home</GoToButton>
+            <GoToButton to="-1" settings={settings} secondary>Back</GoToButton>
         </div>
         <Outlet />
     </>

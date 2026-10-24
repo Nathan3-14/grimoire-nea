@@ -1,0 +1,42 @@
+.character-select .character {
+    border-radius: 37.5px;
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    transition: box-shadow .1s, scale .1s;
+}
+
+.character-select .character .overlay {
+    border-radius: 37.5px;
+    width: 75px;
+    height: 75px;
+    background-color: #ffffff50;
+    position: absolute;
+    top: 0px;
+    transition: background-color .1s;
+}
+
+.character-select .character:hover {
+    scale: 1.2;
+}
+
+
+.character-select .selected {
+    border-radius: 35.5px;
+}
+
+.character-select .character > svg {
+    position: absolute;
+    top: 0px;
+}
+
+.character-select .character-choices {
+    position: absolute;
+}
+
+#handout-tokens-button {
+    position: absolute;
+    bottom: 30px;
+    right: 50px;
+    scale: 1.4;
+}

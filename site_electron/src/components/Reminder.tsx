@@ -1,7 +1,7 @@
 import { Circle, Group, Image, Text } from "react-konva";
 import { Group as GroupType} from "konva/lib/Group";
 import type { Settings } from "../App";
-import { checkCircleInsideGrim, getCharacterIcon } from "../funcs";
+import { checkCircleInsideGrim, getCharacterIconURL } from "../funcs";
 import useImage from "use-image";
 import { useRef } from "react";
 
@@ -21,7 +21,7 @@ export const Reminder = (
     }) => {
     const reminder = useRef<GroupType>(null);
 
-    const reminderImageURL = getCharacterIcon(reminderID.split(".")[0]);
+    const reminderImageURL = getCharacterIconURL(reminderID.split(".")[0]);
 
     const handleDrag = () => {
         const reminderc = reminder.current;

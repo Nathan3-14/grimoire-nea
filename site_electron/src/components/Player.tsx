@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import useImage from "use-image";
-import { checkCircleInsideGrim, getCharacterIcon } from "../funcs";
+import { checkCircleInsideGrim, getCharacterIconURL } from "../funcs";
 import { Group as GroupType} from "konva/lib/Group";
 import type { Settings } from "../App";
 import { Circle, Group, Image, Rect, Text, TextPath } from "react-konva";
@@ -33,7 +33,7 @@ export const Player = (
         }
     ) => {
         const player = useRef<GroupType>(null);
-        const [characterImage] = useImage(getCharacterIcon(character));
+        const [characterImage] = useImage(getCharacterIconURL(character));
 
         //* Setup useful functions
         const setX = (newX: number) => setPlayer(grimData, player.current?.id(), {x: newX});
@@ -91,7 +91,6 @@ export const Player = (
         
         const onDoubleClick = () => {
             toggleIsMenuOpen();        
-            // checkMenuBorder();
         }
         
         const tokenSize = settings.tokenSize;
@@ -110,12 +109,12 @@ export const Player = (
         });
 
         return <Group
-        draggable
-        onDragStart={(e) => {e.currentTarget.moveToTop()}} onDragMove={handlePlayerDrag} onDragEnd={handleEndOfDrag}
-        onDblClick={onDoubleClick} onDblTap={onDoubleClick}
-        id={name} ref={player}
-        x={x} y={y}
-        {...rest}
+            draggable
+            onDragStart={(e) => {e.currentTarget.moveToTop()}} onDragMove={handlePlayerDrag} onDragEnd={handleEndOfDrag}
+            onDblClick={onDoubleClick} onDblTap={onDoubleClick}
+            id={name} ref={player}
+            x={x} y={y}
+            {...rest}
         >
             {/* //* Background */}
             <Circle
@@ -151,7 +150,7 @@ export const Player = (
                     stroke={settings.textColour}
                     strokeWidth={1}
                 />
-                <Text x={3} y={4} text={name} fontFamily="Monaspace Radon" fontSize={14} fill={settings.textColour} />
+                <Text x={3} y={4} text={name} fontFamily="Monaspace Radon" fontSize={14} fill={settings.secondaryTextColour} />
             </Group>
 
             {/* //* Toggleable Menu */}

@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { Settings } from "../App";
 import { ScriptItem } from "./Grim";
 import { PlayerProperties } from "../components/Player";
-import { angleFromIndex, getFromLocalStorage, setLocalStorage, setPlayer } from "../funcs";
+import { getFromLocalStorage, setLocalStorage } from "../funcs";
 import { useNavigate } from "react-router-dom";
 import troubleBrewing from "../data/trouble_brewing.json"
 import badMoonRising from "../data/bad_moon_rising.json"
@@ -20,11 +19,12 @@ export type GrimData = {
     layout: string,
     setLayout: (newValue: string) => void,
     isGrimActive: boolean,
-    setIsGrimActive: (newValue: boolean) => void
+    setIsGrimActive: (newValue: boolean) => void,
+    isReadyForCharacterSelection: boolean,
+    setIsReadyForCharacterSelection: (newValue: boolean) => void
 };
 
 export default function NewGrim({settings, grimData}: {settings: Settings, grimData: GrimData}) {
-    const [isCustomScriptSelected, setIsCustomScriptSelected] = useState(false);
     const handleSubmit = (formData: FormData) => {
         const script = formData.get("script");
         let scriptData: ScriptItem[] = [];
@@ -55,24 +55,18 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
         setLocalStorage("lastPlayerCount", playercount);
         grimData.setLayout(layout.toString());
 
-        grimData.players.forEach((player, index) => {
-            setPlayer(grimData, player.name, {
-                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimWidth / 2),
-                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(index, grimData.players.length)) - settings.halfTokenSize + (settings.grimHeight / 2)
-            });
-        })
 
-        grimData.setIsGrimActive(true);
+        grimData.setIsReadyForCharacterSelection(script != "cus");
 
     }
     const navigate = useNavigate();
 
     return <div className="page new-grim">
         <h1>New Grim</h1>
-        <form id="choices" action={handleSubmit} onSubmit={() => navigate("/grim")}>
+        <form id="choices" style={{color: settings.secondaryTextColour}} action={handleSubmit} onSubmit={() => navigate("/grim/create/scriptselect")}>
             <div id="script-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="script">SCRIPT</label>
-                <select required name="script" id="script-select" style={{color: settings.textColour}} onChange={(e) => {setIsCustomScriptSelected(e.target.value == "cus" )}}> {/* //? allows a custom script url / file if corresponding option is selected */}
+                <select required name="script" id="script-select"> 
                     <option id="tb" value="tb">Trouble Brewing</option>
                     <option id="bmr" value="bmr">Bad Moon Rising</option>
                     <option id="snv" value="snv">Sects and Violets</option>
@@ -82,7 +76,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
 
             <div id="playercount-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="playercount">PLAYER COUNT</label>
-                <input required type="number" name="playercount" id="playercount-input" style={{color: settings.textColour, border: `1px solid ${settings.textColour}`}} defaultValue={(getFromLocalStorage("lastPlayerCount", 10))} onChange={(e) => {
+                <input required type="number" name="playercount" id="playercount-input" style={{color: settings.secondaryTextColour, border: `1px solid ${settings.secondaryTextColour}`}} defaultValue={(getFromLocalStorage("lastPlayerCount", 10))} onChange={(e) => {
                     const field = e.target;
                     if (!/^\d+$/.test(field.value)) {field.setCustomValidity("Please enter a number")} //? RegEx (/.../) to check if the entire (^...$) string is 1 or more (+) digits (\d)
                     else if (+field.value > 20 || +field.value < 5) {field.setCustomValidity("Please enter a valid player count")}
@@ -93,22 +87,17 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
 
             <div id="layout-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="layout">LAYOUT</label>
-                <select required name="layout" id="layout-select" style={{color: settings.textColour}}>
+                <select required name="layout" id="layout-select">
                     <option id="circle">Circle</option>
                     <option id="none">None</option>
                 </select>
-            </div>
-
-            <div id="customscript-wrapper" style={{backgroundColor: settings.secondaryColour}}>
-                <input type="url" id="customscript-url" disabled={!isCustomScriptSelected} placeholder="https://www.botcscripts.com/api/scripts/178/json/" />
-                <input type="file" id="customscript-file" disabled={!isCustomScriptSelected} style={{color: settings.textColour}} />
             </div>
 
             <input
                 type="submit"
                 id="submit"
                 value="Create Grim"
-                style={{backgroundColor: settings.secondaryColour, color: settings.textColour, border: `1px solid ${settings.textColour}`}}
+                style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour, border: `1px solid ${settings.secondaryTextColour}`}}
             />
         </form>
     </div>

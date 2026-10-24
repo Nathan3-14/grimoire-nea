@@ -3,6 +3,7 @@ import type { Settings } from './App';
 import { GrimData } from './pages/NewGrim';
 import { NewPlayerProperties, PlayerProperties } from './components/Player';
 import { setTheme } from './pages/Settings';
+import botcRoles from "./data/botc_roles.json"
 
 const TAU = 2 * Math.PI;
 export const angleFromIndex = (index: number, max: number) => {
@@ -28,7 +29,7 @@ export const checkCircleInsideGrim = (
 
 export const hsl = (colour: string) => {return convert.hex.hsl(colour)};
 
-export const getCharacterIcon = (name: string) => {
+export const getCharacterIconURL = (name: string) => {
     const filename = `${name.replace("_", "").replace("'", "").replace("-", "")}.png`;
     const url = `https://raw.githubusercontent.com/tomozbot/botc-icons/refs/heads/main/PNG/${filename}`;
     return url
@@ -170,4 +171,44 @@ export function sort(list: any[], reverse?: boolean) {
     console.log("quit");
 
     return currentList[0]
+}
+
+export const getCharacterData = (characterID: string) => {
+    let output = botcRoles[0];
+    botcRoles.forEach((value) => {
+        if (value.id == characterID) {output = value}
+    })
+    return output as Character;
+}
+
+export type Character = {
+    id: string,
+    name: string,
+    team: string, //? The character's type, is "townsfolk", "outsider", "minion", "demon" or "traveller", "traveller" is not used in this application
+    edition: string, //? What edition the character originally came from, is "tb", "bmr", "snv" or "carousel"
+    firstNightReminder?: string, //? First night wake message
+    otherNightReminder?: string, //? Other nights wake message
+    reminders: string[], //? List of the character's reminders
+    remindersGlobal?: string[], //? List of the character's reminders that must always be available
+    setup: boolean, //? Whether this character has a "setup" ability
+    ability: string, //? Ability text
+    special?: string,
+    flavor:  string, //? Additional flavour text
+}
+
+export const getRandomItemFromList = <T,>(list: T[]): T => {
+    const randomIndex = Math.floor(Math.random()*list.length);
+    return list[randomIndex];
+}
+
+export const shuffleList = <T,>(list: T[]): T[] => {
+    let newList: T[] = [];
+    while (list.length > 0) {
+        const pickedValue = getRandomItemFromList(list);
+        console.log(`Selected ${pickedValue}`);
+        newList.push(pickedValue);
+        list = list.filter((value) => {return value != pickedValue});
+    }
+
+    return newList
 }

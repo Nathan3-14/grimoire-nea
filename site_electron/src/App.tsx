@@ -10,6 +10,7 @@ import CharacterSelect from './pages/CharacterSelect';
 import NavBar from './templates/NavBar';
 import { PlayerProperties } from './components/Player';
 import { loadSettings } from './funcs';
+import ScriptSelect from './pages/ScriptSelect';
 // import Test from './pages/Test';
 
 
@@ -100,22 +101,26 @@ export default function App() {
     const scriptCharacters: string[] = scriptData.filter((scriptItem) => {
         return scriptItem.id != "_meta" //? Only keeps actual characters, not information about the script
     }).map((scriptItem) => {
+        if (typeof scriptItem == "string") {
+            return scriptItem
+        }
         return scriptItem.id
     });
-    // const [players, setPlayers] = useState<PlayerProperties[]>();
-    const [players, setPlayers] = useState<PlayerProperties[]>([
-        {character: "washerwoman", name: "Alice", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "librarian", name: "Bob", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "investigator", name: "Carol", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "poisoner", name: "David", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "imp", name: "Edith", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "ravenkeeper", name: "Freya", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "monk", name: "Gary", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-        {character: "fortuneteller", name: "Hannah", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
-    ]); //DEBUG
+    const [players, setPlayers] = useState<PlayerProperties[]>([]);
+    // const [players, setPlayers] = useState<PlayerProperties[]>([
+    //     {character: "washerwoman", name: "Alice", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "librarian", name: "Bob", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "investigator", name: "Carol", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "poisoner", name: "David", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "imp", name: "Edith", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "ravenkeeper", name: "Freya", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "monk", name: "Gary", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    //     {character: "fortuneteller", name: "Hannah", x: 0, y: 0, isMenuOpen: false, reminders: [], isDead: false},
+    // ]); //DEBUG
     const [playercount, setPlayercount] = useState(-1);
     const [layout, setLayout] = useState("none");
     const [isGrimActive, setIsGrimActive] = useState(false);
+    const [isReadyForCharacterSelection, setIsReadyForCharacterSelection] = useState(false);
 
     const grimData: GrimData = {
         scriptData: scriptData,
@@ -131,7 +136,10 @@ export default function App() {
         setLayout: setLayout,
 
         isGrimActive: isGrimActive,
-        setIsGrimActive: setIsGrimActive
+        setIsGrimActive: setIsGrimActive,
+
+        isReadyForCharacterSelection: isReadyForCharacterSelection,
+        setIsReadyForCharacterSelection: setIsReadyForCharacterSelection
     };
 
     return <div className="main" style={{backgroundColor: settings.backgroundColour, color: settings.textColour}}>
@@ -143,8 +151,11 @@ export default function App() {
                     <Route path="credits" element={<Credits settings={settings} />} />
                     <Route path="grim/*" element={<NavBar settings={settings} />}>
                         <Route index element={<Grim settings={settings} grimData={grimData} />} />
-                        <Route path="create" element={<NewGrim settings={settings} grimData={grimData} />} />
-                        <Route path="characterselect" element={<CharacterSelect settings={settings} grimData={grimData} />} />
+                        <Route path="create/*">
+                            <Route index element={<NewGrim settings={settings} grimData={grimData} />} />
+                            <Route path="characterselect" element={<CharacterSelect settings={settings} grimData={grimData} />} />
+                            <Route path="scriptselect" element={<ScriptSelect settings={settings} grimData={grimData} />} />
+                        </Route>
                     </Route>
                     {/* <Route path="test" element={<Test settings={settings} />} /> */}
                 </Route>

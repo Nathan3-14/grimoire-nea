@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import type { ButtonProps } from "./Button";
 import Button from "./Button";
 
@@ -7,5 +7,10 @@ interface GoToButtonProps extends ButtonProps {
 }
 
 export default function GoToButton({children, settings, to, ...rest}: GoToButtonProps) {
+    const navigate = useNavigate();
+    
+    if (to == "-1") {
+        return <Button settings={settings} {...rest} onClick={() => navigate(-1)}>{children}</Button>
+    }
     return <NavLink to={to}><Button settings={settings} {...rest}>{children}</Button></NavLink>
 }

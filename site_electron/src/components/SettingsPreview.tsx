@@ -3,7 +3,6 @@ import { Settings } from "../App";
 import { angleFromIndex } from "../funcs";
 
 export default function SettingsPreview({settings, previewPlayerCount}: {settings: Settings, previewPlayerCount: number}) {
-    {/* //TODO Add preview for secondary colour! */}
     const examplePlayers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map((_item, index) => {
         const halfTokenCircleRadius = settings.initialTokenCircleRadius / 2;
         const quarterTokenSize = settings.halfTokenSize / 2;
@@ -36,7 +35,8 @@ export default function SettingsPreview({settings, previewPlayerCount}: {setting
             </Layer>
             <Layer id="menu">
                 <Rect fill={settings.secondaryColour} width={80} height={80} cornerRadius={5} x={85} y={85} />
-                <Text text="Preview" fill={settings.textColour} x={90} y={90} fontFamily="Monaspace Radon" />
+                <Text text="Preview" fill={settings.secondaryTextColour} x={90} y={90} fontFamily="Monaspace Radon" />
+                <Text text="Long Link Preview" fill={settings.linkColour} textDecoration="underline" x={90} y={110} fontFamily="Monaspace Radon" />
             </Layer>
         </Stage>
     </>
