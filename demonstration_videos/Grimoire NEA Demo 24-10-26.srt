@@ -1,0 +1,111 @@
+1
+00:00:00,000 --> 00:00:03,000
+Hi!
+
+2
+00:00:05,000 --> 00:00:08,000
+Home Page
+
+3
+00:00:08,600 --> 00:00:12,000
+Credits (pause if you wish to read them all)
+
+4
+00:00:15,000 --> 00:00:17,000
+Settings Page
+
+5
+00:00:17,000 --> 00:00:20,500
+The number of players on the
+preview can be changed
+
+6
+00:00:21,000 --> 00:00:24,000
+A selection of preset themes
+
+7
+00:00:30,000 --> 00:00:35,000
+The "custom" theme option saves from the last
+time it was set
+
+8
+00:00:40,000 --> 00:00:43,000
+Colours cannot be changed while a theme is selected
+
+9
+00:00:43,000 --> 00:00:48,000
+The size and distribution of tokens
+can be changed
+
+10
+00:00:56,000 --> 00:00:58,000
+Creating a Grim(oire)
+
+11
+00:00:58,000 --> 00:01:01,000
+The player count can be changed
+
+12
+00:01:02,000 --> 00:01:06,000
+Characters can be selected here
+(selecting too few does cause a crash)
+
+13
+00:01:09,000 --> 00:01:12,000
+Player tokens are laid out in
+accordance with selected settings
+
+14
+00:01:12,000 --> 00:01:15,000
+Name can be changed from
+the player menu
+
+15
+00:01:21,000 --> 00:01:27,000
+"Death Shrouds" can be toggled from the
+player menu (accessed by double-clicking)
+
+16
+00:01:32,000 --> 00:01:35,000
+Duplicate names are not allowed
+
+17
+00:01:38,500 --> 00:01:41,000
+Reminder tokens can also be added
+(visuals are a work-in-progress)
+
+18
+00:01:47,000 --> 00:01:50,000
+On the home page, there is now an
+"open grimoire" button
+
+19
+00:01:55,000 --> 00:01:58,000
+Selecting "custom" allows any script
+to be used
+
+20
+00:01:59,000 --> 00:02:01,500
+Layout is still non-functional
+
+21
+00:02:03,000 --> 00:02:07,000
+A link to a json file can be pasted here
+
+22
+00:02:09,000 --> 00:02:12,500
+The script loads the same as before
+
+23
+00:02:20,000 --> 00:02:23,000
+The shown reminders are based
+off of the selected script
+
+24
+00:02:28,000 --> 00:02:32,000
+A json file can also be
+used as a script
+
+25
+00:02:45,000 --> 00:02:50,000
+Thanks for watching!
