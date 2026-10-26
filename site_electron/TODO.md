@@ -1,9 +1,10 @@
 # To Do
-- ADD CHARACTER SELECTION
-
 - Recently used names saved
 - Make merge sort and use to sort recently used name
     - save user data, i.e. recently used names
+
+- Instead of links, have buttons
+- Add player type counters and warnings to selection
 
 - Make add reminders page full-screen
 - Add reminder parent changing (drag over another token to change parent, add little box around new parent that fades in / out)

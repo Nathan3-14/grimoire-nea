@@ -1,39 +1,23 @@
 import { Settings } from "../App";
-import { angleFromIndex, getCharacterData, shuffleList } from "../funcs";
+import { angleFromIndex, shuffleList } from "../funcs";
 import { GrimData } from "./NewGrim";
 import "./CharacterSelect.css"
 import Button from "../components/Button";
 import { PlayerProperties } from "../components/Player";
 import { useNavigate } from "react-router-dom";
-import Character from "../components/Character";
+import CharacterSelectPane from "../components/CharacterSelectPane";
 
 
 export default function CharacterSelect({settings, grimData}: {settings: Settings, grimData: GrimData}) {
     const navigate = useNavigate();
-
-    let characterChoices: {[characterType: string]: {offset: number, elements: React.JSX.Element[]}} = {
-        "townsfolk": {offset: -1, elements: []},
-        "outsider": {offset: -1, elements: []},
-        "minion": {offset: -1, elements: []},
-        "demon": {offset: -1, elements: []},
-    }
-    const characterTypes = ["townsfolk", "outsider", "minion", "demon"] as const; //? Means it will never change, like ever
-
-    let nextOffset = 120; //* Distance of top line from top of page
-    characterTypes.forEach((characterType) => {
-        const charactersOfType = grimData.scriptCharacters.filter((characterID) => {return getCharacterData(characterID).team == characterType})
-
-        characterChoices[characterType].elements = charactersOfType
-            .map((characterID, index) => {                
-                return <Character settings={settings} characterID={characterID} index={index} />
-        });
-        characterChoices[characterType].offset = nextOffset;
-        //? Adds 90 (a new line) and an additional new line per row of characters
-        nextOffset += 90 + 90 * Math.floor(charactersOfType.length / 8);
-    });
     
     const handOutTokens = () => {
         const selectedCharacterElements = document.querySelectorAll(".selected");
+        if (selectedCharacterElements.length != grimData.playercount) {
+
+            return
+        }
+
         let selectedCharacterIDs: string[] = [];
         selectedCharacterElements.forEach((element) => {
             selectedCharacterIDs.push(element.id);
@@ -60,13 +44,13 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
         navigate("/grim");
     };
 
+
     return <div className="page character-select">
         <h1>Select Characters</h1>
         <div id="character-choices-wrapper">
-            {characterTypes.map((characterType) => {
-                return <div className="character-choices" key={characterType} id={characterType} style={{top: characterChoices[characterType].offset}}>{characterChoices[characterType].elements}</div>
-            })}
+            <CharacterSelectPane settings={settings} grimData={grimData} /> {/* //TODO fix this and then make single select work */}
         </div>
         <Button settings={settings} id="handout-tokens-button" onClick={() => handOutTokens()}>Hand out Tokens</Button>
+        <p style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour}}>Please select the correct number of characters ({grimData.playercount})</p>
     </div>
 }

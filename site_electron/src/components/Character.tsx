@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Settings } from "../App";
 import { getCharacterData, getCharacterIconURL } from "../funcs";
 
-export default function Character({settings, characterID, index}: {settings: Settings, characterID: string, index: number}) {
+export default function Character({settings, characterID, index, maxWidth}: {settings: Settings, characterID: string, index: number, maxWidth?: number}) {
     const [isSelected, setIsSelected] = useState(false);
 
     const characterData = getCharacterData(characterID)
@@ -16,8 +16,8 @@ export default function Character({settings, characterID, index}: {settings: Set
         className={`character ${characterType} ${isSelected ? "selected": ""}`}
         style={{
             backgroundColor: settings.tokenBackgroundColour,
-            left: (index % 8) * 90,
-            top: Math.floor(index / 8) * 90,
+            left: (index % (maxWidth ? maxWidth : 8)) * 90,
+            top: Math.floor(index / (maxWidth ? maxWidth : 8)) * 90,
             boxShadow: isSelected ? `0 0 0 3px ${settings.textColour}` : ""
         }}
         onClick={() => {setIsSelected(!isSelected)}}
