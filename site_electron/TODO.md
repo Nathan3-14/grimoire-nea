@@ -3,6 +3,7 @@
 - Make merge sort and use to sort recently used name
     - save user data, i.e. recently used names
 
+- Easy way to stop stuff moving off screen
 - Instead of links, have buttons
 - Add player type counters and warnings to selection
 

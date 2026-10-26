@@ -235,7 +235,9 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                     >
                         <Rect width={400} height={400} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Change Character of ${currentPlayer}`} fill={settings.secondaryTextColour} fontSize={16} fontFamily="Monaspace Radon" />
-                        <CharacterSelectPane settings={settings} grimData={grimData} />
+                        <Html deriveVisibility>
+                            <CharacterSelectPane settings={settings} grimData={grimData} scale={0.5} />
+                        </Html>
                     </Group>
                 </Layer>
             </Stage>

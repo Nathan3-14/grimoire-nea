@@ -2,8 +2,10 @@ import { Settings } from "../App";
 import { characterTypes, getCharacterData } from "../funcs";
 import { GrimData } from "../pages/NewGrim";
 import Character from "./Character";
+import "./CharacterSelectPane.css";
 
-export default function CharacterSelectPane({settings, grimData, maxWidth}: {settings: Settings, grimData: GrimData, maxWidth?: number, justOne?: boolean}) {
+export default function CharacterSelectPane({settings, grimData, maxWidth, scale}: {settings: Settings, grimData: GrimData, maxWidth?: number, justOne?: boolean, scale?: number}) {
+    scale = scale ? scale : 1;
     let characterChoices: {[characterType: string]: {offset: number, elements: React.JSX.Element[]}} = {
         "townsfolk": {offset: -1, elements: []},
         "outsider": {offset: -1, elements: []},
@@ -11,23 +13,22 @@ export default function CharacterSelectPane({settings, grimData, maxWidth}: {set
         "demon": {offset: -1, elements: []},
     }
 
-    let nextOffset = 120; //* Distance of top line from top of page
+    let nextOffset = 140; //* Distance of top line from top of page
     characterTypes.forEach((characterType) => {
         const charactersOfType = grimData.scriptCharacters.filter((characterID) => {return getCharacterData(characterID).team == characterType})
 
         characterChoices[characterType].elements = charactersOfType
             .map((characterID, index) => {                
-                return <Character settings={settings} characterID={characterID} index={index} maxWidth={maxWidth}/>
+                return <Character settings={settings} characterID={characterID} index={index} maxWidth={maxWidth} />
         });
         characterChoices[characterType].offset = nextOffset;
-        //? Adds 90 (a new line) and an additional new line per row of characters
-        nextOffset += 90 + 90 * Math.floor(charactersOfType.length / (maxWidth ? maxWidth : 8));
+        nextOffset += (90*scale) * (Math.floor(charactersOfType.length / (maxWidth ? maxWidth : 8)) + 1);
     });
 
     return characterTypes.map((characterType) => {
         return <div
             className="character-choices" key={characterType} id={characterType}
-            style={{top: characterChoices[characterType].offset}}
+            style={{top: characterChoices[characterType].offset, scale: scale}}
         >
             {characterChoices[characterType].elements}
         </div>
