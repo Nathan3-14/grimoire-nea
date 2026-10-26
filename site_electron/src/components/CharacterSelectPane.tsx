@@ -1,10 +1,11 @@
+import { MouseEvent } from "react";
 import { Settings } from "../App";
 import { characterTypes, getCharacterData } from "../funcs";
 import { GrimData } from "../pages/NewGrim";
 import Character from "./Character";
 import "./CharacterSelectPane.css";
 
-export default function CharacterSelectPane({settings, grimData, maxWidth, scale}: {settings: Settings, grimData: GrimData, maxWidth?: number, justOne?: boolean, scale?: number}) {
+export default function CharacterSelectPane({settings, grimData, maxWidth, scale, top, effect}: {settings: Settings, grimData: GrimData, maxWidth?: number, effect?: (e: MouseEvent) => void, scale?: number, top: number}) {
     scale = scale ? scale : 1;
     let characterChoices: {[characterType: string]: {offset: number, elements: React.JSX.Element[]}} = {
         "townsfolk": {offset: -1, elements: []},
@@ -13,13 +14,18 @@ export default function CharacterSelectPane({settings, grimData, maxWidth, scale
         "demon": {offset: -1, elements: []},
     }
 
-    let nextOffset = 140; //* Distance of top line from top of page
+    let nextOffset = top; //* Distance of top line from top of page
     characterTypes.forEach((characterType) => {
         const charactersOfType = grimData.scriptCharacters.filter((characterID) => {return getCharacterData(characterID).team == characterType})
 
         characterChoices[characterType].elements = charactersOfType
             .map((characterID, index) => {                
-                return <Character settings={settings} characterID={characterID} index={index} maxWidth={maxWidth} />
+                return <Character
+                    settings={settings}
+                    characterID={characterID} index={index}
+                    maxWidth={maxWidth}
+                    effect={effect}
+                />
         });
         characterChoices[characterType].offset = nextOffset;
         nextOffset += (90*scale) * (Math.floor(charactersOfType.length / (maxWidth ? maxWidth : 8)) + 1);

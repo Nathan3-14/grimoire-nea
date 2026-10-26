@@ -115,7 +115,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
     const [currentPlayer, setCurrentPlayer] = useState("none"); //* Player Element's ID
     const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
     const [isChangeNameVisible, setIsChangeNameVisible] = useState(false);
-    const [isChangePlayerVisible, setIsChangePlayerVisible] = useState(false);
+    const [isChangeCharacterVisible, setIsChangeCharacterVisible] = useState(false);
     const changeCursor = (e: KonvaEvent, cursor: string) => {
         const stage = e.target.getStage();
         if (!stage) {return}
@@ -125,7 +125,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
         setCurrentPlayer: setCurrentPlayer,
         setIsAddReminderVisible: setIsAddReminderVisible,
         setIsChangeNameVisible: setIsChangeNameVisible,
-        setIsChangePlayerVisible: setIsChangePlayerVisible,
+        setIsChangePlayerVisible: setIsChangeCharacterVisible,
         changeCursor: changeCursor
     };
 
@@ -208,18 +208,18 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                                     type="text" placeholder="John"
                                     onChange={(e) => {
                                         if (new RegExp(`^(${players.map((value) => {return value.name}).join("|")})$`).test(e.target.value)) { {/* //TODO explain regex in word */}
-                                            e.target.setCustomValidity("Name already in use");
-                                        } else {
-                                            e.target.setCustomValidity("");
+                                        e.target.setCustomValidity("Name already in use");
+                                    } else {
+                                        e.target.setCustomValidity("");
                                         }
                                     }}
-                                />
+                                    />
                                 <br />
                                 <input
                                     type="submit"
                                     value="Change Name"
                                     id="changename-submit"
-                                />
+                                    />
                             </form>
                         </Html>
                     </Group>
@@ -228,15 +228,21 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                     <Group
                         draggable
                         id="change-character"
-                        visible={isChangePlayerVisible}
-                        onDblClick={() => setIsChangePlayerVisible(false)}
+                        visible={isChangeCharacterVisible}
+                        onDblClick={() => setIsChangeCharacterVisible(false)}
                         x={50}
                         y={50}
-                    >
+                        >
                         <Rect width={400} height={400} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Change Character of ${currentPlayer}`} fill={settings.secondaryTextColour} fontSize={16} fontFamily="Monaspace Radon" />
                         <Html deriveVisibility>
-                            <CharacterSelectPane settings={settings} grimData={grimData} scale={0.5} />
+                            <div style={{position: "absolute", left: 10}}>
+                                <CharacterSelectPane top={25} settings={settings} grimData={grimData} scale={0.65} maxWidth={6} effect={(e) => {
+                                    setPlayer(grimData, currentPlayer, {character: e.currentTarget.id});
+                                    setIsChangeCharacterVisible(false);
+                                    setCurrentPlayer("none");
+                                }}/>
+                            </div>
                         </Html>
                     </Group>
                 </Layer>

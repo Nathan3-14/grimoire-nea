@@ -47,9 +47,10 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
     return <div className="page character-select">
         <h1>Select Characters</h1>
         <div id="character-choices-wrapper">
-            <CharacterSelectPane settings={settings} grimData={grimData} />
+            <CharacterSelectPane settings={settings} grimData={grimData} top={140} />
         </div>
         <Button settings={settings} id="handout-tokens-button" onClick={() => handOutTokens()}>Hand out Tokens</Button>
         <p style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour}}>Please select the correct number of characters ({grimData.playercount})</p>
+        {/* //TODO show/hide the above text based on condition */}
     </div>
 }

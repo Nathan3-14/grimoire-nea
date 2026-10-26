@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { Settings } from "../App";
 import { getCharacterData, getCharacterIconURL } from "../funcs";
 
-export default function Character({settings, characterID, index, maxWidth}: {settings: Settings, characterID: string, index: number, maxWidth?: number}) {
+export default function Character({settings, characterID, index, maxWidth, effect}: {settings: Settings, characterID: string, index: number, maxWidth?: number, effect?: (e: MouseEvent) => void}) {
     const [isSelected, setIsSelected] = useState(false);
 
     const characterData = getCharacterData(characterID)
@@ -20,7 +20,7 @@ export default function Character({settings, characterID, index, maxWidth}: {set
             top: Math.floor(index / (maxWidth ? maxWidth : 8)) * 90,
             boxShadow: isSelected ? `0 0 0 3px ${settings.textColour}` : ""
         }}
-        onClick={() => {setIsSelected(!isSelected)}}
+        onClick={effect ? effect : () => {setIsSelected(!isSelected)}}
     >
         <div className="overlay" style={{backgroundColor: `#ffffff${isSelected ? "00": "50"}`}} />
         <svg xmlns="http://www.w3.org/2000/svg" width={75} height={75}>
