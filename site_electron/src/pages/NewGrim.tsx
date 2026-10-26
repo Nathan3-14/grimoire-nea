@@ -9,6 +9,8 @@ import sectsAndViolets from "../data/sects_and_violets.json"
 import "./NewGrim.css"
 
 export type GrimData = {
+    scriptID: string,
+    setScriptID: (newValue: string) => void,
     scriptData: ScriptItem[],
     scriptCharacters: string[],
     setScriptData: (newValue: ScriptItem[]) => void,
@@ -28,6 +30,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
     const handleSubmit = (formData: FormData) => {
         const script = formData.get("script");
         let scriptData: ScriptItem[] = [];
+        grimData.setScriptID(script ? script as string : "-1");
         if (script == "cus") {
             scriptData = [{"id": "_meta", "name": "custom"}]
         } else {

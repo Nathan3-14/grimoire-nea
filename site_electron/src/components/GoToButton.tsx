@@ -10,7 +10,11 @@ export default function GoToButton({children, settings, to, ...rest}: GoToButton
     const navigate = useNavigate();
     
     if (to == "-1") {
-        return <Button settings={settings} {...rest} onClick={() => navigate(-1)}>{children}</Button>
+        return <Button settings={settings} {...rest} onClick={() => {
+            console.log("Back pressed");
+            navigate(-1);
+        }}>{children}</Button> //TODO See if this works to stop double press
+        //TODO Fix duplicate reminders having same keys, add index with separation character?
     }
     return <NavLink to={to}><Button settings={settings} {...rest}>{children}</Button></NavLink>
 }

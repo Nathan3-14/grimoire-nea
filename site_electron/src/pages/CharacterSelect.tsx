@@ -44,6 +44,8 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
     };
 
 
+    grimData.setIsReadyForCharacterSelection(false); //? Used to fix routing
+
     return <div className="page character-select">
         <h1>Select Characters</h1>
         <div id="character-choices-wrapper">

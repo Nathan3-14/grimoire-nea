@@ -7,14 +7,15 @@ export default function ScriptSelect({settings, grimData}: {settings: Settings, 
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log(`isready: ${grimData.isReadyForCharacterSelection}, id: ${grimData.scriptID}`);
         if (grimData.isReadyForCharacterSelection) {
             navigate("/grim/create/characterselect");
-        } //TODO Make navigate(-1) work here, set a state in grimData?
+        } else if (grimData.scriptID != "cus") {
+            navigate("/grim/create");
+        }
     });
 
-    const handleSubmit = (formData: FormData) => {        
-        //TODO load script data like in newgrim and go to character seleet
-        //TODOD set is grim active as well, or maybe not, potentially add more states?
+    const handleSubmit = (formData: FormData) => {
         if (isURLSelected) {
             const url = formData.get("customscript-url");
             if (!url) {return}
@@ -23,8 +24,6 @@ export default function ScriptSelect({settings, grimData}: {settings: Settings, 
             const file = formData.get("customscript-file") as File;
             file.text().then((scriptString: string) => {grimData.setScriptData(JSON.parse(scriptString))});
         }
-
-        // fetch()
         
 
         grimData.setIsReadyForCharacterSelection(true);
