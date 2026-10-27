@@ -22,6 +22,7 @@ export default function CharacterSelectPane({settings, grimData, maxWidth, scale
             .map((characterID, index) => {                
                 return <Character
                     settings={settings}
+                    key={characterID}
                     characterID={characterID} index={index}
                     maxWidth={maxWidth}
                     effect={effect}

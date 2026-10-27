@@ -37,11 +37,11 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
             allReminders = [...allReminders, ...characterData.remindersGlobal]; //? joins the two arrays together
         }
         //* Iterate through all of each characters reminder tokens
-        allReminders.forEach((reminderText) => {
+        allReminders.forEach((reminderText, reminderIndex) => {
             reminderButtonElements.push(<Reminder
                 settings={settings}
                 reminderID={`${characterID}.${reminderText}`}
-                key={`${characterID}.${reminderText}`}
+                key={`${characterID}.${reminderText}#${reminderIndex}`}
                 x={(index % 5) * 60} y={Math.floor(index / 5) * 70 + 30}
                 inRadius={settings.halfReminderSize / 1.5}
                 onClick={() => {

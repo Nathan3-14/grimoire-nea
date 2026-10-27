@@ -121,7 +121,6 @@ export default function App() {
     const [playercount, setPlayercount] = useState(-1);
     const [layout, setLayout] = useState("none");
     const [isGrimActive, setIsGrimActive] = useState(false);
-    const [isReadyForCharacterSelection, setIsReadyForCharacterSelection] = useState(false);
 
     const grimData: GrimData = {
         scriptID: scriptID,
@@ -141,9 +140,6 @@ export default function App() {
 
         isGrimActive: isGrimActive,
         setIsGrimActive: setIsGrimActive,
-
-        isReadyForCharacterSelection: isReadyForCharacterSelection,
-        setIsReadyForCharacterSelection: setIsReadyForCharacterSelection
     };
 
     return <div className="main" style={{backgroundColor: settings.backgroundColour, color: settings.textColour}}>

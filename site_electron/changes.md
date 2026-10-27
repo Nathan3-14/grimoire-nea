@@ -3,6 +3,4 @@
 
 ## Bugfixes
 - Made more text on secondaryColour actually use secondaryTextColour
-
-## Known Bugs
-- Back button 
+- Made back button work as intended 

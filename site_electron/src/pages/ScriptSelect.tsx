@@ -1,19 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Settings } from "../App";
 import { GrimData } from "./NewGrim";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function ScriptSelect({settings, grimData}: {settings: Settings, grimData: GrimData}) {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        console.log(`isready: ${grimData.isReadyForCharacterSelection}, id: ${grimData.scriptID}`);
-        if (grimData.isReadyForCharacterSelection) {
-            navigate("/grim/create/characterselect");
-        } else if (grimData.scriptID != "cus") {
-            navigate("/grim/create");
-        }
-    });
 
     const handleSubmit = (formData: FormData) => {
         if (isURLSelected) {
@@ -24,9 +15,6 @@ export default function ScriptSelect({settings, grimData}: {settings: Settings, 
             const file = formData.get("customscript-file") as File;
             file.text().then((scriptString: string) => {grimData.setScriptData(JSON.parse(scriptString))});
         }
-        
-
-        grimData.setIsReadyForCharacterSelection(true);
     }
 
     const [isURLSelected, setIsURLSelected] = useState(true);
