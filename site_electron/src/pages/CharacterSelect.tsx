@@ -14,6 +14,12 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
     const handOutTokens = () => {
         const selectedCharacterElements = document.querySelectorAll(".selected");
         if (selectedCharacterElements.length != grimData.playercount) {
+            const message = document.getElementById("playercount-message")
+            if (message) {
+                if (message.classList.contains("bounce")) {message.classList.remove("bounce")}
+                message.offsetWidth; //? Gets the property of the element so the page reloads (https://stackoverflow.com/a/63561659)
+                message.classList.add("bounce");
+            }
             return
         }
 
@@ -50,7 +56,7 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
             <CharacterSelectPane settings={settings} grimData={grimData} top={140} />
         </div>
         <Button settings={settings} id="handout-tokens-button" onClick={() => handOutTokens()}>Hand out Tokens</Button>
-        <p style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour}}>Please select the correct number of characters ({grimData.playercount})</p>
+        <p id="playercount-message" style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour, visibility: "hidden"}}>Please select the correct number of characters ({grimData.playercount})</p>
         {/* //TODO show/hide the above text based on condition */}
     </div>
 }

@@ -13,7 +13,6 @@ export default function GoToButton({children, settings, to, ...rest}: GoToButton
         return <Button settings={settings} {...rest} onClick={() => {
             navigate(-1);
         }}>{children}</Button>
-        //TODO Fix duplicate reminders having same keys, add index with separation character?
     }
     return <NavLink to={to}><Button settings={settings} {...rest}>{children}</Button></NavLink>
 }

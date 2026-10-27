@@ -4,3 +4,22 @@
     right: 50px;
     scale: 1.4;
 }
+
+.bounce {
+    animation: bounce;
+    animation-duration: 1s;
+    visibility: visible !important;
+}
+
+@keyframes bounce {
+    0% {scale: 1; rotate: 0deg}
+    30% {scale: 1.025; rotate: 0deg}
+    40% {rotate: 3deg}
+    45% {rotate: 0deg}
+    50% {rotate: -3deg}
+    55% {rotate: 0deg}
+    60% {rotate: 3deg}
+    65% {rotate: 0deg}
+    70% {scale: 1.025; rotate: 0deg}
+    100% {scale: 1; rotate: 0deg}
+}
