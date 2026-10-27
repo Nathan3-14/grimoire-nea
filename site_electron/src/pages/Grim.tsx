@@ -180,7 +180,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                     >
                         <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.secondaryTextColour} fontSize={16} fontFamily="Monaspace Radon" />
-                        {reminderButtonElements}
+                        {reminderButtonElements} {/* //TODO Make this look nice, maybe set equivalent of style.scale here? */}
                     </Group>
 
                     {/* //* Change Name Menu */}
