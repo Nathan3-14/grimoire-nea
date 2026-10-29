@@ -37,13 +37,15 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
             allReminders = [...allReminders, ...characterData.remindersGlobal]; //? joins the two arrays together
         }
         //* Iterate through all of each characters reminder tokens
+        const reminderButtonRadius = settings.halfReminderSize * 0.8;
+        const reminderButtonGap = reminderButtonRadius * 2 * 1.1;
         allReminders.forEach((reminderText, reminderIndex) => {
             reminderButtonElements.push(<Reminder
                 settings={settings}
                 reminderID={`${characterID}.${reminderText}`}
                 key={`${characterID}.${reminderText}#${reminderIndex}`}
-                x={(index % 5) * 60} y={Math.floor(index / 5) * 70 + 30}
-                inRadius={settings.halfReminderSize / 1.5}
+                x={(index % 7) * reminderButtonGap + 5} y={Math.floor(index / 7) * reminderButtonGap + 30}
+                radius={reminderButtonRadius}
                 onClick={() => {
                     setIsAddReminderVisible(false);
                     addReminderToPlayer(currentPlayer, `${characterID}.${reminderText}`);
@@ -97,6 +99,11 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
             }
         ]});
     };
+    const removeReminderFromPlayer = (playerName: string, reminderID: string) => {
+        const player = getPlayer(playerName);
+        setPlayer(grimData, playerName, {reminders: player.reminders.filter((reminder) => {return reminder.id != reminderID})});
+    }
+
     //! Update when new properties are added
     const setReminder = (playerName: string, reminderID: string, properties: NewReminderProperties) => {
         const newReminders: ReminderProperties[] = [];
@@ -157,6 +164,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                 owner={player.name}
                 x={reminder.x}
                 y={reminder.y}
+                onDblClick={() => {removeReminderFromPlayer(player.name, reminder.id)}}
             />);
         });
     });
@@ -180,7 +188,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                     >
                         <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.secondaryTextColour} fontSize={16} fontFamily="Monaspace Radon" />
-                        {reminderButtonElements} {/* //TODO Make this look nice, maybe set equivalent of style.scale here? */}
+                        {reminderButtonElements}
                     </Group>
 
                     {/* //* Change Name Menu */}
