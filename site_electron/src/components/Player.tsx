@@ -4,14 +4,13 @@ import { checkCircleInsideGrim, getCharacterIconURL } from "../funcs";
 import { Group as GroupType} from "konva/lib/Group";
 import type { Settings } from "../App";
 import { Circle, Group, Image, Rect, Text, TextPath } from "react-konva";
-import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
 import type { ReminderProperties } from "./Reminder";
 import shroud from "../assets/images/shroud.png"
 import { GrimData } from "../pages/NewGrim";
+import KonvaButton from "./KonvaButton";
 
 export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[], isDead: boolean};
 export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[], isDead?: boolean};
-type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
 
 export const Player = (
         {settings, grimData, character, name, x, y, isMenuOpen, isDead, setPlayer, functions, ...rest}: {
@@ -28,8 +27,7 @@ export const Player = (
                 setCurrentPlayer: (name: string) => void,
                 setIsAddReminderVisible: (newState: boolean) => void,
                 setIsChangeNameVisible: (newState: boolean) => void,
-                setIsChangePlayerVisible: (newState: boolean) => void,
-                changeCursor: (e: KonvaEvent, newCursor: string) => void
+                setIsChangePlayerVisible: (newState: boolean) => void
             };
         }
     ) => {
@@ -161,18 +159,15 @@ export const Player = (
 
                 {/* //* Change Character Button */}
                 <Text
-                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
-                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
                     text="Change Character"
-                    fill={settings.linkColour}
-                    fontSize={11} fontStyle="bold"
+
                     onClick={(e) => {
                         functions.setCurrentPlayer(name);
-                        functions.changeCursor(e, "default")
                         functions.setIsChangePlayerVisible(true);
                         setIsMenuOpen(false);
                     }}
                 />
+                <KonvaButton settings={settings} />
 
                 {/* //* Add Reminder Button */}
                 <Text

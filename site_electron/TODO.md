@@ -1,7 +1,5 @@
 # To Do
-- Recently used names saved
-- Make merge sort and use to sort recently used name
-    - save user data, i.e. recently used names
+- Make cool buttons work
 
 - Easy way to stop stuff moving off screen
 - Instead of links, have buttons

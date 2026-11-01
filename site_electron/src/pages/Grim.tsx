@@ -1,7 +1,6 @@
 import type { Settings } from "../App";
 import { useState, type ReactElement } from "react";
 import { getCharacterData, setPlayer } from "../funcs";
-import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
 import { Player } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
 import { Group, Layer, Rect, Stage, Text } from "react-konva";
@@ -11,7 +10,6 @@ import "./Grim.css"
 import CharacterSelectPane from "../components/CharacterSelectPane";
 
 
-type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
 export type ScriptItem = {
     id: string,
     name?: string,
@@ -123,17 +121,12 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
     const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
     const [isChangeNameVisible, setIsChangeNameVisible] = useState(false);
     const [isChangeCharacterVisible, setIsChangeCharacterVisible] = useState(false);
-    const changeCursor = (e: KonvaEvent, cursor: string) => {
-        const stage = e.target.getStage();
-        if (!stage) {return}
-        stage.container().style.cursor = cursor;
-    }
+
     const functions = {
         setCurrentPlayer: setCurrentPlayer,
         setIsAddReminderVisible: setIsAddReminderVisible,
         setIsChangeNameVisible: setIsChangeNameVisible,
-        setIsChangePlayerVisible: setIsChangeCharacterVisible,
-        changeCursor: changeCursor
+        setIsChangePlayerVisible: setIsChangeCharacterVisible
     };
 
     const playerTokens = players.map((player) => {
