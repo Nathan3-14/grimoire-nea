@@ -7,8 +7,9 @@ import { Circle, Group, Image, Rect, Text, TextPath } from "react-konva";
 import type { ReminderProperties } from "./Reminder";
 import shroud from "../assets/images/shroud.png"
 import { GrimData } from "../pages/NewGrim";
-import KonvaButton from "./KonvaButton";
+import { KonvaEventObject, Node as NodeType, NodeConfig } from "konva/lib/Node";
 
+type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
 export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[], isDead: boolean};
 export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[], isDead?: boolean};
 
@@ -107,6 +108,12 @@ export const Player = (
             checkMenuBorder();
         });
 
+        const changeCursor = (e: KonvaEvent, cursor: string) => {
+            const stage = e.target.getStage();
+            if (!stage) {return}
+            stage.container().style.cursor = cursor;
+        }
+
         return <Group
             draggable
             onDragStart={(e) => {e.currentTarget.moveToTop()}} onDragMove={handlePlayerDrag} onDragEnd={handleEndOfDrag}
@@ -153,31 +160,47 @@ export const Player = (
             </Group>
 
             {/* //* Toggleable Menu */}
-            <Group id="menu" visible={isMenuOpen} x={settings.tokenSize + 5} width={100} height={100} >
+            <Group id="menu" visible={isMenuOpen} x={settings.tokenSize + 5} width={120} height={120} >
                 {/* //* Background */}
-                <Rect fill={settings.secondaryColour} width={100} height={100} />
+                <Rect fill={settings.secondaryColour} width={120} height={120} />
 
                 {/* //* Change Character Button */}
                 <Text
                     text="Change Character"
 
                     onClick={(e) => {
+                        changeCursor(e, "default");
                         functions.setCurrentPlayer(name);
                         functions.setIsChangePlayerVisible(true);
                         setIsMenuOpen(false);
                     }}
+                    fill={settings.linkColour}
+                    fontSize={11} fontStyle="bold"
                 />
-                <KonvaButton settings={settings} />
+                {/* <KonvaButton
+                    secondary
+                    settings={settings}
+                    text="Change Character"
+                    onClick={() => {
+                        functions.setCurrentPlayer(name);
+                        functions.setIsChangePlayerVisible(true);
+                        setIsMenuOpen(false);
+                    }}
+                    width={100}
+                    height={30}
+                    x={10}
+                    y={5}
+                /> */}
 
                 {/* //* Add Reminder Button */}
                 <Text
                     y={17}
-                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
-                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                    onMouseEnter={(e) => changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => changeCursor(e, "default")}
                     text="Add Reminder"
                     onClick={(e) => {
                         functions.setCurrentPlayer(name);
-                        functions.changeCursor(e, "default");
+                        changeCursor(e, "default");
                         functions.setIsAddReminderVisible(true);
                         setIsMenuOpen(false);
                     }}
@@ -188,16 +211,16 @@ export const Player = (
                     }}
                     fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
-                    />
+                />
 
                 {/* //* Toggle Death Shroud */}
                 <Text
                     y={34}
-                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
-                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                    onMouseEnter={(e) => changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => changeCursor(e, "default")}
                     text="Toggle Dead"
                     onClick = {(e) => {
-                        functions.changeCursor(e, "default");
+                        changeCursor(e, "default");
                         setPlayer(grimData, name, {isDead: !isDead});
                         setIsMenuOpen(false);
                     }}
@@ -207,16 +230,16 @@ export const Player = (
                     }}
                     fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
-                    />
+                />
 
                 {/* //* Change Name Button */}
                 <Text
                     y={51}
-                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
-                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                    onMouseEnter={(e) => changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => changeCursor(e, "default")}
                     text="Change Name"
                     onClick = {(e) => {
-                        functions.changeCursor(e, "default");
+                        changeCursor(e, "default");
                         functions.setCurrentPlayer(name);
                         functions.setIsChangeNameVisible(true);
                         setIsMenuOpen(false);
