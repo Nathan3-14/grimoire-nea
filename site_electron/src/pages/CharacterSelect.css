@@ -5,6 +5,12 @@
     scale: 1.4;
 }
 
+#playercount-message {
+    width: fit-content;
+    padding: 4px;
+    border-radius: 5px;
+}
+
 .bounce {
     animation: bounce;
     animation-duration: 1s;
