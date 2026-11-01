@@ -57,6 +57,5 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
         </div>
         <Button settings={settings} id="handout-tokens-button" onClick={() => handOutTokens()}>Hand out Tokens</Button>
         <p id="playercount-message" style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour, visibility: "hidden"}}>Please select the correct number of characters ({grimData.playercount})</p>
-        {/* //TODO show/hide the above text based on condition */}
     </div>
 }
