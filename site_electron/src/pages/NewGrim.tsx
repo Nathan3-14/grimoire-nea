@@ -9,6 +9,8 @@ import sectsAndViolets from "../data/sects_and_violets.json"
 import "./NewGrim.css"
 
 export type GrimData = {
+    scriptID: string,
+    setScriptID: (newValue: string) => void,
     scriptData: ScriptItem[],
     scriptCharacters: string[],
     setScriptData: (newValue: ScriptItem[]) => void,
@@ -20,14 +22,13 @@ export type GrimData = {
     setLayout: (newValue: string) => void,
     isGrimActive: boolean,
     setIsGrimActive: (newValue: boolean) => void,
-    isReadyForCharacterSelection: boolean,
-    setIsReadyForCharacterSelection: (newValue: boolean) => void
 };
 
 export default function NewGrim({settings, grimData}: {settings: Settings, grimData: GrimData}) {
     const handleSubmit = (formData: FormData) => {
         const script = formData.get("script");
         let scriptData: ScriptItem[] = [];
+        grimData.setScriptID(script ? script as string : "-1");
         if (script == "cus") {
             scriptData = [{"id": "_meta", "name": "custom"}]
         } else {
@@ -56,14 +57,16 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
         grimData.setLayout(layout.toString());
 
 
-        grimData.setIsReadyForCharacterSelection(script != "cus");
-
+        if (script == "cus") {navigate("/grim/create/scriptSelect")}
+        else {navigate("/grim/create/characterselect")}
     }
+
+
     const navigate = useNavigate();
 
     return <div className="page new-grim">
         <h1>New Grim</h1>
-        <form id="choices" style={{color: settings.secondaryTextColour}} action={handleSubmit} onSubmit={() => navigate("/grim/create/scriptselect")}>
+        <form id="choices" style={{color: settings.secondaryTextColour}} action={handleSubmit}>
             <div id="script-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="script">SCRIPT</label>
                 <select required name="script" id="script-select"> 

@@ -1,20 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { Settings } from "../App";
 import { GrimData } from "./NewGrim";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function ScriptSelect({settings, grimData}: {settings: Settings, grimData: GrimData}) {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (grimData.isReadyForCharacterSelection) {
-            navigate("/grim/create/characterselect");
-        } //TODO Make navigate(-1) work here, set a state in grimData?
-    });
-
-    const handleSubmit = (formData: FormData) => {        
-        //TODO load script data like in newgrim and go to character seleet
-        //TODOD set is grim active as well, or maybe not, potentially add more states?
+    const handleSubmit = (formData: FormData) => {
         if (isURLSelected) {
             const url = formData.get("customscript-url");
             if (!url) {return}
@@ -23,11 +15,6 @@ export default function ScriptSelect({settings, grimData}: {settings: Settings, 
             const file = formData.get("customscript-file") as File;
             file.text().then((scriptString: string) => {grimData.setScriptData(JSON.parse(scriptString))});
         }
-
-        // fetch()
-        
-
-        grimData.setIsReadyForCharacterSelection(true);
     }
 
     const [isURLSelected, setIsURLSelected] = useState(true);

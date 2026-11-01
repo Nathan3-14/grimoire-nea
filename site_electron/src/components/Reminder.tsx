@@ -9,13 +9,13 @@ export type ReminderProperties = {id: string, x: number, y: number};
 export type NewReminderProperties = {id?: string, x?: number, y?: number};
 
 export const Reminder = (
-    {settings, reminderID, owner, x, y, inRadius, setReminder, ...rest}: {
+    {settings, reminderID, owner, x, y, radius, setReminder, ...rest}: {
         settings: Settings,
         reminderID: string,
         owner?: string,
         x: number,
         y: number,
-        inRadius?: number,
+        radius?: number,
         setReminder?: (playerName: string, reminderID: string, properties: NewReminderProperties) => void
         [_: string]: any
     }) => {
@@ -47,7 +47,7 @@ export const Reminder = (
         const position = reminderc.getAbsolutePosition();
         setReminder(owner, reminderc.id(), {x: position.x, y: position.y});
     };
-    const radius = inRadius ? inRadius : settings.halfReminderSize;
+    radius = radius ? radius : settings.halfReminderSize;
     const diameter = 2 * radius;
 
     return <Group
@@ -65,6 +65,6 @@ export const Reminder = (
             fill={settings.tokenBackgroundColour}
         />
         <Image width={diameter} height={diameter} image={useImage(reminderImageURL)[0]} />
-        <Text text={reminderID.split(".")[1]} fill={settings.textColour} width={diameter} align="center" wrap="char" />
+        <Text text={reminderID.split(".")[1]} fill={settings.tokenTextColour} width={diameter} align="center" wrap="char" />
     </Group>
 }

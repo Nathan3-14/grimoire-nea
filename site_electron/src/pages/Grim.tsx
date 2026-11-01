@@ -8,6 +8,7 @@ import { Group, Layer, Rect, Stage, Text } from "react-konva";
 import { Html } from "react-konva-utils"
 import { GrimData } from "./NewGrim";
 import "./Grim.css"
+import CharacterSelectPane from "../components/CharacterSelectPane";
 
 
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
@@ -36,13 +37,15 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
             allReminders = [...allReminders, ...characterData.remindersGlobal]; //? joins the two arrays together
         }
         //* Iterate through all of each characters reminder tokens
-        allReminders.forEach((reminderText) => {
+        const reminderButtonRadius = settings.halfReminderSize * 0.8;
+        const reminderButtonGap = reminderButtonRadius * 2 * 1.1;
+        allReminders.forEach((reminderText, reminderIndex) => {
             reminderButtonElements.push(<Reminder
                 settings={settings}
                 reminderID={`${characterID}.${reminderText}`}
-                key={`${characterID}.${reminderText}`}
-                x={(index % 5) * 60} y={Math.floor(index / 5) * 70 + 30}
-                inRadius={settings.halfReminderSize / 1.5}
+                key={`${characterID}.${reminderText}#${reminderIndex}`}
+                x={(index % 7) * reminderButtonGap + 5} y={Math.floor(index / 7) * reminderButtonGap + 30}
+                radius={reminderButtonRadius}
                 onClick={() => {
                     setIsAddReminderVisible(false);
                     addReminderToPlayer(currentPlayer, `${characterID}.${reminderText}`);
@@ -96,6 +99,11 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
             }
         ]});
     };
+    const removeReminderFromPlayer = (playerName: string, reminderID: string) => {
+        const player = getPlayer(playerName);
+        setPlayer(grimData, playerName, {reminders: player.reminders.filter((reminder) => {return reminder.id != reminderID})});
+    }
+
     //! Update when new properties are added
     const setReminder = (playerName: string, reminderID: string, properties: NewReminderProperties) => {
         const newReminders: ReminderProperties[] = [];
@@ -114,6 +122,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
     const [currentPlayer, setCurrentPlayer] = useState("none"); //* Player Element's ID
     const [isAddReminderVisible, setIsAddReminderVisible] = useState(false);
     const [isChangeNameVisible, setIsChangeNameVisible] = useState(false);
+    const [isChangeCharacterVisible, setIsChangeCharacterVisible] = useState(false);
     const changeCursor = (e: KonvaEvent, cursor: string) => {
         const stage = e.target.getStage();
         if (!stage) {return}
@@ -123,6 +132,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
         setCurrentPlayer: setCurrentPlayer,
         setIsAddReminderVisible: setIsAddReminderVisible,
         setIsChangeNameVisible: setIsChangeNameVisible,
+        setIsChangePlayerVisible: setIsChangeCharacterVisible,
         changeCursor: changeCursor
     };
 
@@ -154,6 +164,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                 owner={player.name}
                 x={reminder.x}
                 y={reminder.y}
+                onDblClick={() => {removeReminderFromPlayer(player.name, reminder.id)}}
             />);
         });
     });
@@ -176,7 +187,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                         x={100} y={100}
                     >
                         <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
-                        <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.textColour} fontSize={16} fontFamily="Monaspace Radon" />
+                        <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.secondaryTextColour} fontSize={16} fontFamily="Monaspace Radon" />
                         {reminderButtonElements}
                     </Group>
 
@@ -189,7 +200,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                         x={50} y={50}
                     >
                         <Rect width={240} height={150} fill={settings.secondaryColour} cornerRadius={10} />
-                        <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.textColour} fontSize={16} fontFamily="Monaspace Radon" />
+                        <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.secondaryTextColour} fontSize={16} fontFamily="Monaspace Radon" />
                         <Html deriveVisibility>
                             <form action={(e: FormData) => {
                                 const newName = e.get("changename-input")?.toString();
@@ -205,19 +216,41 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                                     type="text" placeholder="John"
                                     onChange={(e) => {
                                         if (new RegExp(`^(${players.map((value) => {return value.name}).join("|")})$`).test(e.target.value)) { {/* //TODO explain regex in word */}
-                                            e.target.setCustomValidity("Name already in use");
-                                        } else {
-                                            e.target.setCustomValidity("");
+                                        e.target.setCustomValidity("Name already in use");
+                                    } else {
+                                        e.target.setCustomValidity("");
                                         }
                                     }}
-                                />
+                                    />
                                 <br />
                                 <input
                                     type="submit"
                                     value="Change Name"
                                     id="changename-submit"
-                                />
+                                    />
                             </form>
+                        </Html>
+                    </Group>
+
+                    {/* //* Character Change Menu */}
+                    <Group
+                        draggable
+                        id="change-character"
+                        visible={isChangeCharacterVisible}
+                        onDblClick={() => setIsChangeCharacterVisible(false)}
+                        x={50}
+                        y={50}
+                        >
+                        <Rect width={400} height={400} fill={settings.secondaryColour} cornerRadius={10} />
+                        <Text x={4} y={4} text={`Change Character of ${currentPlayer}`} fill={settings.secondaryTextColour} fontSize={16} fontFamily="Monaspace Radon" />
+                        <Html deriveVisibility>
+                            <div style={{position: "absolute", left: 10}}>
+                                <CharacterSelectPane top={25} settings={settings} grimData={grimData} scale={0.65} maxWidth={6} effect={(e) => {
+                                    setPlayer(grimData, currentPlayer, {character: e.currentTarget.id});
+                                    setIsChangeCharacterVisible(false);
+                                    setCurrentPlayer("none");
+                                }}/>
+                            </div>
                         </Html>
                     </Group>
                 </Layer>

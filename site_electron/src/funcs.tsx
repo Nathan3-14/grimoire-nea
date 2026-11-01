@@ -5,6 +5,8 @@ import { NewPlayerProperties, PlayerProperties } from './components/Player';
 import { setTheme } from './pages/Settings';
 import botcRoles from "./data/botc_roles.json"
 
+export const characterTypes = ["townsfolk", "outsider", "minion", "demon"] as const; //? Means it will never change, like ever
+
 const TAU = 2 * Math.PI;
 export const angleFromIndex = (index: number, max: number) => {
     return (index / max) * TAU + Math.PI;

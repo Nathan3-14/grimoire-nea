@@ -28,6 +28,7 @@ export const Player = (
                 setCurrentPlayer: (name: string) => void,
                 setIsAddReminderVisible: (newState: boolean) => void,
                 setIsChangeNameVisible: (newState: boolean) => void,
+                setIsChangePlayerVisible: (newState: boolean) => void,
                 changeCursor: (e: KonvaEvent, newCursor: string) => void
             };
         }
@@ -159,13 +160,18 @@ export const Player = (
                 <Rect fill={settings.secondaryColour} width={100} height={100} />
 
                 {/* //* Change Character Button */}
-                {/* //~~ NOT IMPLEMENTED */}
                 <Text
                     onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
                     onMouseLeave={(e) => functions.changeCursor(e, "default")}
                     text="Change Character"
                     fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
+                    onClick={(e) => {
+                        functions.setCurrentPlayer(name);
+                        functions.changeCursor(e, "default")
+                        functions.setIsChangePlayerVisible(true);
+                        setIsMenuOpen(false);
+                    }}
                 />
 
                 {/* //* Add Reminder Button */}

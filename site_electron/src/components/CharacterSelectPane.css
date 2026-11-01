@@ -1,0 +1,39 @@
+.character-choices {
+    position: absolute;
+}
+
+.character-choices .character {
+    border-radius: 37.5px;
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    transition: box-shadow .1s, scale .1s;
+}
+
+.character-choices .character .overlay {
+    border-radius: 37.5px;
+    width: 75px;
+    height: 75px;
+    background-color: #ffffff50;
+    position: absolute;
+    top: 0px;
+    transition: background-color .1s;
+}
+
+.character-choices .character:hover {
+    scale: 1.2;
+}
+
+
+.character-choices .selected {
+    border-radius: 35.5px;
+}
+
+.character-choices .character > svg {
+    position: absolute;
+    top: 0px;
+}
+
+.character-choices .character-choices {
+    position: absolute;
+}

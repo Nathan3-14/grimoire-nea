@@ -97,6 +97,7 @@ export default function App() {
         loadSettings(settings);
     }
 
+    const [scriptID, setScriptID] = useState("");
     const [scriptData, setScriptData] = useState<ScriptItem[]>([]);
     const scriptCharacters: string[] = scriptData.filter((scriptItem) => {
         return scriptItem.id != "_meta" //? Only keeps actual characters, not information about the script
@@ -120,9 +121,11 @@ export default function App() {
     const [playercount, setPlayercount] = useState(-1);
     const [layout, setLayout] = useState("none");
     const [isGrimActive, setIsGrimActive] = useState(false);
-    const [isReadyForCharacterSelection, setIsReadyForCharacterSelection] = useState(false);
 
     const grimData: GrimData = {
+        scriptID: scriptID,
+        setScriptID: setScriptID,
+
         scriptData: scriptData,
         scriptCharacters: scriptCharacters,
         setScriptData: setScriptData,
@@ -137,9 +140,6 @@ export default function App() {
 
         isGrimActive: isGrimActive,
         setIsGrimActive: setIsGrimActive,
-
-        isReadyForCharacterSelection: isReadyForCharacterSelection,
-        setIsReadyForCharacterSelection: setIsReadyForCharacterSelection
     };
 
     return <div className="main" style={{backgroundColor: settings.backgroundColour, color: settings.textColour}}>
@@ -149,7 +149,7 @@ export default function App() {
                     <Route index element={<Home settings={settings} grimData={grimData} />} />
                     <Route path="settings" element={<Settings settings={settings} />} />
                     <Route path="credits" element={<Credits settings={settings} />} />
-                    <Route path="grim/*" element={<NavBar settings={settings} />}>
+                    <Route path="grim/*" element={<NavBar settings={settings} grimData={grimData} />} >
                         <Route index element={<Grim settings={settings} grimData={grimData} />} />
                         <Route path="create/*">
                             <Route index element={<NewGrim settings={settings} grimData={grimData} />} />
