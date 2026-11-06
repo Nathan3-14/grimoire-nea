@@ -4,17 +4,17 @@ import { checkCircleInsideGrim, getCharacterIconURL } from "../funcs";
 import { Group as GroupType} from "konva/lib/Group";
 import type { Settings } from "../App";
 import { Circle, Group, Image, Rect, Text, TextPath } from "react-konva";
-import type { KonvaEventObject, NodeConfig, Node as NodeType } from "konva/lib/Node";
 import type { ReminderProperties } from "./Reminder";
 import shroud from "../assets/images/shroud.png"
 import { GrimData } from "../pages/NewGrim";
+import { KonvaEventObject, Node as NodeType, NodeConfig } from "konva/lib/Node";
 
-export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[], isDead: boolean};
-export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[], isDead?: boolean};
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
+export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[], isDead: boolean, isReminderOver: boolean};
+export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[], isDead?: boolean, isReminderOver?: boolean};
 
 export const Player = (
-        {settings, grimData, character, name, x, y, isMenuOpen, isDead, setPlayer, functions, ...rest}: {
+        {settings, grimData, character, name, x, y, isMenuOpen, isDead, setPlayer, isReminderOver, functions, ...rest}: {
             settings: Settings,
             grimData: GrimData,
             character: string,
@@ -23,13 +23,13 @@ export const Player = (
             y: number,
             isMenuOpen: boolean,
             isDead: boolean,
+            isReminderOver: boolean,
             setPlayer: (grimData: GrimData, name: string|undefined, properties: NewPlayerProperties) => void,
             functions: {
                 setCurrentPlayer: (name: string) => void,
                 setIsAddReminderVisible: (newState: boolean) => void,
                 setIsChangeNameVisible: (newState: boolean) => void,
-                setIsChangePlayerVisible: (newState: boolean) => void,
-                changeCursor: (e: KonvaEvent, newCursor: string) => void
+                setIsChangePlayerVisible: (newState: boolean) => void
             };
         }
     ) => {
@@ -109,6 +109,12 @@ export const Player = (
             checkMenuBorder();
         });
 
+        const changeCursor = (e: KonvaEvent, cursor: string) => {
+            const stage = e.target.getStage();
+            if (!stage) {return}
+            stage.container().style.cursor = cursor;
+        }
+
         return <Group
             draggable
             onDragStart={(e) => {e.currentTarget.moveToTop()}} onDragMove={handlePlayerDrag} onDragEnd={handleEndOfDrag}
@@ -155,34 +161,47 @@ export const Player = (
             </Group>
 
             {/* //* Toggleable Menu */}
-            <Group id="menu" visible={isMenuOpen} x={settings.tokenSize + 5} width={100} height={100} >
+            <Group id="menu" visible={isMenuOpen} x={settings.tokenSize + 5} width={120} height={120} >
                 {/* //* Background */}
-                <Rect fill={settings.secondaryColour} width={100} height={100} />
+                <Rect fill={settings.secondaryColour} width={120} height={120} />
 
                 {/* //* Change Character Button */}
                 <Text
-                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
-                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
                     text="Change Character"
-                    fill={settings.linkColour}
-                    fontSize={11} fontStyle="bold"
+
                     onClick={(e) => {
+                        changeCursor(e, "default");
                         functions.setCurrentPlayer(name);
-                        functions.changeCursor(e, "default")
                         functions.setIsChangePlayerVisible(true);
                         setIsMenuOpen(false);
                     }}
+                    fill={settings.linkColour}
+                    fontSize={11} fontStyle="bold"
                 />
+                {/* <KonvaButton
+                    secondary
+                    settings={settings}
+                    text="Change Character"
+                    onClick={() => {
+                        functions.setCurrentPlayer(name);
+                        functions.setIsChangePlayerVisible(true);
+                        setIsMenuOpen(false);
+                    }}
+                    width={100}
+                    height={30}
+                    x={10}
+                    y={5}
+                /> */}
 
                 {/* //* Add Reminder Button */}
                 <Text
                     y={17}
-                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
-                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                    onMouseEnter={(e) => changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => changeCursor(e, "default")}
                     text="Add Reminder"
                     onClick={(e) => {
                         functions.setCurrentPlayer(name);
-                        functions.changeCursor(e, "default");
+                        changeCursor(e, "default");
                         functions.setIsAddReminderVisible(true);
                         setIsMenuOpen(false);
                     }}
@@ -193,16 +212,16 @@ export const Player = (
                     }}
                     fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
-                    />
+                />
 
                 {/* //* Toggle Death Shroud */}
                 <Text
                     y={34}
-                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
-                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                    onMouseEnter={(e) => changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => changeCursor(e, "default")}
                     text="Toggle Dead"
                     onClick = {(e) => {
-                        functions.changeCursor(e, "default");
+                        changeCursor(e, "default");
                         setPlayer(grimData, name, {isDead: !isDead});
                         setIsMenuOpen(false);
                     }}
@@ -212,16 +231,16 @@ export const Player = (
                     }}
                     fill={settings.linkColour}
                     fontSize={11} fontStyle="bold"
-                    />
+                />
 
                 {/* //* Change Name Button */}
                 <Text
                     y={51}
-                    onMouseEnter={(e) => functions.changeCursor(e, "pointer")}
-                    onMouseLeave={(e) => functions.changeCursor(e, "default")}
+                    onMouseEnter={(e) => changeCursor(e, "pointer")}
+                    onMouseLeave={(e) => changeCursor(e, "default")}
                     text="Change Name"
                     onClick = {(e) => {
-                        functions.changeCursor(e, "default");
+                        changeCursor(e, "default");
                         functions.setCurrentPlayer(name);
                         functions.setIsChangeNameVisible(true);
                         setIsMenuOpen(false);
@@ -245,5 +264,16 @@ export const Player = (
                 visible={isDead}
                 opacity={0.8}
             />
+
+            {/* //* Toggleable Add Reminder to Here Overlay */}
+            <Group visible={isReminderOver}>
+                <Circle
+                    x={settings.halfTokenSize}
+                    y={settings.halfTokenSize}
+                    fill={settings.tokenTextColour}
+                    opacity={0.3}
+                    radius={settings.halfTokenSize + settings.reminderChangeBoundary}
+                />
+            </Group>
         </Group>
     };

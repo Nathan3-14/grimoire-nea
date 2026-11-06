@@ -40,7 +40,7 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                 reminders: [],
                 x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(i, grimData.playercount)) - settings.halfTokenSize + (settings.grimHeight / 2),
                 y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(i, grimData.playercount)) - settings.halfTokenSize + (settings.grimHeight / 2),
-                isDead: false, isMenuOpen: false
+                isDead: false, isMenuOpen: false, isReminderOver: false
             });
         }
         

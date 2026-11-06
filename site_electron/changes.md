@@ -1,11 +1,7 @@
 ## New Features
-- Added change character menu
-- Added a warning to character select menu if an incorrect number of characters are selected
-- Made reminders removeable
-- Improved look of add reminders page
-- Improved character selection menu
+- Made all Grim windows draggable
+- Added the ability to change the owner / parent of a reminder token
+- Minor refactoring behind the scenes
 
-## Bugfixes
-- Made more text on secondaryColour actually use secondaryTextColour
-- Made text on reminders match tokenColour
-- Made back button work as intended
+## Known Bugs
+- Reminder change area is a big iffy

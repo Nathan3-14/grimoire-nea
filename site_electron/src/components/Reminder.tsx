@@ -1,17 +1,20 @@
 import { Circle, Group, Image, Text } from "react-konva";
 import { Group as GroupType} from "konva/lib/Group";
 import type { Settings } from "../App";
-import { checkCircleInsideGrim, getCharacterIconURL } from "../funcs";
+import { addReminderToPlayer, checkCircleInsideGrim, getCharacterIconURL, removeReminderFromPlayer, setPlayer } from "../funcs";
 import useImage from "use-image";
 import { useRef } from "react";
+import { GrimData } from "../pages/NewGrim";
 
 export type ReminderProperties = {id: string, x: number, y: number};
 export type NewReminderProperties = {id?: string, x?: number, y?: number};
 
+
 export const Reminder = (
-    {settings, reminderID, owner, x, y, radius, setReminder, ...rest}: {
+    {settings, reminderID, owner, x, y, radius, setReminder, grimData, ...rest}: {
         settings: Settings,
         reminderID: string,
+        grimData: GrimData
         owner?: string,
         x: number,
         y: number,
@@ -22,6 +25,27 @@ export const Reminder = (
     const reminder = useRef<GroupType>(null);
 
     const reminderImageURL = getCharacterIconURL(reminderID.split(".")[0]);
+
+    const checkReminderOverPlayer = (reminder: GroupType) => {
+        const x = reminder.x();
+        const y = reminder.y();
+        grimData.players.forEach((player) => {
+            const playerX = player.x;
+            const playerY = player.y;
+
+            if (
+                (playerX-settings.reminderChangeBoundary <= x) &&
+                (x <= playerX+settings.reminderChangeBoundary+settings.tokenSize) &&
+                (playerY-settings.reminderChangeBoundary <= y) &&
+                (y <= playerY+settings.reminderChangeBoundary+settings.tokenSize)
+            ) {
+                if (player.isReminderOver == false) {setPlayer(grimData, player.name, {isReminderOver: true})}
+                console.log(`Reminder inside ${player.name}`);
+            } else {
+                if (player.isReminderOver == true) {setPlayer(grimData, player.name, {isReminderOver: false})}
+            }
+        });
+    }
 
     const handleDrag = () => {
         const reminderc = reminder.current;
@@ -38,14 +62,24 @@ export const Reminder = (
                 bottom: () => reminderc.y(settings.grimHeight - settings.tokenSize)
             }
         );
+
+        checkReminderOverPlayer(reminderc);
     };
     const handleEndOfDrag = () => {
         const reminderc = reminder.current;
         if (!reminderc) {return}
         if (!setReminder) {return}
         if (!owner) {return}
-        const position = reminderc.getAbsolutePosition();
-        setReminder(owner, reminderc.id(), {x: position.x, y: position.y});
+
+        grimData.players.forEach((player) => {
+            if (player.isReminderOver) {
+                removeReminderFromPlayer(grimData, owner, reminderID);
+                addReminderToPlayer(settings, grimData, player.name, reminderID);
+                setPlayer(grimData, player.name, {isReminderOver: false});
+            }
+        });
+        
+        // setReminder(newOwner, reminderc.id(), {x: position.x, y: position.y});
     };
     radius = radius ? radius : settings.halfReminderSize;
     const diameter = 2 * radius;
