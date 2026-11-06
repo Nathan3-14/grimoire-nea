@@ -52,11 +52,62 @@ export const setPlayer = (grimData: GrimData, name: string|undefined, properties
             if (properties.y) {tempPlayer.y = properties.y}
             if (properties.isMenuOpen !== undefined) {tempPlayer.isMenuOpen = properties.isMenuOpen}
             if (properties.reminders) {tempPlayer.reminders = properties.reminders}
-            if (properties.isDead !== undefined)  {tempPlayer.isDead = properties.isDead}
+            if (properties.isDead !== undefined) {tempPlayer.isDead = properties.isDead}
+            if (properties.isReminderOver !== undefined) {tempPlayer.isReminderOver = properties.isReminderOver}
         }
         newPlayers.push(tempPlayer);
     });
     grimData.setPlayers(newPlayers);
+};
+
+export const getPlayer = (grimData: GrimData, name: string) => {
+    let playerIndex = 0;
+    grimData.players.forEach((value, index) => {
+        if (value.name == name) {
+            playerIndex = index;
+        }
+    })
+    return grimData.players[playerIndex]
+}
+
+
+export const removeReminderFromPlayer = (grimData: GrimData, playerName: string, reminderID: string) => {
+    const player = getPlayer(grimData, playerName);
+    setPlayer(grimData, playerName, {reminders: player.reminders.filter((reminder) => {return reminder.id != reminderID})});
+}
+
+export const addReminderToPlayer = (settings: Settings, grimData: GrimData, playerName: string, reminderID: string) => {
+    //* Check if reminder already exists on this player
+    let reminderAlreadyExists = false;
+    const player = getPlayer(grimData, playerName);
+    //DEBUG changed immediately below player from getPlayer(...), if breaks, reverse this change
+
+    player.reminders.forEach((value) => {
+        if (value.id == reminderID) {reminderAlreadyExists = true};
+    });
+    if (reminderAlreadyExists) {return}
+
+    //? Changes player position so the centre of the screen is (0,0)
+    //? settings.halfTokenSize is added as the location of each player is where its top left corner is
+    const modifiedPosition = {
+        x: player.x-(settings.grimWidth/2)+settings.halfTokenSize,
+        y: -(player.y-(settings.grimHeight/2)+settings.halfTokenSize)
+    };
+
+    const playerDistance = Math.sqrt(modifiedPosition.x**2 + modifiedPosition.y**2);
+    const reminderDistance = 0.6 * playerDistance;
+    const theta = Math.atan(modifiedPosition.x/modifiedPosition.y) + (modifiedPosition.y <= 0 ? Math.PI : 0);
+    const newReminderX = reminderDistance * Math.sin(theta) + (settings.grimWidth / 2);
+    const newReminderY = reminderDistance * Math.cos(theta) + (settings.grimHeight / 2);
+    setPlayer(grimData, playerName, {reminders: [
+        //? adds the item '{id: reminderId...}' to all other reminders the player has
+        ...getPlayer(grimData, playerName).reminders,
+        {
+            id: reminderID,
+            x: newReminderX - settings.halfReminderSize, //? Correct for top left positioning
+            y: settings.grimHeight - newReminderY - settings.halfReminderSize //? Correct for top left positioning and revert back to normal coordinates
+        }
+    ]});
 };
 
 export const setLocalStorage = (key: string, inputObject: any) => {

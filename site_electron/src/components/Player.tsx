@@ -10,11 +10,11 @@ import { GrimData } from "../pages/NewGrim";
 import { KonvaEventObject, Node as NodeType, NodeConfig } from "konva/lib/Node";
 
 type KonvaEvent = KonvaEventObject<MouseEvent, NodeType<NodeConfig>>;
-export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[], isDead: boolean};
-export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[], isDead?: boolean};
+export type PlayerProperties = {character: string, name: string, x: number, y: number, isMenuOpen: boolean, reminders: ReminderProperties[], isDead: boolean, isReminderOver: boolean};
+export type NewPlayerProperties = {character?: string, name?: string, x?: number, y?: number, isMenuOpen?: boolean, reminders?: ReminderProperties[], isDead?: boolean, isReminderOver?: boolean};
 
 export const Player = (
-        {settings, grimData, character, name, x, y, isMenuOpen, isDead, setPlayer, functions, ...rest}: {
+        {settings, grimData, character, name, x, y, isMenuOpen, isDead, setPlayer, isReminderOver, functions, ...rest}: {
             settings: Settings,
             grimData: GrimData,
             character: string,
@@ -23,6 +23,7 @@ export const Player = (
             y: number,
             isMenuOpen: boolean,
             isDead: boolean,
+            isReminderOver: boolean,
             setPlayer: (grimData: GrimData, name: string|undefined, properties: NewPlayerProperties) => void,
             functions: {
                 setCurrentPlayer: (name: string) => void,
@@ -263,5 +264,16 @@ export const Player = (
                 visible={isDead}
                 opacity={0.8}
             />
+
+            {/* //* Toggleable Add Reminder to Here Overlay */}
+            <Group visible={isReminderOver}>
+                <Circle
+                    x={settings.halfTokenSize}
+                    y={settings.halfTokenSize}
+                    fill={settings.tokenTextColour}
+                    opacity={0.3}
+                    radius={settings.halfTokenSize + settings.reminderChangeBoundary}
+                />
+            </Group>
         </Group>
     };

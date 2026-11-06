@@ -45,7 +45,8 @@ export type Settings = {
     setinitialTokenCircleRadius: CallableFunction,
 
     grimWidth: number,
-    grimHeight: number
+    grimHeight: number,
+    reminderChangeBoundary: number
 };
 
 export default function App() {
@@ -90,7 +91,8 @@ export default function App() {
         setinitialTokenCircleRadius: setinitialTokenCircleRadius,
 
         grimWidth: 500,
-        grimHeight: 500
+        grimHeight: 500,
+        reminderChangeBoundary: 5
     };
     
     if (settings.colourTheme == "-1") {

@@ -1,6 +1,6 @@
 import type { Settings } from "../App";
 import { useState, type ReactElement } from "react";
-import { getCharacterData, setPlayer } from "../funcs";
+import { addReminderToPlayer, getCharacterData, getPlayer, removeReminderFromPlayer, setPlayer } from "../funcs";
 import { Player } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
 import { Group, Layer, Rect, Stage, Text } from "react-konva";
@@ -39,6 +39,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
         const reminderButtonGap = reminderButtonRadius * 2 * 1.1;
         allReminders.forEach((reminderText, reminderIndex) => {
             reminderButtonElements.push(<Reminder
+                grimData={grimData}
                 settings={settings}
                 reminderID={`${characterID}.${reminderText}`}
                 key={`${characterID}.${reminderText}#${reminderIndex}`}
@@ -46,7 +47,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                 radius={reminderButtonRadius}
                 onClick={() => {
                     setIsAddReminderVisible(false);
-                    addReminderToPlayer(currentPlayer, `${characterID}.${reminderText}`);
+                    addReminderToPlayer(settings, grimData, currentPlayer, `${characterID}.${reminderText}`);
                 }}
             />);
             index++;
@@ -55,57 +56,12 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
 
     const players = grimData.players;
     // const setPlayers = grimData.setPlayers;
-    const getPlayer = (name: string) => {
-        let playerIndex = 0;
-        players.forEach((value, index) => {
-            if (value.name == name) {
-                playerIndex = index;
-            }
-        })
-        return players[playerIndex]
-    }
 
-
-    const addReminderToPlayer = (playerName: string, reminderID: string) => {
-        //* Check if reminder already exists on this player
-        let reminderAlreadyExists = false;
-        getPlayer(playerName).reminders.forEach((value) => {
-            if (value.id == reminderID) {reminderAlreadyExists = true};
-        });
-        if (reminderAlreadyExists) {return}
-
-        const player = getPlayer(playerName);
-        //? Changes player position so the centre of the screen is (0,0)
-        //? settings.halfTokenSize is added as the location of each player is where its top left corner is
-        const modifiedPosition = {
-            x: player.x-(settings.grimWidth/2)+settings.halfTokenSize,
-            y: -(player.y-(settings.grimHeight/2)+settings.halfTokenSize)
-        };
-
-        const playerDistance = Math.sqrt(modifiedPosition.x**2 + modifiedPosition.y**2);
-        const reminderDistance = 0.6 * playerDistance;
-        const theta = Math.atan(modifiedPosition.x/modifiedPosition.y) + (modifiedPosition.y <= 0 ? Math.PI : 0);
-        const newReminderX = reminderDistance * Math.sin(theta) + (settings.grimWidth / 2);
-        const newReminderY = reminderDistance * Math.cos(theta) + (settings.grimHeight / 2);
-        setPlayer(grimData, playerName, {reminders: [
-            //? adds the item '{id: reminderId...}' to all other reminders the player has
-            ...getPlayer(playerName).reminders,
-            {
-                id: reminderID,
-                x: newReminderX - settings.halfReminderSize, //? Correct for top left positioning
-                y: settings.grimHeight - newReminderY - settings.halfReminderSize //? Correct for top left positioning and revert back to normal coordinates
-            }
-        ]});
-    };
-    const removeReminderFromPlayer = (playerName: string, reminderID: string) => {
-        const player = getPlayer(playerName);
-        setPlayer(grimData, playerName, {reminders: player.reminders.filter((reminder) => {return reminder.id != reminderID})});
-    }
 
     //! Update when new properties are added
     const setReminder = (playerName: string, reminderID: string, properties: NewReminderProperties) => {
         const newReminders: ReminderProperties[] = [];
-        getPlayer(playerName).reminders.forEach((reminder) => {
+        getPlayer(grimData, playerName).reminders.forEach((reminder) => {
             const tempReminder = reminder;
             if (reminder.id == reminderID) {
                 if (properties.id) {tempReminder.id = properties.id}
@@ -129,6 +85,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
         setIsChangePlayerVisible: setIsChangeCharacterVisible
     };
 
+    //! Update when playerProperties are
     const playerTokens = players.map((player) => {
         return <Player
             character={player.character}
@@ -138,6 +95,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
             y={player.y}
             isMenuOpen={player.isMenuOpen}
             isDead={player.isDead}
+            isReminderOver={player.isReminderOver}
             settings={settings}
             grimData={grimData}
             setPlayer={setPlayer}
@@ -150,6 +108,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
         player.reminders.forEach((reminder) => {
             reminderTokens.push(<Reminder
                 draggable
+                grimData={grimData}
                 settings={settings}
                 setReminder={setReminder}
                 reminderID={reminder.id}
@@ -157,7 +116,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                 owner={player.name}
                 x={reminder.x}
                 y={reminder.y}
-                onDblClick={() => {removeReminderFromPlayer(player.name, reminder.id)}}
+                onDblClick={() => {removeReminderFromPlayer(grimData, player.name, reminder.id)}}
             />);
         });
     });
