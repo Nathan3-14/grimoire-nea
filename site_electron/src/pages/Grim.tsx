@@ -1,13 +1,14 @@
 import type { Settings } from "../App";
-import { useState, type ReactElement } from "react";
-import { addReminderToPlayer, getCharacterData, getPlayer, removeReminderFromPlayer, setPlayer } from "../funcs";
+import { useRef, useState, type ReactElement } from "react";
+import { addReminderToPlayer, getCharacterData, getPlayer, removeReminderFromPlayer, restrictRect, setPlayer } from "../funcs";
 import { Player } from "../components/Player";
 import { Reminder, type NewReminderProperties, type ReminderProperties } from "../components/Reminder";
 import { Group, Layer, Rect, Stage, Text } from "react-konva";
+import { Group as GroupType } from "konva/lib/Group"
 import { Html } from "react-konva-utils"
 import { GrimData } from "./NewGrim";
-import "./Grim.css"
 import CharacterSelectPane from "../components/CharacterSelectPane";
+import "./Grim.css"
 
 
 export type ScriptItem = {
@@ -121,6 +122,11 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
         });
     });
 
+
+    const addReminderMenu = useRef<GroupType >(null);
+    const changeNameMenu = useRef<GroupType >(null);
+    const changeCharacterMenu = useRef<GroupType >(null);
+
     return <div className="page grim">
         <br />
         <div id="stage-container">
@@ -133,12 +139,15 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                 <Layer id="menus">
                     {/* //* Add Reminder Menu */}
                     <Group
+                        draggable
+                        ref={addReminderMenu}
+                        onDragMove={() => restrictRect(settings, addReminderMenu.current, 400, 300)}
                         id="add-reminder"
                         visible={isAddReminderVisible}
                         onDblClick={() => setIsAddReminderVisible(false)} onDblTap={() => setIsAddReminderVisible(false)}
-                        x={100} y={100}
+                        x={50} y={100}
                     >
-                        <Rect width={300} height={300} fill={settings.secondaryColour} cornerRadius={10} />
+                        <Rect width={400} height={300} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Add reminder to ${currentPlayer}`} fill={settings.secondaryTextColour} fontSize={16} fontFamily="Monaspace Radon" />
                         {reminderButtonElements}
                     </Group>
@@ -146,11 +155,13 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                     {/* //* Change Name Menu */}
                     <Group
                         draggable
+                        ref={changeNameMenu}
+                        onDragMove={() => restrictRect(settings, changeNameMenu.current, 240, 150)}
                         id="change-name"
                         visible={isChangeNameVisible}
                         onDblClick={() => setIsChangeNameVisible(false)} onDblTap={() => setIsChangeNameVisible(false)}
                         x={50} y={50}
-                    >
+                        >
                         <Rect width={240} height={150} fill={settings.secondaryColour} cornerRadius={10} />
                         <Text x={4} y={4} text={`Change name of ${currentPlayer}`} fill={settings.secondaryTextColour} fontSize={16} fontFamily="Monaspace Radon" />
                         <Html deriveVisibility>
@@ -171,7 +182,7 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                                         e.target.setCustomValidity("Name already in use");
                                     } else {
                                         e.target.setCustomValidity("");
-                                        }
+                                    }
                                     }}
                                     />
                                 <br />
@@ -187,6 +198,8 @@ export default function Grim({settings, grimData}: {settings: Settings, grimData
                     {/* //* Character Change Menu */}
                     <Group
                         draggable
+                        ref={changeCharacterMenu}
+                        onDragMove={() => restrictRect(settings, changeCharacterMenu.current, 240, 150)}
                         id="change-character"
                         visible={isChangeCharacterVisible}
                         onDblClick={() => setIsChangeCharacterVisible(false)}

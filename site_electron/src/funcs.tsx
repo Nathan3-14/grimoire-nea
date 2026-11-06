@@ -4,6 +4,7 @@ import { GrimData } from './pages/NewGrim';
 import { NewPlayerProperties, PlayerProperties } from './components/Player';
 import { setTheme } from './pages/Settings';
 import botcRoles from "./data/botc_roles.json"
+import { Group as GroupType } from "konva/lib/Group"
 
 export const characterTypes = ["townsfolk", "outsider", "minion", "demon"] as const; //? Means it will never change, like ever
 
@@ -27,6 +28,45 @@ export const checkCircleInsideGrim = (
     if (position.y < 0) {results.top()}
     if ((position.x + diameter) > settings.grimWidth) {results.right()}
     if ((position.y + diameter) > settings.grimHeight) {results.bottom()}
+}
+
+export const checkRectInsideGrim = (
+    position: {x: number, y: number},
+    width: number,
+    height: number,
+    settings: Settings,
+    results: {
+        left: CallableFunction,
+        right: CallableFunction,
+        top: CallableFunction,
+        bottom: CallableFunction
+    }
+) => {
+    if (position.x < 0) {results.left()}
+    if (position.y < 0) {results.top()}
+    if ((position.x + width) > settings.grimWidth) {results.right()}
+    if ((position.y + height) > settings.grimHeight) {results.bottom()}
+}
+
+export const restrictRect = (
+    settings: Settings,
+    rect: GroupType | null,
+    width: number,
+    height: number
+) => {
+    if (!rect) {return}
+    checkRectInsideGrim(
+        rect.absolutePosition(),
+        width,
+        height,
+        settings,
+        {
+            left: () => rect.x(0),
+            right: () => rect.x(settings.grimWidth - width),
+            top: () => rect.y(0),
+            bottom: () => rect.y(settings.grimHeight - height)
+        }
+    );
 }
 
 export const hsl = (colour: string) => {return convert.hex.hsl(colour)};
