@@ -120,7 +120,6 @@ export const addReminderToPlayer = (settings: Settings, grimData: GrimData, play
     //* Check if reminder already exists on this player
     let reminderAlreadyExists = false;
     const player = getPlayer(grimData, playerName);
-    //DEBUG changed immediately below player from getPlayer(...), if breaks, reverse this change
 
     player.reminders.forEach((value) => {
         if (value.id == reminderID) {reminderAlreadyExists = true};
@@ -182,6 +181,7 @@ export const loadSettings = (settings: Settings) => {
 
     settings.setTokenSize(+getFromLocalStorage("token-size", 100));
     settings.setinitialTokenCircleRadius(+getFromLocalStorage("token-circle-radius", 190));
+    settings.setIsFlexible(getFromLocalStorage("is-flexible"));
 }
 
 export const saveSetting = (settingID: string, value: any) => {

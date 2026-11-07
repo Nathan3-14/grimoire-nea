@@ -4,7 +4,8 @@ import "./Settings.css"
 import GoToButton from "../components/GoToButton";
 import SettingsPreview from "../components/SettingsPreview";
 import { DarkRed, LightBlue, Midnight, Pine, Purple, Theme } from "../data/Themes";
-import { getFromLocalStorage, saveSetting } from "../funcs";
+import { getFromLocalStorage, saveSetting, setLocalStorage } from "../funcs";
+import Button from "../components/Button";
 
 const themes: {[name: string]: Theme} = {
     "pine": Pine,
@@ -14,9 +15,22 @@ const themes: {[name: string]: Theme} = {
     "midnight": Midnight
 }
 
-export const setTheme = (settings: Settings, theme: string) => {
+export const setTheme = (settings: Settings, theme: string, transfering?: boolean) => {
     settings.setColourTheme(theme);
     if (theme == "custom") {
+        if (transfering) {
+            setLocalStorage("background-colour", settings.backgroundColour);
+            setLocalStorage("text-colour", settings.textColour);
+            setLocalStorage("link-colour", settings.linkColour);
+
+            setLocalStorage("secondary-colour", settings.secondaryColour);
+            setLocalStorage("secondary-text-colour", settings.secondaryTextColour);
+
+            setLocalStorage("token-background-colour", settings.tokenBackgroundColour);
+            setLocalStorage("token-text-colour", settings.tokenTextColour);
+            return
+        }
+
         settings.setBackgroundColour(getFromLocalStorage("background-colour"));
         settings.setTextColour(getFromLocalStorage("text-colour"));
         settings.setLinkColour(getFromLocalStorage("link-colour"));
@@ -66,8 +80,16 @@ export default function Settings({settings}: {settings: Settings}) {
                     <option id="custom" value="custom">Custom</option>
                 </select>
             </div>
+
+            <br />
+
+            <Button disabled={settings.colourTheme == "custom"} settings={settings} onClick={() => {
+                setTheme(settings, "custom", true);
+                saveSetting("colour-theme", "custom");
+            }}>Transfer to Custom</Button>
             {/* //TODO Add button to "take from theme" when custom is selected */}
 
+            <br />
             <br />
 
             <label htmlFor="background-colour">Background Colour: </label>
@@ -139,6 +161,20 @@ export default function Settings({settings}: {settings: Settings}) {
                 settings.setTokenTextColour(e.target.value);
                 saveSetting("token-text-colour", e.target.value);
             }} />
+
+            <br />
+            <br />
+
+            <label htmlFor="draggable-mode-select">Token Mode: </label>
+            <select id="draggable-mode-select" value={settings.isFlexible ? "flexible" : "strict"} style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour}} onChange={(e) => {
+                const newValue = e.currentTarget.value == "flexible";
+                settings.setIsFlexible(newValue);
+                saveSetting("is-flexible", newValue)
+            }}>
+                <option id="strict" value="strict">Strict</option>
+                <option id="flexible" value="flexible">Flexible</option>
+                {/* //TODO add "strict" or "flexible", make it change the settings, make Player.draggable be = settings.isflexible */}
+            </select>
         </div>
 
         <div id="preview-wrapper">
