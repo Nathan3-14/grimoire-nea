@@ -1,6 +1,4 @@
 # To Do
-- Add reminder parent changing (drag over another token to change parent, add little box around new parent that fades in / out)
-- Test the current implemenetation of this
 - Add player type counters and warnings to selection
 
 - COMPLETE OBJECTIVES

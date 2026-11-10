@@ -43,3 +43,11 @@
     opacity: 0.9;
     font-family: "Papyrus";
 }
+
+.settings #draggable-mode-select {
+    border: 0;
+    outline: none;
+    background-color: inherit;
+    opacity: 0.9;
+    font-family: "Papyrus";
+}

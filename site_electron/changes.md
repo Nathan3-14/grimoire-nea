@@ -1,7 +1,6 @@
 ## New Features
-- Made all Grim windows draggable
-- Added the ability to change the owner / parent of a reminder token
-- Minor refactoring behind the scenes
+- Added "Transfer to Custom" button in settings
+- Added strict and flexible modes to settings
 
-## Known Bugs
-- Reminder change area is a big iffy
+## Bugfixes
+- Made reminder change area overlay reflect actual area

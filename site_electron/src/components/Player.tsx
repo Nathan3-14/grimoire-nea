@@ -116,7 +116,7 @@ export const Player = (
         }
 
         return <Group
-            draggable
+            draggable={settings.isFlexible}
             onDragStart={(e) => {e.currentTarget.moveToTop()}} onDragMove={handlePlayerDrag} onDragEnd={handleEndOfDrag}
             onDblClick={onDoubleClick} onDblTap={onDoubleClick}
             id={name} ref={player}
@@ -267,12 +267,14 @@ export const Player = (
 
             {/* //* Toggleable Add Reminder to Here Overlay */}
             <Group visible={isReminderOver}>
-                <Circle
-                    x={settings.halfTokenSize}
-                    y={settings.halfTokenSize}
+                <Rect
+                    x={-settings.reminderChangeBoundary}
+                    y={-settings.reminderChangeBoundary}
                     fill={settings.tokenTextColour}
                     opacity={0.3}
-                    radius={settings.halfTokenSize + settings.reminderChangeBoundary}
+                    width={settings.tokenSize + 2*settings.reminderChangeBoundary}
+                    height={settings.tokenSize + 2*settings.reminderChangeBoundary}
+                    cornerRadius={5}
                 />
             </Group>
         </Group>

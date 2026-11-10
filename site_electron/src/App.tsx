@@ -44,6 +44,9 @@ export type Settings = {
     initialTokenCircleRadius: number,
     setinitialTokenCircleRadius: CallableFunction,
 
+    isFlexible: boolean,
+    setIsFlexible: CallableFunction,
+
     grimWidth: number,
     grimHeight: number,
     reminderChangeBoundary: number
@@ -60,6 +63,7 @@ export default function App() {
     const [tokenBackgroundColour, setTokenBackgroundColour] = useState("-1");
     const [tokenTextColour, setTokenTextColour] = useState("-1");
     const [initialTokenCircleRadius, setinitialTokenCircleRadius] = useState(190);
+    const [isFlexible, setIsFlexible] = useState(false);
     const settings: Settings = {
         colourTheme: colourTheme,
         setColourTheme: setColourTheme,
@@ -89,6 +93,9 @@ export default function App() {
 
         initialTokenCircleRadius: initialTokenCircleRadius, //? Radius of tokens when first placed
         setinitialTokenCircleRadius: setinitialTokenCircleRadius,
+
+        isFlexible: isFlexible,
+        setIsFlexible: setIsFlexible,
 
         grimWidth: 500,
         grimHeight: 500,

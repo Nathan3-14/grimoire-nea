@@ -34,9 +34,9 @@ export const Reminder = (
             const playerY = player.y;
 
             if (
-                (playerX-settings.reminderChangeBoundary <= x) &&
+                (playerX-settings.reminderChangeBoundary <= x+settings.reminderSize) &&
                 (x <= playerX+settings.reminderChangeBoundary+settings.tokenSize) &&
-                (playerY-settings.reminderChangeBoundary <= y) &&
+                (playerY-settings.reminderChangeBoundary <= y+settings.reminderSize) &&
                 (y <= playerY+settings.reminderChangeBoundary+settings.tokenSize)
             ) {
                 if (player.isReminderOver == false) {setPlayer(grimData, player.name, {isReminderOver: true})}
