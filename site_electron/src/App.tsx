@@ -4,6 +4,7 @@ import './App.css'
 import Home from './pages/Home'
 import Settings from './pages/Settings';
 import Credits from './pages/Credits';
+import Guide from "./pages/Guide";
 import Grim, { ScriptItem } from './pages/Grim';
 import NewGrim, { GrimData } from './pages/NewGrim';
 import CharacterSelect from './pages/CharacterSelect';
@@ -49,7 +50,10 @@ export type Settings = {
 
     grimWidth: number,
     grimHeight: number,
-    reminderChangeBoundary: number
+    reminderChangeBoundary: number,
+
+    selectedGuide: string,
+    setSelectedGuide: CallableFunction
 };
 
 export default function App() {
@@ -64,6 +68,7 @@ export default function App() {
     const [tokenTextColour, setTokenTextColour] = useState("-1");
     const [initialTokenCircleRadius, setinitialTokenCircleRadius] = useState(190);
     const [isFlexible, setIsFlexible] = useState(false);
+    const [selectedGuide, setSelectedGuide] = useState("setup");
     const settings: Settings = {
         colourTheme: colourTheme,
         setColourTheme: setColourTheme,
@@ -99,7 +104,10 @@ export default function App() {
 
         grimWidth: 500,
         grimHeight: 500,
-        reminderChangeBoundary: 5
+        reminderChangeBoundary: 5,
+
+        selectedGuide: selectedGuide,
+        setSelectedGuide: setSelectedGuide
     };
     
     if (settings.colourTheme == "-1") {
@@ -154,11 +162,11 @@ export default function App() {
     return <div className="main" style={{backgroundColor: settings.backgroundColour, color: settings.textColour}}>
         <HashRouter>
             <Routes>
-                <Route path="/*">
+                <Route path="/*" element={<NavBar settings={settings} grimData={grimData} />}>
                     <Route index element={<Home settings={settings} grimData={grimData} />} />
                     <Route path="settings" element={<Settings settings={settings} />} />
                     <Route path="credits" element={<Credits settings={settings} />} />
-                    <Route path="grim/*" element={<NavBar settings={settings} grimData={grimData} />} >
+                    <Route path="grim/*" >
                         <Route index element={<Grim settings={settings} grimData={grimData} />} />
                         <Route path="create/*">
                             <Route index element={<NewGrim settings={settings} grimData={grimData} />} />
@@ -166,6 +174,7 @@ export default function App() {
                             <Route path="scriptselect" element={<ScriptSelect settings={settings} grimData={grimData} />} />
                         </Route>
                     </Route>
+                    <Route path="guide" element={<Guide settings={settings} />}/>
                     {/* <Route path="test" element={<Test settings={settings} />} /> */}
                 </Route>
             </Routes>

@@ -38,8 +38,8 @@ export default function CharacterSelect({settings, grimData}: {settings: Setting
                 name: `Player ${i}`,
                 character: character,
                 reminders: [],
-                x: settings.initialTokenCircleRadius * Math.sin(angleFromIndex(i, grimData.playercount)) - settings.halfTokenSize + (settings.grimHeight / 2),
-                y: settings.initialTokenCircleRadius * Math.cos(angleFromIndex(i, grimData.playercount)) - settings.halfTokenSize + (settings.grimHeight / 2),
+                x: grimData.layout == "circle" ? settings.initialTokenCircleRadius * Math.sin(angleFromIndex(i, grimData.playercount)) - settings.halfTokenSize + (settings.grimHeight / 2) : 50,
+                y: grimData.layout == "circle" ? settings.initialTokenCircleRadius * Math.cos(angleFromIndex(i, grimData.playercount)) - settings.halfTokenSize + (settings.grimHeight / 2) : 50,
                 isDead: false, isMenuOpen: false, isReminderOver: false
             });
         }

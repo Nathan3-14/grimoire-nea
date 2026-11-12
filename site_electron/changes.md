@@ -1,6 +1,8 @@
 ## New Features
-- Added "Transfer to Custom" button in settings
-- Added strict and flexible modes to settings
+- Made opening the menu put the token on top
+- Made layout option in grim creation have functionality
+- Added Guide
+- Added button to access Guide directly from relevant pages
 
 ## Bugfixes
-- Made reminder change area overlay reflect actual area
+- Changed window title to be "Grimoire NEA"

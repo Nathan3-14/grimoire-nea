@@ -57,7 +57,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
         grimData.setLayout(layout.toString());
 
 
-        if (script == "cus") {navigate("/grim/create/scriptSelect")}
+        if (script == "cus") {navigate("/grim/create/scriptselect")}
         else {navigate("/grim/create/characterselect")}
     }
 
@@ -82,7 +82,7 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
                 <input required type="number" name="playercount" id="playercount-input" style={{color: settings.secondaryTextColour, border: `1px solid ${settings.secondaryTextColour}`}} defaultValue={(getFromLocalStorage("lastPlayerCount", 10))} onChange={(e) => {
                     const field = e.target;
                     if (!/^\d+$/.test(field.value)) {field.setCustomValidity("Please enter a number")} //? RegEx (/.../) to check if the entire (^...$) string is 1 or more (+) digits (\d)
-                    else if (+field.value > 20 || +field.value < 5) {field.setCustomValidity("Please enter a valid player count")}
+                    else if (+field.value > 15 || +field.value < 5) {field.setCustomValidity("Please enter a valid player count")}
                     else {field.setCustomValidity("")}
                     }}
                 />
@@ -91,8 +91,8 @@ export default function NewGrim({settings, grimData}: {settings: Settings, grimD
             <div id="layout-wrapper" style={{backgroundColor: settings.secondaryColour}}>
                 <label htmlFor="layout">LAYOUT</label>
                 <select required name="layout" id="layout-select">
-                    <option id="circle">Circle</option>
-                    <option id="none">None</option>
+                    <option id="circle" value="circle">Circle</option>
+                    <option id="none" value="none">None</option>
                 </select>
             </div>
 

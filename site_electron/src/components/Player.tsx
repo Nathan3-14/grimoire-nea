@@ -90,7 +90,8 @@ export const Player = (
             }
         }
         
-        const onDoubleClick = () => {
+        const onDoubleClick = (e: KonvaEvent) => {
+            e.currentTarget.moveToTop();
             toggleIsMenuOpen();        
         }
         
@@ -118,7 +119,7 @@ export const Player = (
         return <Group
             draggable={settings.isFlexible}
             onDragStart={(e) => {e.currentTarget.moveToTop()}} onDragMove={handlePlayerDrag} onDragEnd={handleEndOfDrag}
-            onDblClick={onDoubleClick} onDblTap={onDoubleClick}
+            onDblClick={onDoubleClick}
             id={name} ref={player}
             x={x} y={y}
             {...rest}
