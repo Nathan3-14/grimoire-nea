@@ -6,7 +6,7 @@ export default function Home({settings}: {settings: Settings}) {
 
     const pageContent = {
         "setup": <ol style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour}}>
-            <li>Select a Script: Trouble Brewing, Bad Moon Rising, Sects and Violets or<br />a custom script</li>
+            <li>Select a Script: Trouble Brewing, Bad Moon Rising, Sects and Violets or a custom script</li>
             <li>Select your player count (5-15)</li>
             <li>Select your layout: Circle or None</li>
         </ol>,
@@ -23,7 +23,7 @@ export default function Home({settings}: {settings: Settings}) {
             <table cellSpacing={0} style={{border: `3px ${settings.textColour} solid`}} rules={"rows"}>
                 <thead style={thickBorder}>
                     <tr style={{backgroundColor: settings.secondaryColour, color: settings.secondaryTextColour}}>
-                        <td style={thickBorder}>Player Count</td>
+                        <td style={thickBorder} id="playercount-title">Player Count</td>
                         {[5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((playerCount) => {return <td>{playerCount}</td>})}
                     </tr>
                 </thead>
@@ -49,8 +49,11 @@ export default function Home({settings}: {settings: Settings}) {
         </>,
         "grim": <>
             <p>
-                Double-clicking on a player opens the menu for that player.<br />
-                Clicking these options opens the corresponding menu
+                Double-clicking on a player opens the menu for that player<br />
+                Clicking those options opens the corresponding menu<br />
+                All menus can be dragged around and closed by double-clicked<br />
+                <br />
+                You can drag them around if the "Token Mode" settings is set to flexible
             </p>
         </>
     };
@@ -59,6 +62,7 @@ export default function Home({settings}: {settings: Settings}) {
     const buttonElements = pages.map((pageName) => {
         return <button
             id={`${pageName}-button`}
+            key={`${pageName}-button`}
             style={
                 settings.selectedGuide == pageName ? {
                     backgroundColor: settings.secondaryTextColour,

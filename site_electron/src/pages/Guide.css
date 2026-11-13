@@ -17,18 +17,26 @@
     border-collapse: collapse;
 }
 
+.guide p {
+    font-family: "Monaspace Radon";
+}
+
 .guide ol {
     padding-top: 5px;
     border-radius: 5px;
     font-family: "Monaspace Radon";
+    padding-bottom: 5px;
 }
 
 .guide li {
     margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .guide td {
     min-width: 19px;
     text-align: center;
+}
+
+#playercount-title {
+    min-width: 100px;
 }
