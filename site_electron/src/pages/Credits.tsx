@@ -1,6 +1,5 @@
 import { ComponentPropsWithoutRef } from "react";
 import type { Settings } from "../App";
-import GoToButton from "../components/GoToButton";
 import "./Credits.css"
 
 export default function Credits({settings}: {settings: Settings}) {
@@ -8,7 +7,6 @@ export default function Credits({settings}: {settings: Settings}) {
 
     return <div className="page credits">
         <h1>Credits</h1>
-        <GoToButton to="/" settings={settings}>Home</GoToButton>
     
         <br />
         <div className="credits-list">

@@ -1,7 +1,6 @@
 import type { Settings } from "../App"
 import { useState } from "react";
 import "./Settings.css"
-import GoToButton from "../components/GoToButton";
 import SettingsPreview from "../components/SettingsPreview";
 import { DarkRed, LightBlue, Midnight, Pine, Purple, Theme } from "../data/Themes";
 import { getFromLocalStorage, saveSetting, setLocalStorage } from "../funcs";
@@ -62,7 +61,6 @@ export default function Settings({settings}: {settings: Settings}) {
     return <div className="page settings">
         <div id="header-wrapper">
             <h1>Settings</h1>
-            <GoToButton to="/" settings={settings}>Home</GoToButton>
         </div>
 
         <div id="settings-wrapper">
@@ -87,7 +85,6 @@ export default function Settings({settings}: {settings: Settings}) {
                 setTheme(settings, "custom", true);
                 saveSetting("colour-theme", "custom");
             }}>Transfer to Custom</Button>
-            {/* //TODO Add button to "take from theme" when custom is selected */}
 
             <br />
             <br />
@@ -173,7 +170,6 @@ export default function Settings({settings}: {settings: Settings}) {
             }}>
                 <option id="strict" value="strict">Strict</option>
                 <option id="flexible" value="flexible">Flexible</option>
-                {/* //TODO add "strict" or "flexible", make it change the settings, make Player.draggable be = settings.isflexible */}
             </select>
         </div>
 
@@ -184,7 +180,7 @@ export default function Settings({settings}: {settings: Settings}) {
                 const playerCount = e.target.value;
                 // +variable converts it to a number
                 if (+playerCount < 5) {e.target.value = "5"}
-                else if (+playerCount > 20) {e.target.value = "20"}
+                else if (+playerCount > 15) {e.target.value = "15"}
 
                 setPreviewPlayerCount(+e.target.value);
             }}/>
